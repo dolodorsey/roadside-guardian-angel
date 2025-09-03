@@ -4,6 +4,7 @@ import EmergencyButton from '@/components/EmergencyButton';
 import RoadsideBeacon from '@/components/RoadsideBeacon';
 import LiveSafetySupport from '@/components/safety/LiveSafetySupport';
 import AIConcierge from '@/components/concierge/AIConcierge';
+import NotificationManager from '@/components/notifications/NotificationManager';
 import { MapPin, Clock, Shield, Star, Zap, Phone } from 'lucide-react';
 
 const Index = () => {
@@ -434,6 +435,16 @@ const Index = () => {
         onServiceAction={(action, data) => {
           console.log('Service action:', action, data);
           // Handle service actions like cancel, contact support, etc.
+        }}
+      />
+
+      {/* Notification System */}
+      <NotificationManager
+        serviceState="idle"
+        userPreferences={{
+          enablePushNotifications: true,
+          enableHapticFeedback: true,
+          enableSoundAlerts: true
         }}
       />
     </div>
