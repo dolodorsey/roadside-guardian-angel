@@ -6,6 +6,7 @@ import LiveSafetySupport from '@/components/safety/LiveSafetySupport';
 import AIConcierge from '@/components/concierge/AIConcierge';
 import NotificationManager from '@/components/notifications/NotificationManager';
 import DesignSystemShowcase from '@/components/design-system/DesignSystemShowcase';
+import GamificationShowcase from '@/components/gamification/GamificationShowcase';
 import { MapPin, Clock, Shield, Star, Zap, Phone } from 'lucide-react';
 
 const Index = () => {
@@ -14,8 +15,17 @@ const Index = () => {
     return window.location.search.includes('design-system');
   }, []);
 
+  // Show gamification if URL contains 'rewards'
+  const showGamification = React.useMemo(() => {
+    return window.location.search.includes('rewards');
+  }, []);
+
   if (showDesignSystem) {
     return <DesignSystemShowcase />;
+  }
+
+  if (showGamification) {
+    return <GamificationShowcase />;
   }
 
   return (
