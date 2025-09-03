@@ -7,6 +7,7 @@ import AIConcierge from '@/components/concierge/AIConcierge';
 import NotificationManager from '@/components/notifications/NotificationManager';
 import DesignSystemShowcase from '@/components/design-system/DesignSystemShowcase';
 import GamificationShowcase from '@/components/gamification/GamificationShowcase';
+import ExpansionShowcase from '@/components/expansion/ExpansionShowcase';
 import { MapPin, Clock, Shield, Star, Zap, Phone } from 'lucide-react';
 
 const Index = () => {
@@ -20,12 +21,21 @@ const Index = () => {
     return window.location.search.includes('rewards');
   }, []);
 
+  // Show expansion if URL contains 'expansion'
+  const showExpansion = React.useMemo(() => {
+    return window.location.search.includes('expansion');
+  }, []);
+
   if (showDesignSystem) {
     return <DesignSystemShowcase />;
   }
 
   if (showGamification) {
     return <GamificationShowcase />;
+  }
+
+  if (showExpansion) {
+    return <ExpansionShowcase />;
   }
 
   return (
