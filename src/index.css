@@ -9,12 +9,12 @@
 @layer base {
   :root {
     /* Core Roadside Brand Palette */
-    --midnight-black: 0 0% 8%;
-    --asphalt-gray: 220 9% 15%;
-    --emergency-red: 0 84% 52%;
-    --neon-green: 120 84% 45%;
-    --electric-blue: 210 100% 50%;
-    --metallic-silver: 210 11% 82%;
+    --midnight-black: 0 0% 0%;
+    --asphalt-gray: 0 0% 17%;
+    --emergency-red: 8 100% 59%;
+    --beacon-blue: 211 100% 50%;
+    --pulse-green: 155 100% 45%;
+    --metallic-silver: 0 0% 75%;
     
     /* Semantic Color System */
     --background: var(--midnight-black);
@@ -35,39 +35,43 @@
     --muted: 220 9% 20%;
     --muted-foreground: 220 9% 65%;
     
-    --accent: var(--electric-blue);
+    --accent: var(--beacon-blue);
     --accent-foreground: 0 0% 98%;
     
     --destructive: var(--emergency-red);
     --destructive-foreground: 0 0% 98%;
     
-    --border: 220 9% 25%;
-    --input: 220 9% 25%;
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
     --ring: var(--emergency-red);
     
     --radius: 0.75rem;
     
     /* Brand-specific tokens */
-    --guardian-glow: var(--neon-green);
+    --guardian-glow: var(--pulse-green);
     --beacon-pulse: var(--emergency-red);
-    --tech-accent: var(--electric-blue);
+    --tech-accent: var(--beacon-blue);
     --luxury-surface: var(--metallic-silver);
     
-    /* Gradients */
+    /* Enhanced Gradients */
     --gradient-hero: linear-gradient(135deg, hsl(var(--midnight-black)) 0%, hsl(var(--asphalt-gray)) 100%);
-    --gradient-emergency: linear-gradient(45deg, hsl(var(--emergency-red)) 0%, hsl(0 84% 40%) 100%);
-    --gradient-neon: linear-gradient(90deg, hsl(var(--neon-green)) 0%, hsl(var(--electric-blue)) 100%);
-    --gradient-beacon: radial-gradient(circle, hsl(var(--emergency-red) / 0.3) 0%, transparent 70%);
+    --gradient-emergency: linear-gradient(45deg, hsl(var(--emergency-red)) 0%, hsl(8 100% 45%) 100%);
+    --gradient-beacon: linear-gradient(90deg, hsl(var(--beacon-blue)) 0%, hsl(var(--pulse-green)) 100%);
+    --gradient-luxury: linear-gradient(135deg, hsl(var(--metallic-silver)) 0%, hsl(0 0% 90%) 100%);
+    --gradient-pulse: radial-gradient(circle, hsl(var(--emergency-red) / 0.3) 0%, transparent 70%);
     
-    /* Shadows & Effects */
-    --shadow-guardian: 0 0 40px hsl(var(--neon-green) / 0.3);
-    --shadow-emergency: 0 0 30px hsl(var(--emergency-red) / 0.4);
-    --shadow-tech: 0 20px 40px hsl(var(--midnight-black) / 0.5);
-    --shadow-luxury: 0 10px 30px hsl(220 9% 5% / 0.3);
+    /* Cinematic Shadows & Effects */
+    --shadow-guardian: 0 0 40px hsl(var(--pulse-green) / 0.4);
+    --shadow-emergency: 0 0 30px hsl(var(--emergency-red) / 0.5);
+    --shadow-beacon: 0 0 25px hsl(var(--beacon-blue) / 0.4);
+    --shadow-luxury: 0 10px 30px hsl(0 0% 5% / 0.4);
+    --shadow-tech: 0 20px 40px hsl(var(--midnight-black) / 0.6);
     
-    /* Animations */
+    /* Motion System */
+    --transition-emergency: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-guardian: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-emergency: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-beacon: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-luxury: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 

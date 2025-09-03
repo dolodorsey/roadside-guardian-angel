@@ -63,8 +63,8 @@ export default {
 				'midnight-black': 'hsl(var(--midnight-black))',
 				'asphalt-gray': 'hsl(var(--asphalt-gray))',
 				'emergency-red': 'hsl(var(--emergency-red))',
-				'neon-green': 'hsl(var(--neon-green))',
-				'electric-blue': 'hsl(var(--electric-blue))',
+				'beacon-blue': 'hsl(var(--beacon-blue))',
+				'pulse-green': 'hsl(var(--pulse-green))',
 				'metallic-silver': 'hsl(var(--metallic-silver))',
 				
 				// Brand semantic tokens
@@ -76,14 +76,16 @@ export default {
 			backgroundImage: {
 				'gradient-hero': 'var(--gradient-hero)',
 				'gradient-emergency': 'var(--gradient-emergency)',
-				'gradient-neon': 'var(--gradient-neon)',
 				'gradient-beacon': 'var(--gradient-beacon)',
+				'gradient-luxury': 'var(--gradient-luxury)',
+				'gradient-pulse': 'var(--gradient-pulse)',
 			},
 			boxShadow: {
 				'guardian': 'var(--shadow-guardian)',
 				'emergency': 'var(--shadow-emergency)',
-				'tech': 'var(--shadow-tech)',
+				'beacon': 'var(--shadow-beacon)',
 				'luxury': 'var(--shadow-luxury)',
+				'tech': 'var(--shadow-tech)',
 			},
 			transitionTimingFunction: {
 				'guardian': 'cubic-bezier(0.4, 0, 0.2, 1)',

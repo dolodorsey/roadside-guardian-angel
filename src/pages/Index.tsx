@@ -5,9 +5,19 @@ import RoadsideBeacon from '@/components/RoadsideBeacon';
 import LiveSafetySupport from '@/components/safety/LiveSafetySupport';
 import AIConcierge from '@/components/concierge/AIConcierge';
 import NotificationManager from '@/components/notifications/NotificationManager';
+import DesignSystemShowcase from '@/components/design-system/DesignSystemShowcase';
 import { MapPin, Clock, Shield, Star, Zap, Phone } from 'lucide-react';
 
 const Index = () => {
+  // Show design system if URL contains 'design-system'
+  const showDesignSystem = React.useMemo(() => {
+    return window.location.search.includes('design-system');
+  }, []);
+
+  if (showDesignSystem) {
+    return <DesignSystemShowcase />;
+  }
+
   return (
     <div className="min-h-screen">
       {/* Navigation */}
