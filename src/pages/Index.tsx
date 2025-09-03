@@ -8,6 +8,7 @@ import NotificationManager from '@/components/notifications/NotificationManager'
 import DesignSystemShowcase from '@/components/design-system/DesignSystemShowcase';
 import GamificationShowcase from '@/components/gamification/GamificationShowcase';
 import ExpansionShowcase from '@/components/expansion/ExpansionShowcase';
+import InvestorShowcase from '@/components/investor/InvestorShowcase';
 import { MapPin, Clock, Shield, Star, Zap, Phone } from 'lucide-react';
 
 const Index = () => {
@@ -26,6 +27,11 @@ const Index = () => {
     return window.location.search.includes('expansion');
   }, []);
 
+  // Show investor pitch if URL contains 'investor'
+  const showInvestor = React.useMemo(() => {
+    return window.location.search.includes('investor');
+  }, []);
+
   if (showDesignSystem) {
     return <DesignSystemShowcase />;
   }
@@ -36,6 +42,10 @@ const Index = () => {
 
   if (showExpansion) {
     return <ExpansionShowcase />;
+  }
+
+  if (showInvestor) {
+    return <InvestorShowcase />;
   }
 
   return (
