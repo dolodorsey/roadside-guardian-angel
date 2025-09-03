@@ -9,6 +9,7 @@ import DesignSystemShowcase from '@/components/design-system/DesignSystemShowcas
 import GamificationShowcase from '@/components/gamification/GamificationShowcase';
 import ExpansionShowcase from '@/components/expansion/ExpansionShowcase';
 import InvestorShowcase from '@/components/investor/InvestorShowcase';
+import RoadsideMasterBlueprint from '@/components/master/RoadsideMasterBlueprint';
 import { MapPin, Clock, Shield, Star, Zap, Phone } from 'lucide-react';
 
 const Index = () => {
@@ -32,6 +33,11 @@ const Index = () => {
     return window.location.search.includes('investor');
   }, []);
 
+  // Show master blueprint if URL contains 'blueprint'
+  const showBlueprint = React.useMemo(() => {
+    return window.location.search.includes('blueprint');
+  }, []);
+
   if (showDesignSystem) {
     return <DesignSystemShowcase />;
   }
@@ -46,6 +52,10 @@ const Index = () => {
 
   if (showInvestor) {
     return <InvestorShowcase />;
+  }
+
+  if (showBlueprint) {
+    return <RoadsideMasterBlueprint />;
   }
 
   return (
