@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Play, Pause, RotateCcw, Monitor, Smartphone } from 'lucide-react';
 import ClientJourney from './ClientJourney';
 import ProviderJourney from './ProviderJourney';
+import CinematicSplitScreen from './CinematicSplitScreen';
 import RoadsideBeacon from '../RoadsideBeacon';
 import EmergencyButton from '../EmergencyButton';
 
@@ -16,9 +17,10 @@ const CinematicDemo: React.FC<CinematicDemoProps> = ({
 }) => {
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [currentStep, setCurrentStep] = useState(0);
-  const [viewMode, setViewMode] = useState<'client' | 'provider' | 'split'>('split');
+  const [viewMode, setViewMode] = useState<'client' | 'provider' | 'split' | 'cinematic'>('cinematic');
   const [clientStep, setClientStep] = useState(0);
   const [providerStep, setProviderStep] = useState(0);
+  const [showCinematicSplit, setShowCinematicSplit] = useState(false);
 
   // Demo script timing
   const demoSteps = [
@@ -68,6 +70,11 @@ const CinematicDemo: React.FC<CinematicDemoProps> = ({
     setProviderStep(demoSteps[stepIndex].providerStep);
     setIsPlaying(false);
   };
+
+  // Show cinematic split screen if requested
+  if (showCinematicSplit) {
+    return <CinematicSplitScreen onExit={() => setShowCinematicSplit(false)} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-midnight-black to-asphalt-gray/50">
@@ -130,6 +137,12 @@ const CinematicDemo: React.FC<CinematicDemoProps> = ({
               }`}
             >
               <Smartphone className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setShowCinematicSplit(true)}
+              className="px-4 py-2 rounded-lg bg-gradient-emergency text-white border border-emergency-red/30 hover:shadow-emergency transition-all duration-300"
+            >
+              🎬 Keynote
             </button>
           </div>
         </div>

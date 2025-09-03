@@ -355,6 +355,20 @@
     }
   }
 
+  @keyframes beacon-sweep {
+    0% {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }
+
   /* Animation utility classes */
   .animate-shimmer {
     animation: shimmer 2s infinite;

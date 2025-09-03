@@ -17,79 +17,183 @@ const ClientJourney: React.FC<ClientJourneyProps> = ({ currentStep, isPlaying })
 
   const renderStep = () => {
     switch (currentStep) {
-      case 0: // Cinematic Opening
+      case 0: // Opening Panic - Cinematic Introduction
         return (
           <div key={animationKey} className="aspect-[9/16] rounded-3xl bg-midnight-black border border-border/30 flex items-center justify-center overflow-hidden relative">
-            <div className="absolute inset-0 bg-gradient-to-b from-midnight-black via-asphalt-gray/20 to-midnight-black"></div>
+            {/* Animated Road Grid */}
+            <div className="absolute inset-0 opacity-10">
+              <div 
+                className="w-full h-full animate-pulse"
+                style={{
+                  backgroundImage: `
+                    linear-gradient(90deg, hsl(var(--pulse-green)) 1px, transparent 1px),
+                    linear-gradient(hsl(var(--pulse-green)) 1px, transparent 1px)
+                  `,
+                  backgroundSize: '50px 50px',
+                  animation: 'road-drift 3s infinite linear'
+                }}
+              />
+            </div>
+            
+            {/* Radiating Light Animation */}
+            <div className="absolute inset-0">
+              {[...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-px h-full bg-gradient-to-b from-transparent via-emergency-red/30 to-transparent"
+                  style={{
+                    left: `${20 + i * 10}%`,
+                    animation: `beacon-sweep ${2 + i * 0.5}s infinite linear`,
+                    animationDelay: `${i * 0.3}s`
+                  }}
+                />
+              ))}
+            </div>
             
             {/* Hazard Triangle Morph Animation */}
             <div className="relative z-10 text-center animate-fade-in">
               <div className="mb-8">
-                <div className="w-16 h-16 mx-auto mb-4 animate-pulse">
-                  <div className="hazard-triangle mx-auto"></div>
-                </div>
-                <div className="transition-all duration-1000">
-                  <RoadsideBeacon size="lg" variant="emergency" />
+                {/* Hazard Triangle that morphs to Roadside Beacon */}
+                <div className="w-16 h-16 mx-auto mb-4 relative">
+                  <div className="hazard-triangle mx-auto animate-pulse" style={{ animationDuration: '1s' }}></div>
+                  {/* Morph Overlay */}
+                  <div className="absolute inset-0 transition-all duration-2000 delay-1000 opacity-0 animate-fade-in" style={{ animationDelay: '1.5s' }}>
+                    <RoadsideBeacon size="lg" variant="emergency" />
+                  </div>
                 </div>
               </div>
               
-              <div className="space-y-4 animate-slide-in-up" style={{ animationDelay: '1s' }}>
-                <h1 className="font-guardian text-3xl text-foreground">
-                  ROADSIDE
-                </h1>
-                <p className="text-electric-blue font-tech text-lg">
+              {/* Branded Copy with Cinematic Timing */}
+              <div className="space-y-4">
+                <div className="animate-slide-in-up" style={{ animationDelay: '2s' }}>
+                  <h1 className="font-guardian text-3xl text-foreground mb-2">
+                    ROADSIDE
+                  </h1>
+                  <div className="h-px w-16 mx-auto bg-gradient-emergency animate-shimmer"></div>
+                </div>
+                
+                <p className="text-electric-blue font-tech text-lg animate-fade-in" style={{ animationDelay: '2.5s' }}>
                   Help at the Speed of Now
                 </p>
-                <EmergencyButton 
-                  variant="primary" 
-                  size="lg"
-                  showBeacon={true}
-                  className="animate-heartbeat"
-                >
-                  Request Help Now
-                </EmergencyButton>
+                
+                <div className="animate-scale-in" style={{ animationDelay: '3s' }}>
+                  <EmergencyButton 
+                    variant="primary" 
+                    size="lg"
+                    showBeacon={true}
+                    className="animate-heartbeat relative overflow-hidden"
+                  >
+                    <span className="relative z-10">Request Help Now</span>
+                    {/* Shimmer Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-shimmer"></div>
+                  </EmergencyButton>
+                </div>
               </div>
             </div>
           </div>
         );
 
-      case 1: // Service Selection
+      case 1: // The SOS - Beacon Zoom & Roads Illuminate
         return (
-          <div key={animationKey} className="aspect-[9/16] rounded-3xl bg-gradient-to-b from-asphalt-gray/50 to-midnight-black border border-border/30 p-6 overflow-hidden">
-            <div className="h-full flex flex-col">
-              <div className="text-center mb-6">
+          <div key={animationKey} className="aspect-[9/16] rounded-3xl bg-gradient-to-b from-asphalt-gray/50 to-midnight-black border border-border/30 p-6 overflow-hidden relative">
+            {/* Illuminating Roads Effect */}
+            <div className="absolute inset-0 opacity-30">
+              <svg className="w-full h-full" viewBox="0 0 100 100">
+                {/* Road network that lights up */}
+                {[...Array(8)].map((_, i) => (
+                  <g key={i}>
+                    <path
+                      d={`M ${50 + (i * 10) - 40} 50 Q ${60 + i * 5} ${30 + i * 3} ${80 + i * 2} ${20 + i * 2}`}
+                      stroke="hsl(var(--pulse-green))"
+                      strokeWidth="0.5"
+                      fill="none"
+                      className="animate-pulse"
+                      style={{ 
+                        animationDelay: `${i * 200}ms`,
+                        animationDuration: '2s'
+                      }}
+                    />
+                    <path
+                      d={`M ${50 - (i * 10) + 40} 50 Q ${40 - i * 5} ${30 + i * 3} ${20 - i * 2} ${20 + i * 2}`}
+                      stroke="hsl(var(--pulse-green))"
+                      strokeWidth="0.5"
+                      fill="none"
+                      className="animate-pulse"
+                      style={{ 
+                        animationDelay: `${i * 200 + 100}ms`,
+                        animationDuration: '2s'
+                      }}
+                    />
+                  </g>
+                ))}
+              </svg>
+            </div>
+
+            <div className="h-full flex flex-col relative z-10">
+              <div className="text-center mb-6 animate-fade-in">
                 <h2 className="font-tech text-xl text-foreground mb-2">What do you need help with?</h2>
                 <p className="text-muted-foreground text-sm">Select your service type</p>
+                {/* Zoom Out Effect Indicator */}
+                <div className="mt-2 text-xs text-electric-blue font-tech animate-pulse">
+                  ← Beacon detected your location
+                </div>
               </div>
 
               <div className="flex-1 grid grid-cols-2 gap-4">
                 {[
-                  { icon: '🚛', label: 'Tow', color: 'emergency-red', delay: '0ms' },
-                  { icon: '⚡', label: 'Jump', color: 'beacon-blue', delay: '100ms' },
-                  { icon: '🛞', label: 'Tire', color: 'pulse-green', delay: '200ms' },
-                  { icon: '⛽', label: 'Fuel', color: 'emergency-red', delay: '300ms' },
-                  { icon: '🔑', label: 'Lockout', color: 'beacon-blue', delay: '400ms' },
-                  { icon: '🪝', label: 'Winch', color: 'pulse-green', delay: '500ms' },
+                  { icon: '🚛', label: 'Tow', color: 'emergency-red', delay: '0ms', animation: 'animate-pulse' },
+                  { icon: '⚡', label: 'Jump', color: 'beacon-blue', delay: '100ms', animation: 'animate-heartbeat' },
+                  { icon: '🛞', label: 'Tire', color: 'pulse-green', delay: '200ms', animation: 'animate-spin', selected: true },
+                  { icon: '⛽', label: 'Fuel', color: 'emergency-red', delay: '300ms', animation: 'animate-pulse' },
+                  { icon: '🔑', label: 'Lockout', color: 'beacon-blue', delay: '400ms', animation: 'animate-heartbeat' },
+                  { icon: '🪝', label: 'Winch', color: 'pulse-green', delay: '500ms', animation: 'animate-pulse' },
                 ].map((service, index) => (
                   <div 
                     key={service.label}
-                    className={`p-4 rounded-xl tech-surface border border-border/50 text-center animate-fade-in hover:border-${service.color}/50 transition-all duration-300 cursor-pointer`}
+                    className={`p-4 rounded-xl tech-surface border transition-all duration-500 text-center cursor-pointer ${
+                      service.selected 
+                        ? `border-${service.color} bg-${service.color}/10 shadow-lg scale-105` 
+                        : 'border-border/50 hover:border-pulse-green/50'
+                    } animate-fade-in`}
                     style={{ animationDelay: service.delay }}
                   >
-                    <div className="text-2xl mb-2">{service.icon}</div>
-                    <div className="font-tech text-sm text-foreground">{service.label}</div>
+                    <div className={`text-2xl mb-2 ${service.selected ? service.animation : ''}`} style={{
+                      animationDuration: service.label === 'Tire' ? '1s' : '2s'
+                    }}>
+                      {service.icon}
+                    </div>
+                    <div className={`font-tech text-sm ${service.selected ? 'text-pulse-green' : 'text-foreground'}`}>
+                      {service.label}
+                    </div>
+                    {service.selected && (
+                      <div className="mt-2 text-xs text-pulse-green animate-pulse">
+                        ✓ Selected
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
 
               <div className="mt-6">
-                <div className="p-4 rounded-xl bg-pulse-green/20 border border-pulse-green/30 animate-pulse">
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">🛞</span>
-                    <div>
+                {/* Expanded Service Card with Glow */}
+                <div className="p-4 rounded-xl bg-pulse-green/20 border border-pulse-green/30 animate-scale-in relative overflow-hidden">
+                  {/* Glowing Border Animation */}
+                  <div className="absolute inset-0 rounded-xl border-2 border-pulse-green/50 animate-ping"></div>
+                  
+                  <div className="flex items-center gap-3 relative z-10">
+                    <div className="text-2xl animate-spin" style={{ animationDuration: '3s' }}>🛞</div>
+                    <div className="flex-1">
                       <div className="font-tech text-foreground">Flat Tire Selected</div>
-                      <div className="text-sm text-muted-foreground">Professional tire service</div>
+                      <div className="text-sm text-muted-foreground">Professional tire service • Fixed rate: $50</div>
                     </div>
+                    <div className="text-pulse-green font-tech animate-pulse">⚡</div>
+                  </div>
+                  
+                  {/* Service Description Expansion */}
+                  <div className="mt-3 p-3 rounded-lg bg-midnight-black/30 animate-fade-in" style={{ animationDelay: '0.5s' }}>
+                    <p className="text-xs text-muted-foreground">
+                      We'll send a nearby provider to replace or repair your tire with professional-grade equipment.
+                    </p>
                   </div>
                 </div>
               </div>
