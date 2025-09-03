@@ -11,6 +11,12 @@ const Index = () => {
       <nav className="absolute top-8 right-8 z-10">
         <div className="flex gap-4">
           <Link 
+            to="/membership"
+            className="px-4 py-2 rounded-lg tech-surface border border-border/50 hover:border-electric-blue/50 transition-colors"
+          >
+            <span className="text-electric-blue font-tech">Membership</span>
+          </Link>
+          <Link 
             to="/provider/onboarding"
             className="px-4 py-2 rounded-lg tech-surface border border-border/50 hover:border-neon-green/50 transition-colors"
           >
