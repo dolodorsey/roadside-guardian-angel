@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import EmergencyButton from '@/components/EmergencyButton';
 import RoadsideBeacon from '@/components/RoadsideBeacon';
+import LiveSafetySupport from '@/components/safety/LiveSafetySupport';
 import { MapPin, Clock, Shield, Star, Zap, Phone } from 'lucide-react';
 
 const Index = () => {
@@ -422,6 +423,9 @@ const Index = () => {
           </div>
         </div>
       </footer>
+
+      {/* Always-available safety support */}
+      <LiveSafetySupport />
     </div>
   );
 };
