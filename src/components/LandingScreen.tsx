@@ -2,12 +2,18 @@ import React, { useState } from 'react';
 import EmergencyButton from './EmergencyButton';
 import RoadsideBeacon from './RoadsideBeacon';
 import OnboardingFlow from './OnboardingFlow';
+import ServiceRequestFlow from './ServiceRequestFlow';
 
 const LandingScreen: React.FC = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showServiceRequest, setShowServiceRequest] = useState(false);
 
   if (showOnboarding) {
     return <OnboardingFlow onComplete={() => setShowOnboarding(false)} />;
+  }
+
+  if (showServiceRequest) {
+    return <ServiceRequestFlow onCancel={() => setShowServiceRequest(false)} />;
   }
 
   return (
@@ -63,7 +69,7 @@ const LandingScreen: React.FC = () => {
             size="lg"
             showBeacon={true}
             className="text-xl px-16 py-6 mb-4 animate-pulse"
-            onClick={() => setShowOnboarding(true)}
+            onClick={() => setShowServiceRequest(true)}
           >
             Request Help Now
           </EmergencyButton>
@@ -75,7 +81,10 @@ const LandingScreen: React.FC = () => {
         </div>
         
         {/* Secondary Action */}
-        <button className="text-muted-foreground text-sm hover:text-neon-green transition-colors duration-300 font-tech">
+        <button 
+          className="text-muted-foreground text-sm hover:text-neon-green transition-colors duration-300 font-tech"
+          onClick={() => setShowOnboarding(true)}
+        >
           Sign In / Create Account
         </button>
       </div>
