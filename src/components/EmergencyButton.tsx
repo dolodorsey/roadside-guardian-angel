@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import RoadsideBeacon from './RoadsideBeacon';
+import EmergencyFloatingButton from './emergency/EmergencyFloatingButton';
+import EmergencyMode from './emergency/EmergencyMode';
 
 interface EmergencyButtonProps {
   children: React.ReactNode;
@@ -21,6 +23,8 @@ const EmergencyButton: React.FC<EmergencyButtonProps> = ({
   showBeacon = false,
   disabled = false
 }) => {
+  const [isEmergencyActive, setIsEmergencyActive] = useState(false);
+  const [isSilentMode, setIsSilentMode] = useState(false);
   const getVariantClasses = () => {
     switch (variant) {
       case 'primary':
@@ -47,30 +51,55 @@ const EmergencyButton: React.FC<EmergencyButtonProps> = ({
     }
   };
 
+  const handleEmergencyActivate = () => {
+    setIsEmergencyActive(true);
+  };
+
+  const handleVoiceCommand = () => {
+    setIsEmergencyActive(true);
+  };
+
   return (
-    <Button
-      onClick={onClick}
-      disabled={disabled}
-      className={`
-        ${getVariantClasses()}
-        ${getSizeClasses()}
-        rounded-xl
-        transition-all duration-300
-        relative
-        overflow-hidden
-        ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
-        ${className}
-      `}
-    >
-      {showBeacon && (
-        <RoadsideBeacon 
-          size="sm" 
-          variant={variant === 'primary' ? 'emergency' : 'guardian'} 
-          className="mr-3" 
-        />
-      )}
-      <span className="relative z-10">{children}</span>
-    </Button>
+    <>
+      <Button
+        onClick={onClick}
+        disabled={disabled}
+        className={`
+          ${getVariantClasses()}
+          ${getSizeClasses()}
+          rounded-xl
+          transition-all duration-300
+          relative
+          overflow-hidden
+          ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+          ${className}
+        `}
+      >
+        {showBeacon && (
+          <RoadsideBeacon 
+            size="sm" 
+            variant={variant === 'primary' ? 'emergency' : 'guardian'} 
+            className="mr-3" 
+          />
+        )}
+        <span className="relative z-10">{children}</span>
+      </Button>
+
+      {/* Emergency System */}
+      <EmergencyFloatingButton
+        onEmergencyActivate={handleEmergencyActivate}
+        onVoiceCommand={handleVoiceCommand}
+        batteryLevel={85} // This would come from a battery API
+      />
+
+      <EmergencyMode
+        isActive={isEmergencyActive}
+        onClose={() => setIsEmergencyActive(false)}
+        batteryLevel={85}
+        userLocation={{ lat: 40.7128, lng: -74.0060 }}
+        isSilentMode={isSilentMode}
+      />
+    </>
   );
 };
 
