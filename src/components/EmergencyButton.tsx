@@ -9,6 +9,7 @@ interface EmergencyButtonProps {
   onClick?: () => void;
   className?: string;
   showBeacon?: boolean;
+  disabled?: boolean;
 }
 
 const EmergencyButton: React.FC<EmergencyButtonProps> = ({
@@ -17,7 +18,8 @@ const EmergencyButton: React.FC<EmergencyButtonProps> = ({
   size = 'md',
   onClick,
   className = '',
-  showBeacon = false
+  showBeacon = false,
+  disabled = false
 }) => {
   const getVariantClasses = () => {
     switch (variant) {
@@ -48,6 +50,7 @@ const EmergencyButton: React.FC<EmergencyButtonProps> = ({
   return (
     <Button
       onClick={onClick}
+      disabled={disabled}
       className={`
         ${getVariantClasses()}
         ${getSizeClasses()}
@@ -55,6 +58,7 @@ const EmergencyButton: React.FC<EmergencyButtonProps> = ({
         transition-all duration-300
         relative
         overflow-hidden
+        ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
         ${className}
       `}
     >
