@@ -10,6 +10,7 @@ import GamificationShowcase from '@/components/gamification/GamificationShowcase
 import ExpansionShowcase from '@/components/expansion/ExpansionShowcase';
 import InvestorShowcase from '@/components/investor/InvestorShowcase';
 import RoadsideMasterBlueprint from '@/components/master/RoadsideMasterBlueprint';
+import CinematicDemo from '@/components/demo/CinematicDemo';
 import { MapPin, Clock, Shield, Star, Zap, Phone } from 'lucide-react';
 
 const Index = () => {
@@ -38,6 +39,11 @@ const Index = () => {
     return window.location.search.includes('blueprint');
   }, []);
 
+  // Show cinematic demo if URL contains 'demo'
+  const showDemo = React.useMemo(() => {
+    return window.location.search.includes('demo');
+  }, []);
+
   if (showDesignSystem) {
     return <DesignSystemShowcase />;
   }
@@ -56,6 +62,10 @@ const Index = () => {
 
   if (showBlueprint) {
     return <RoadsideMasterBlueprint />;
+  }
+
+  if (showDemo) {
+    return <CinematicDemo autoPlay={true} />;
   }
 
   return (
