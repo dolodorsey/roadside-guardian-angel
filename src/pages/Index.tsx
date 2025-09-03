@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import EmergencyButton from '@/components/EmergencyButton';
 import RoadsideBeacon from '@/components/RoadsideBeacon';
 import LiveSafetySupport from '@/components/safety/LiveSafetySupport';
+import AIConcierge from '@/components/concierge/AIConcierge';
 import { MapPin, Clock, Shield, Star, Zap, Phone } from 'lucide-react';
 
 const Index = () => {
@@ -426,6 +427,15 @@ const Index = () => {
 
       {/* Always-available safety support */}
       <LiveSafetySupport />
+
+      {/* AI Concierge */}
+      <AIConcierge 
+        serviceRequestState="idle"
+        onServiceAction={(action, data) => {
+          console.log('Service action:', action, data);
+          // Handle service actions like cancel, contact support, etc.
+        }}
+      />
     </div>
   );
 };
