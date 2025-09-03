@@ -18,7 +18,13 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'inter': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+				'guardian': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+				'tech': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+			},
 			colors: {
+				// Core semantic tokens
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -52,16 +58,36 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
-				}
+				
+				// Roadside Brand Colors
+				'midnight-black': 'hsl(var(--midnight-black))',
+				'asphalt-gray': 'hsl(var(--asphalt-gray))',
+				'emergency-red': 'hsl(var(--emergency-red))',
+				'neon-green': 'hsl(var(--neon-green))',
+				'electric-blue': 'hsl(var(--electric-blue))',
+				'metallic-silver': 'hsl(var(--metallic-silver))',
+				
+				// Brand semantic tokens
+				'guardian-glow': 'hsl(var(--guardian-glow))',
+				'beacon-pulse': 'hsl(var(--beacon-pulse))',
+				'tech-accent': 'hsl(var(--tech-accent))',
+				'luxury-surface': 'hsl(var(--luxury-surface))',
+			},
+			backgroundImage: {
+				'gradient-hero': 'var(--gradient-hero)',
+				'gradient-emergency': 'var(--gradient-emergency)',
+				'gradient-neon': 'var(--gradient-neon)',
+				'gradient-beacon': 'var(--gradient-beacon)',
+			},
+			boxShadow: {
+				'guardian': 'var(--shadow-guardian)',
+				'emergency': 'var(--shadow-emergency)',
+				'tech': 'var(--shadow-tech)',
+				'luxury': 'var(--shadow-luxury)',
+			},
+			transitionTimingFunction: {
+				'guardian': 'cubic-bezier(0.4, 0, 0.2, 1)',
+				'emergency': 'cubic-bezier(0.4, 0, 0.2, 1)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
