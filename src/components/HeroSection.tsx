@@ -35,9 +35,13 @@ const HeroSection: React.FC = () => {
         </div>
         
         {/* Tagline */}
-        <h1 className="font-guardian text-6xl md:text-7xl lg:text-8xl text-foreground mb-6 leading-tight animate-guardian-enter">
-          ROADSIDE
-        </h1>
+        <div className="mb-6 flex justify-center">
+          <img 
+            src="/lovable-uploads/faf67814-8153-400b-a3ea-b4203d7bf2c8.png"
+            alt="Roadside"
+            className="h-16 md:h-20 lg:h-24 object-contain animate-guardian-enter"
+          />
+        </div>
         
         <div className="neon-accent w-32 mx-auto mb-8"></div>
         
