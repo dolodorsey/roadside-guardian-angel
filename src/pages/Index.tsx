@@ -121,9 +121,13 @@ const Index = () => {
           </div>
 
           {/* Hero Text */}
-          <h1 className="font-guardian text-6xl md:text-8xl text-foreground mb-6 leading-tight">
-            ROADSIDE
-          </h1>
+          <div className="mb-6 flex justify-center">
+            <img 
+              src="/lovable-uploads/faf67814-8153-400b-a3ea-b4203d7bf2c8.png"
+              alt="Roadside"
+              className="h-16 md:h-20 lg:h-24 object-contain"
+            />
+          </div>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-4 font-tech">
             Elite roadside assistance when you need it most

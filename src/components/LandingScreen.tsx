@@ -56,7 +56,11 @@ const LandingScreen: React.FC = () => {
       <div className="absolute top-8 left-8 z-10">
         <div className="flex items-center gap-3">
           <RoadsideBeacon size="sm" variant="guardian" />
-          <span className="font-guardian text-xl text-foreground">ROADSIDE</span>
+          <img 
+            src="/lovable-uploads/faf67814-8153-400b-a3ea-b4203d7bf2c8.png"
+            alt="Roadside"
+            className="h-6 object-contain"
+          />
         </div>
       </div>
       
