@@ -20,44 +20,55 @@ export const BrandKit = {
     };
 
     const variantClasses = {
-      default: 'bg-emergency-red text-foreground',
-      monochrome: 'bg-foreground text-midnight-black',
-      emergency: 'bg-emergency-red text-foreground animate-heartbeat'
+      default: 'opacity-100',
+      monochrome: 'grayscale',
+      emergency: 'opacity-100 animate-heartbeat drop-shadow-[0_0_10px_hsl(var(--emergency-red)/0.6)]'
     };
 
     return (
-      <div className={cn(
-        sizeClasses[size],
-        variantClasses[variant],
-        'rounded-lg flex items-center justify-center',
-        'font-guardian font-black text-2xl',
-        'drop-shadow-lg',
-        className
-      )}>
-        R
-      </div>
+      <img 
+        src="/lovable-uploads/5af48572-1074-4ae7-aeae-f251d4fa4641.png"
+        alt="Roadside Logo"
+        className={cn(
+          sizeClasses[size],
+          variantClasses[variant],
+          'object-contain',
+          className
+        )}
+      />
     );
   },
 
   // Roadside Wordmark
-  Wordmark: ({ variant = 'default', className }: { 
+  Wordmark: ({ variant = 'default', className, size = 'lg' }: { 
     variant?: 'default' | 'emergency' | 'tech';
     className?: string;
+    size?: 'sm' | 'md' | 'lg' | 'xl';
   }) => {
+    const sizeClasses = {
+      sm: 'h-8',
+      md: 'h-12',
+      lg: 'h-16',
+      xl: 'h-24'
+    };
+
     const variantClasses = {
-      default: 'text-foreground',
-      emergency: 'text-emergency-red drop-shadow-[0_0_10px_hsl(var(--emergency-red)/0.5)]',
-      tech: 'text-beacon-blue drop-shadow-[0_0_8px_hsl(var(--beacon-blue)/0.4)]'
+      default: 'opacity-100',
+      emergency: 'drop-shadow-[0_0_10px_hsl(var(--emergency-red)/0.5)] animate-pulse',
+      tech: 'drop-shadow-[0_0_8px_hsl(var(--beacon-blue)/0.4)]'
     };
 
     return (
-      <div className={cn(
-        'font-guardian text-4xl font-black tracking-tight',
-        variantClasses[variant],
-        className
-      )}>
-        ROADSIDE
-      </div>
+      <img 
+        src="/lovable-uploads/c329aae6-9aa1-4899-94f8-98b1001c89b6.png"
+        alt="Roadside"
+        className={cn(
+          sizeClasses[size],
+          variantClasses[variant],
+          'object-contain',
+          className
+        )}
+      />
     );
   },
 
