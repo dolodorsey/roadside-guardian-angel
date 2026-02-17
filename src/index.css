@@ -1,400 +1,106 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Roadside Design System - Cinematic Brand Identity */
-
 @layer base {
   :root {
-    /* Core Roadside Brand Palette */
-    --midnight-black: 0 0% 0%;
-    --asphalt-gray: 0 0% 17%;
-    --emergency-red: 8 100% 59%;
-    --beacon-blue: 211 100% 50%;
-    --pulse-green: 155 100% 45%;
-    --metallic-silver: 0 0% 75%;
+    --background: 40 33% 98%;
+    --foreground: 20 14% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 14% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14% 12%;
+    --primary: 24 95% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 30% 94%;
+    --secondary-foreground: 20 14% 25%;
+    --muted: 40 20% 94%;
+    --muted-foreground: 20 10% 50%;
+    --accent: 24 95% 53%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 15% 88%;
+    --input: 40 15% 88%;
+    --ring: 24 95% 53%;
+    --radius: 1rem;
     
-    /* Semantic Color System */
-    --background: var(--midnight-black);
-    --foreground: 0 0% 98%;
-    
-    --card: var(--asphalt-gray);
-    --card-foreground: 0 0% 95%;
-    
-    --popover: var(--asphalt-gray);
-    --popover-foreground: 0 0% 95%;
-    
-    --primary: var(--emergency-red);
-    --primary-foreground: 0 0% 98%;
-    
-    --secondary: var(--asphalt-gray);
-    --secondary-foreground: 0 0% 95%;
-    
-    --muted: 220 9% 20%;
-    --muted-foreground: 220 9% 65%;
-    
-    --accent: var(--beacon-blue);
-    --accent-foreground: 0 0% 98%;
-    
-    --destructive: var(--emergency-red);
-    --destructive-foreground: 0 0% 98%;
-    
-    --border: 0 0% 25%;
-    --input: 0 0% 25%;
-    --ring: var(--emergency-red);
-    
-    --radius: 0.75rem;
-    
-    /* Brand-specific tokens */
-    --guardian-glow: var(--pulse-green);
-    --beacon-pulse: var(--emergency-red);
-    --tech-accent: var(--beacon-blue);
-    --luxury-surface: var(--metallic-silver);
-    
-    /* Enhanced Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--midnight-black)) 0%, hsl(var(--asphalt-gray)) 100%);
-    --gradient-emergency: linear-gradient(45deg, hsl(var(--emergency-red)) 0%, hsl(8 100% 45%) 100%);
-    --gradient-beacon: linear-gradient(90deg, hsl(var(--beacon-blue)) 0%, hsl(var(--pulse-green)) 100%);
-    --gradient-luxury: linear-gradient(135deg, hsl(var(--metallic-silver)) 0%, hsl(0 0% 90%) 100%);
-    --gradient-pulse: radial-gradient(circle, hsl(var(--emergency-red) / 0.3) 0%, transparent 70%);
-    
-    /* Cinematic Shadows & Effects */
-    --shadow-guardian: 0 0 40px hsl(var(--pulse-green) / 0.4);
-    --shadow-emergency: 0 0 30px hsl(var(--emergency-red) / 0.5);
-    --shadow-beacon: 0 0 25px hsl(var(--beacon-blue) / 0.4);
-    --shadow-luxury: 0 10px 30px hsl(0 0% 5% / 0.4);
-    --shadow-tech: 0 20px 40px hsl(var(--midnight-black) / 0.6);
-    
-    /* Motion System */
-    --transition-emergency: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-guardian: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-beacon: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-luxury: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    /* S.O.S Brand Tokens */
+    --sos-orange: 24 95% 53%;
+    --sos-amber: 38 92% 50%;
+    --sos-cream: 40 33% 97%;
+    --sos-dark: 20 14% 12%;
+    --sos-green: 152 69% 41%;
+    --sos-blue: 213 94% 56%;
+    --sos-red: 0 84% 60%;
+    --sos-warm-gray: 30 8% 55%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
 
   body {
-    @apply bg-background text-foreground font-inter antialiased;
-    background: var(--gradient-hero);
-    min-height: 100vh;
-  }
-  
-  /* Cinematic Typography */
-  .font-guardian {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-  }
-  
-  .font-tech {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-}
-
-@layer components {
-  /* Beacon Pulse Animation */
-  .beacon-pulse {
-    animation: beacon-pulse 2s infinite;
-    box-shadow: var(--shadow-emergency);
-  }
-  
-  /* Guardian Glow Effect */
-  .guardian-glow {
-    box-shadow: var(--shadow-guardian);
-    transition: var(--transition-guardian);
-  }
-  
-  .guardian-glow:hover {
-    box-shadow: 0 0 60px hsl(var(--neon-green) / 0.5);
-    transform: translateY(-2px);
-  }
-  
-  /* Emergency Button Styling */
-  .emergency-cta {
-    background: var(--gradient-emergency);
-    box-shadow: var(--shadow-emergency);
-    transition: var(--transition-emergency);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .emergency-cta::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    transition: left 0.6s;
-  }
-  
-  .emergency-cta:hover::before {
-    left: 100%;
-  }
-  
-  /* Hazard Triangle Icon */
-  .hazard-triangle {
-    width: 0;
-    height: 0;
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-bottom: 20px solid hsl(var(--emergency-red));
-    position: relative;
-    animation: hazard-blink 1.5s infinite alternate;
-  }
-  
-  /* Tech Surface */
-  .tech-surface {
-    background: hsl(var(--asphalt-gray) / 0.8);
-    backdrop-filter: blur(20px);
-    border: 1px solid hsl(var(--border) / 0.5);
-    box-shadow: var(--shadow-tech);
-  }
-  
-  /* Neon Accent Line */
-  .neon-accent {
-    background: var(--gradient-neon);
-    height: 2px;
-    box-shadow: 0 0 10px hsl(var(--neon-green) / 0.5);
+    @apply bg-background text-foreground antialiased;
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
 @layer utilities {
-  /* Animation Keyframes */
-  @keyframes beacon-pulse {
-    0%, 100% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    50% {
-      transform: scale(1.05);
-      opacity: 0.8;
-    }
-  }
-  
-  @keyframes hazard-blink {
-    0% {
-      opacity: 1;
-      filter: brightness(1);
-    }
-    100% {
-      opacity: 0.6;
-      filter: brightness(1.5);
-    }
-  }
-  
-  @keyframes guardian-enter {
-    0% {
-      opacity: 0;
-      transform: translateY(20px) scale(0.95);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-  
-  @keyframes fade-in {
-    0% {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes scale-in {
-    0% {
-      transform: scale(0.95);
-      opacity: 0;
-    }
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-  
-  @keyframes emergency-slide {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
-  }
-  
-  /* Utility Classes */
-  .animate-guardian-enter {
-    animation: guardian-enter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .animate-emergency-slide {
-    animation: emergency-slide 2s infinite;
-  }
-  
-  .animate-fade-in {
-    animation: fade-in 0.3s ease-out forwards;
-  }
-
-  .animate-scale-in {
-    animation: scale-in 0.2s ease-out forwards;
-  }
-
-  .animate-slide-in-up {
-    animation: slide-in-up 0.3s ease-out forwards;
-  }
-
-  @keyframes slide-in-up {
-    0% {
-      transform: translateY(100%);
-      opacity: 0;
-    }
-    100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
-  @keyframes road-drift {
-    0% {
-      transform: translateX(0) translateY(0);
-    }
-    100% {
-      transform: translateX(-30px) translateY(-30px);
-    }
-  }
-
-  @keyframes heartbeat {
-    0%, 100% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    50% {
-      transform: scale(1.05);
-      opacity: 0.8;
-    }
-  }
-
-  @keyframes emergency-ripple {
-    0% {
-      transform: scale(0);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(4);
-      opacity: 0;
-    }
-  }
-
-  @keyframes shield-lock {
-    0% {
-      transform: scale(0.8) rotate(-10deg);
-      opacity: 0;
-    }
-    50% {
-      transform: scale(1.1) rotate(5deg);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(1) rotate(0deg);
-      opacity: 1;
-    }
-  }
-
-  /* Animation utility classes */
-  .animate-heartbeat {
-    animation: heartbeat 2s infinite;
-  }
-
-  .animate-emergency-ripple {
-    animation: emergency-ripple 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .animate-shield-lock {
-    animation: shield-lock 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  @keyframes shimmer {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
-  }
-
-  @keyframes slide-in-down {
-    0% {
-      transform: translateY(-100%) scale(0.95);
-      opacity: 0;
-    }
-    100% {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-    }
-  }
-
-  @keyframes progress-bar {
-    0% {
-      width: 100%;
-    }
-    100% {
-      width: 0%;
-    }
-  }
-
-  @keyframes beacon-sweep {
-    0% {
-      opacity: 0;
-      transform: translateX(-100%);
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-      transform: translateX(100%);
-    }
-  }
-
-  /* Animation utility classes */
-  .animate-shimmer {
-    animation: shimmer 2s infinite;
-  }
-
-  .animate-slide-in-down {
-    animation: slide-in-down 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .animate-progress-bar {
-    animation: progress-bar linear;
-  }
+  .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .text-balance { text-wrap: balance; }
+  .font-display { font-family: 'Space Grotesk', 'DM Sans', system-ui, sans-serif; }
 }
 
-/* Safe area utilities for mobile */
-.pt-safe {
-  padding-top: env(safe-area-inset-top, 0px);
-}
-.pb-safe {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-.mt-safe {
-  margin-top: env(safe-area-inset-top, 0px);
+/* Roadside Stripe Pattern (yellow hazard tape motif) */
+.hazard-stripe {
+  background: repeating-linear-gradient(
+    -45deg,
+    hsl(var(--sos-amber)),
+    hsl(var(--sos-amber)) 10px,
+    hsl(var(--sos-orange)) 10px,
+    hsl(var(--sos-orange)) 20px
+  );
 }
 
-/* Fix for 100dvh on mobile */
-.h-screen-safe {
-  height: 100dvh;
+/* Pulse animation for SOS beacon */
+@keyframes sos-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.08); opacity: 0.85; }
 }
+@keyframes sos-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+@keyframes truck-bounce {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-6px) rotate(1deg); }
+}
+@keyframes road-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-sos-pulse { animation: sos-pulse 2s ease-in-out infinite; }
+.animate-sos-ring { animation: sos-ring 2s ease-out infinite; }
+.animate-truck-bounce { animation: truck-bounce 1.5s ease-in-out infinite; }
+.animate-road-scroll { animation: road-scroll 3s linear infinite; }
+.animate-fade-up { animation: fade-up 0.5s ease-out both; }
+
+/* Soft premium shadows */
+.shadow-card { box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04); }
+.shadow-card-hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06); }
+.shadow-sos { box-shadow: 0 4px 20px rgba(249,115,22,0.2); }
+.shadow-sos-lg { box-shadow: 0 8px 40px rgba(249,115,22,0.25); }
+
+/* Override scrollbar for cleanliness */
+::-webkit-scrollbar { width: 0; height: 0; }

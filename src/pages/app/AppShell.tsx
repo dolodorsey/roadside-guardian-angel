@@ -11,76 +11,47 @@ import { ActivityTab, WalletTab, AccountTab } from './Tabs';
 
 const AppShell: React.FC = () => {
   const { user, loading } = useAuth();
-  const [activeTab, setActiveTab] = useState<Tab>('home');
-  const [requestingService, setRequestingService] = useState<string | null>(null);
-  const [activeJobId, setActiveJobId] = useState<string | null>(null);
+  const [tab, setTab] = useState<Tab>('home');
+  const [reqService, setReqService] = useState<string | null>(null);
+  const [activeJob, setActiveJob] = useState<string | null>(null);
 
-  // Loading
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center animate-pulse">
-            <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-            </svg>
+      <div className="min-h-[100dvh] bg-[#FFFBF5] flex items-center justify-center">
+        <div className="text-center animate-fade-up">
+          <div className="relative w-20 h-20 mx-auto mb-5">
+            <div className="absolute inset-0 bg-orange-200/40 rounded-[24px] animate-sos-ring" />
+            <div className="relative w-20 h-20 rounded-[24px] bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-sos-lg">
+              <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
           </div>
-          <p className="text-zinc-500 text-sm">Loading S.O.S...</p>
+          <h2 className="font-display text-[22px] font-bold text-gray-900">S.O.S</h2>
+          <p className="text-[14px] text-gray-400 mt-1">Superheros On Standby</p>
         </div>
       </div>
     );
   }
 
-  // Not authenticated
-  if (!user) {
-    return <AuthScreen />;
+  if (!user) return <AuthScreen />;
+
+  if (activeJob) {
+    return <LiveRescue jobId={activeJob} onComplete={() => { setActiveJob(null); setTab('activity'); }} onClose={() => setActiveJob(null)} />;
   }
 
-  // Live rescue active
-  if (activeJobId) {
-    return (
-      <LiveRescue
-        jobId={activeJobId}
-        onComplete={() => {
-          setActiveJobId(null);
-          setActiveTab('activity');
-        }}
-        onClose={() => setActiveJobId(null)}
-      />
-    );
+  if (reqService) {
+    return <RequestFlow serviceType={reqService} onClose={() => setReqService(null)} onJobCreated={id => { setReqService(null); setActiveJob(id); }} />;
   }
 
-  // Service request flow
-  if (requestingService) {
-    return (
-      <RequestFlow
-        serviceType={requestingService}
-        onClose={() => setRequestingService(null)}
-        onJobCreated={(jobId) => {
-          setRequestingService(null);
-          setActiveJobId(jobId);
-        }}
-      />
-    );
-  }
-
-  // Main app with tabs
   return (
-    <div className="min-h-screen bg-black">
-      {activeTab === 'home' && (
-        <HomeScreen
-          onRequestService={(type) => setRequestingService(type)}
-          onOpenServices={() => setActiveTab('services')}
-        />
-      )}
-      {activeTab === 'services' && (
-        <ServicesTab onRequestService={(type) => setRequestingService(type)} />
-      )}
-      {activeTab === 'activity' && <ActivityTab />}
-      {activeTab === 'wallet' && <WalletTab />}
-      {activeTab === 'account' && <AccountTab />}
-
-      <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+    <div className="min-h-[100dvh] bg-[#FFFBF5]">
+      {tab === 'home' && <HomeScreen onRequestService={setReqService} onOpenServices={() => setTab('services')} />}
+      {tab === 'services' && <ServicesTab onRequestService={setReqService} />}
+      {tab === 'activity' && <ActivityTab />}
+      {tab === 'wallet' && <WalletTab />}
+      {tab === 'account' && <AccountTab />}
+      <BottomNav activeTab={tab} onTabChange={setTab} />
     </div>
   );
 };

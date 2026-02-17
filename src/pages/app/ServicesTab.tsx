@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { getServiceIcon } from '@/components/app/ServiceIcons';
-import { Clock, Wrench, Sparkles, ChevronRight } from 'lucide-react';
+import { ChevronRight, Zap, CalendarClock, Wrench } from 'lucide-react';
 
-interface ServicesTabProps {
-  onRequestService: (serviceType: string) => void;
-}
+interface Props { onRequestService: (t: string) => void; }
 
-const modeConfig = {
-  request_now: { label: 'Request Now', icon: Wrench, desc: 'Emergency services' },
-  schedule: { label: 'Schedule', icon: Clock, desc: 'Book in advance' },
-  consult_first: { label: 'Specialist', icon: Sparkles, desc: 'Custom work + quotes' },
+const modeConfig: Record<string, { label: string; icon: React.FC<any>; desc: string }> = {
+  request_now: { label: 'Emergency', icon: Zap, desc: 'Get help right now' },
+  schedule: { label: 'Schedule', icon: CalendarClock, desc: 'Book for later' },
+  consult_first: { label: 'Specialist', icon: Wrench, desc: 'Custom work' },
 };
 
-const ServicesTab: React.FC<ServicesTabProps> = ({ onRequestService }) => {
-  const [activeMode, setActiveMode] = useState<string>('request_now');
+const icon = (t: string) => t === 'tow' ? '🚛' : t === 'jump' ? '⚡' : t === 'flat' ? '🔧' : t === 'lockout' ? '🔑' : t === 'fuel' ? '⛽' : t === 'winch' ? '🪝' : t === 'oil_change' ? '🛢️' : t === 'brakes' ? '🔴' : t === 'detailing' ? '✨' : t === 'inspection' ? '🔍' : t === 'wrap' ? '🎨' : t === 'performance' ? '🏎️' : t === 'audio' ? '🔊' : '🔧';
+
+const ServicesTab: React.FC<Props> = ({ onRequestService }) => {
+  const [mode, setMode] = useState('request_now');
   const [services, setServices] = useState<any[]>([]);
 
   useEffect(() => {
@@ -22,63 +21,62 @@ const ServicesTab: React.FC<ServicesTabProps> = ({ onRequestService }) => {
       .then(({ data }) => { if (data) setServices(data); });
   }, []);
 
-  const filtered = services.filter(s => s.mode === activeMode);
+  const filtered = services.filter(s => s.mode === mode);
 
   return (
-    <div className="min-h-screen bg-black pt-safe">
+    <div className="min-h-screen bg-[#FFFBF5] pt-safe">
       <div className="px-5 py-6">
-        <h1 className="text-2xl font-bold text-white">Services</h1>
-        <p className="text-zinc-500 text-sm mt-1">Everything your car needs</p>
+        <h1 className="font-display text-[24px] font-bold text-gray-900">Services</h1>
+        <p className="text-[14px] text-gray-400 mt-0.5">Everything your car needs</p>
       </div>
 
-      {/* Mode Tabs */}
+      {/* Mode tabs */}
       <div className="px-5 flex gap-2 mb-5">
-        {Object.entries(modeConfig).map(([mode, cfg]) => (
-          <button
-            key={mode}
-            onClick={() => setActiveMode(mode)}
-            className={`flex-1 py-3 rounded-xl text-sm font-medium transition-all ${
-              activeMode === mode
-                ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/20'
-                : 'bg-zinc-900 text-zinc-400 border border-zinc-800'
-            }`}
-          >
-            {cfg.label}
-          </button>
-        ))}
+        {Object.entries(modeConfig).map(([k, cfg]) => {
+          const active = mode === k;
+          return (
+            <button key={k} onClick={() => setMode(k)}
+              className={`flex-1 py-3.5 rounded-2xl text-[13px] font-semibold transition-all flex items-center justify-center gap-1.5 ${
+                active ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-sos' : 'bg-white text-gray-500 border border-gray-200'
+              }`}>
+              <cfg.icon className="w-4 h-4" />
+              {cfg.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Description */}
+      <div className="px-5 mb-4">
+        <p className="text-[13px] text-gray-400">{modeConfig[mode]?.desc}</p>
       </div>
 
       {/* Service List */}
-      <div className="px-5 space-y-3 pb-24">
-        {filtered.map(svc => (
-          <button
-            key={svc.service_type}
-            onClick={() => onRequestService(svc.service_type)}
-            className="w-full bg-zinc-900 rounded-2xl p-4 border border-zinc-800/50 flex items-center gap-4 text-left hover:border-orange-500/30 transition-all"
-          >
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0 overflow-hidden">
-              {(() => { const { Icon, gradient } = getServiceIcon(svc.service_type); return <div className={`w-full h-full rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center`}><Icon className="text-white" size={20} /></div>; })()}
+      <div className="px-5 space-y-2 pb-24">
+        {filtered.map((svc, i) => (
+          <button key={svc.service_type} onClick={() => onRequestService(svc.service_type)}
+            className="w-full bg-white rounded-2xl p-4 border border-gray-100 shadow-card flex items-center gap-4 text-left hover:shadow-card-hover active:scale-[0.99] transition-all animate-fade-up"
+            style={{ animationDelay: `${i * 40}ms` }}>
+            <div className="w-13 h-13 rounded-2xl bg-gray-50 flex items-center justify-center text-[26px] flex-shrink-0 w-[52px] h-[52px]">
+              {icon(svc.service_type)}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white font-medium text-sm">{svc.display_name}</p>
-              <p className="text-zinc-500 text-xs mt-0.5">{svc.description || `${svc.pricing_model} pricing`}</p>
+              <p className="text-[15px] font-semibold text-gray-900">{svc.display_name}</p>
+              <p className="text-[13px] text-gray-400 mt-0.5 truncate">{svc.description || 'Professional service'}</p>
             </div>
-            <div className="text-right flex-shrink-0">
+            <div className="text-right flex-shrink-0 mr-1">
               {svc.pricing_model === 'quote_required' ? (
-                <span className="text-orange-400 text-xs font-medium">Get Quote</span>
+                <span className="text-[13px] text-orange-500 font-semibold">Get Quote</span>
               ) : (
-                <span className="text-orange-400 text-sm font-semibold">
-                  ${(svc.base_fee_cents / 100).toFixed(0)}{svc.pricing_model === 'base_plus_miles' ? '+' : ''}
-                </span>
+                <span className="text-[17px] font-bold text-orange-500">${(svc.base_fee_cents / 100).toFixed(0)}{svc.pricing_model === 'base_plus_miles' ? '+' : ''}</span>
               )}
             </div>
-            <ChevronRight className="w-4 h-4 text-zinc-700 flex-shrink-0" />
+            <ChevronRight className="w-4 h-4 text-gray-300 flex-shrink-0" />
           </button>
         ))}
-
         {filtered.length === 0 && (
-          <div className="py-12 text-center">
-            <p className="text-zinc-500">No services available in this category</p>
+          <div className="py-16 text-center">
+            <p className="text-gray-300 text-[14px]">No services in this category</p>
           </div>
         )}
       </div>
