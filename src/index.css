@@ -382,3 +382,19 @@
     animation: progress-bar linear;
   }
 }
+
+/* Safe area utilities for mobile */
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.mt-safe {
+  margin-top: env(safe-area-inset-top, 0px);
+}
+
+/* Fix for 100dvh on mobile */
+.h-screen-safe {
+  height: 100dvh;
+}
