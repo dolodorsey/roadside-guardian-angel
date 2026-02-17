@@ -4,7 +4,7 @@ import { supabase, subscribeToJob, subscribeToProviderLocation, STATUS_LABELS, j
 import { Phone, MessageCircle, Share2, AlertTriangle, Shield, X, Star, DollarSign, ChevronUp } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
-const GOOGLE_MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
+const GOOGLE_MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyDIOnBRI2EMgLHHiUR6fM78aYgvp8T0YOg';
 
 interface LiveRescueProps {
   jobId: string;

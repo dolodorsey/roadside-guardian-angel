@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, MapPin, ChevronDown, CreditCard, Shield, Zap, Clock, DollarSign, Car } from 'lucide-react';
+import { getServiceIcon } from '@/components/app/ServiceIcons';
 import { supabase, createJob, confirmJob, startMatching } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -152,10 +153,8 @@ const RequestFlow: React.FC<RequestFlowProps> = ({ serviceType, onClose, onJobCr
                     : 'border-zinc-800 bg-zinc-900/50 hover:border-zinc-700'
                 }`}
               >
-                <div className="w-12 h-12 rounded-xl bg-zinc-800 flex items-center justify-center text-2xl flex-shrink-0">
-                  {svc.service_type === 'tow' ? '🚛' : svc.service_type === 'jump' ? '⚡' :
-                   svc.service_type === 'flat' ? '🔧' : svc.service_type === 'lockout' ? '🔑' :
-                   svc.service_type === 'fuel' ? '⛽' : '🪝'}
+                <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0">
+                  {(() => { const { Icon, gradient } = getServiceIcon(svc.service_type); return <div className={`w-full h-full bg-gradient-to-br ${gradient} flex items-center justify-center`}><Icon className="text-white" size={20} /></div>; })()}
                 </div>
                 <div className="flex-1 text-left">
                   <p className="text-white font-medium">{svc.display_name}</p>

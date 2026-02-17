@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { getServiceIcon } from '@/components/app/ServiceIcons';
 import { Clock, Wrench, Sparkles, ChevronRight } from 'lucide-react';
 
 interface ServicesTabProps {
@@ -55,14 +56,8 @@ const ServicesTab: React.FC<ServicesTabProps> = ({ onRequestService }) => {
             onClick={() => onRequestService(svc.service_type)}
             className="w-full bg-zinc-900 rounded-2xl p-4 border border-zinc-800/50 flex items-center gap-4 text-left hover:border-orange-500/30 transition-all"
           >
-            <div className="w-12 h-12 rounded-xl bg-zinc-800 flex items-center justify-center text-2xl flex-shrink-0">
-              {svc.service_type === 'tow' ? '🚛' : svc.service_type === 'jump' ? '⚡' :
-               svc.service_type === 'flat' ? '🔧' : svc.service_type === 'lockout' ? '🔑' :
-               svc.service_type === 'fuel' ? '⛽' : svc.service_type === 'winch' ? '🪝' :
-               svc.service_type === 'oil_change' ? '🛢️' : svc.service_type === 'brakes' ? '🔴' :
-               svc.service_type === 'detailing' ? '✨' : svc.service_type === 'inspection' ? '🔍' :
-               svc.service_type === 'wrap' ? '🎨' : svc.service_type === 'performance' ? '🏎️' :
-               svc.service_type === 'audio' ? '🔊' : '🎨'}
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0 overflow-hidden">
+              {(() => { const { Icon, gradient } = getServiceIcon(svc.service_type); return <div className={`w-full h-full rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center`}><Icon className="text-white" size={20} /></div>; })()}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-white font-medium text-sm">{svc.display_name}</p>

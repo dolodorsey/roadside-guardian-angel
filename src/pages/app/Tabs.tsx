@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
+import { getServiceIcon } from '@/components/app/ServiceIcons';
 import { Clock, ChevronRight, CreditCard, Plus, Gift, Car, Shield, Bell, LogOut, Settings, Star, DollarSign, ArrowDownLeft, ArrowUpRight } from 'lucide-react';
 
 // ═══════════════════════════════════════
@@ -59,10 +60,8 @@ export const ActivityTab: React.FC = () => {
               key={job.id}
               className="w-full bg-zinc-900 rounded-2xl p-4 border border-zinc-800/50 flex items-center gap-4 text-left hover:border-zinc-700 transition-all"
             >
-              <div className="w-11 h-11 rounded-xl bg-zinc-800 flex items-center justify-center text-xl flex-shrink-0">
-                {job.service_type === 'tow' ? '🚛' : job.service_type === 'jump' ? '⚡' :
-                 job.service_type === 'flat' ? '🔧' : job.service_type === 'lockout' ? '🔑' :
-                 job.service_type === 'fuel' ? '⛽' : '🪝'}
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
+                {(() => { const { Icon, gradient } = getServiceIcon(job.service_type); return <div className={`w-full h-full rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center`}><Icon className="text-white" size={18} /></div>; })()}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-white font-medium text-sm">
