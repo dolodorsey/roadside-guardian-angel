@@ -1,3 +1,4 @@
+import { LOGO } from "@/lib/assets";
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Eye, EyeOff } from 'lucide-react';
@@ -40,7 +41,7 @@ const AuthScreen: React.FC = () => {
           {/* Pulsing signal ring behind logo */}
           <div className="absolute inset-[-20px] rounded-full bg-red-500/5 animate-sos-ring" />
           <img
-            src="/roadside-guardian-angel/sos-logo.png"
+            src={LOGO}
             alt="S.O.S — Superheros On Standby"
             className="w-[200px] h-[200px] object-contain relative z-10 drop-shadow-[0_0_40px_rgba(220,38,38,0.3)]"
           />

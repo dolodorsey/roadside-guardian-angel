@@ -77,7 +77,7 @@ const RequestFlow: React.FC<Props> = ({ serviceType, onClose, onJobCreated }) =>
         {/* Progress bar */}
         <div className="flex gap-1.5 pb-3">
           {STEPS.map((s, i) => (
-            <div key={s} className={`h-[3px] flex-1 rounded-full transition-all duration-500 ${i <= stepIdx ? 'bg-orange-500' : 'bg-gray-200'}`} />
+            <div key={s} className={`h-[3px] flex-1 rounded-full transition-all duration-500 ${i <= stepIdx ? 'bg-red-500' : 'bg-gray-200'}`} />
           ))}
         </div>
       </div>
@@ -118,7 +118,7 @@ const RequestFlow: React.FC<Props> = ({ serviceType, onClose, onJobCreated }) =>
                   <p className="text-[13px] text-gray-400 font-medium">Your rescue</p>
                   <h3 className="font-display text-[20px] font-bold text-gray-900 mt-0.5">{service.display_name}</h3>
                 </div>
-                <div className="bg-orange-50 px-4 py-2 rounded-xl">
+                <div className="bg-red-50 px-4 py-2 rounded-xl">
                   <span className="font-display text-[24px] font-bold text-red-600">{price}</span>
                 </div>
               </div>
@@ -143,7 +143,7 @@ const RequestFlow: React.FC<Props> = ({ serviceType, onClose, onJobCreated }) =>
 
             {/* Location */}
             <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-card flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center"><MapPin className="w-5 h-5 text-red-600" /></div>
+              <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center"><MapPin className="w-5 h-5 text-red-600" /></div>
               <div className="flex-1"><p className="text-[12px] text-gray-400">Pickup location</p><p className="text-[15px] text-gray-800 font-medium">Current Location</p></div>
             </div>
 

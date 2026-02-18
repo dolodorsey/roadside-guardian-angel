@@ -34,7 +34,7 @@ serve(async (req) => {
 
     if (!job) return errorResponse("Job not found", 404);
     if (job.customer_id !== user.id) return errorResponse("Not your job", 403);
-    if (!["requested", "matching"].includes(job.status)) {
+    if (!["created", "requested", "matching"].includes(job.status)) {
       return errorResponse(`Cannot match job in status: ${job.status}`);
     }
 

@@ -1,3 +1,4 @@
+import { LOGO } from "@/lib/assets";
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import BottomNav from '@/components/app/BottomNav';
@@ -21,7 +22,7 @@ const AppShell: React.FC = () => {
         <div className="text-center animate-fade-up">
           <div className="relative mx-auto mb-4">
             <div className="absolute inset-[-16px] bg-red-500/10 rounded-full animate-sos-ring" />
-            <img src="/roadside-guardian-angel/sos-logo.png" alt="S.O.S" className="w-28 h-28 object-contain relative z-10 drop-shadow-[0_0_30px_rgba(220,38,38,0.3)]" />
+            <img src={LOGO} alt="S.O.S" className="w-28 h-28 object-contain relative z-10 drop-shadow-[0_0_30px_rgba(220,38,38,0.3)]" />
           </div>
         </div>
       </div>

@@ -81,7 +81,7 @@ export const WalletTab: React.FC = () => {
 
       {/* Balance Card */}
       <div className="mx-5 bg-gradient-to-br from-red-600 to-red-700 rounded-3xl p-6 shadow-[0_8px_40px_rgba(220,38,38,0.25)]">
-        <p className="text-orange-100 text-[13px] font-medium">S.O.S Balance</p>
+        <p className="text-red-100 text-[13px] font-medium">S.O.S Balance</p>
         <p className="text-white text-[40px] font-display font-bold mt-1">${(Math.abs(balance) / 100).toFixed(2)}</p>
         <div className="mt-5 flex gap-3">
           <button className="flex-1 h-[44px] bg-white/20 backdrop-blur rounded-xl text-white text-[14px] font-semibold flex items-center justify-center gap-1.5">

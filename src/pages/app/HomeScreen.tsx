@@ -1,3 +1,4 @@
+import { LOGO } from "@/lib/assets";
 import React, { useState, useEffect } from 'react';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
 import { useAuth } from '@/contexts/AuthContext';
@@ -51,7 +52,7 @@ const HomeScreen: React.FC<Props> = ({ onRequestService, onOpenServices }) => {
       {/* Top: Logo + Greeting + Location */}
       <div className="px-5 pt-safe bg-white/80 backdrop-blur-md border-b border-gray-100 relative z-20">
         <div className="py-3 flex items-center gap-3">
-          <img src="/roadside-guardian-angel/sos-logo.png" alt="S.O.S" className="w-11 h-11 object-contain" />
+          <img src={LOGO} alt="S.O.S" className="w-11 h-11 object-contain" />
           <div className="flex-1">
             <h2 className="font-display text-[18px] font-bold text-gray-900">
               {greeting}{firstName ? `, ${firstName}` : ''} 👋
@@ -74,11 +75,11 @@ const HomeScreen: React.FC<Props> = ({ onRequestService, onOpenServices }) => {
             </Map>
           </APIProvider>
         ) : (
-          <div className="w-full h-full bg-gradient-to-b from-red-50/30 to-orange-50/20 flex items-center justify-center">
+          <div className="w-full h-full bg-gradient-to-b from-red-50/30 to-red-50/10 flex items-center justify-center">
             <div className="text-center animate-fade-up">
               <div className="relative mx-auto w-20 h-20 mb-3">
                 <div className="absolute inset-0 bg-red-200/30 rounded-full animate-sos-ring" />
-                <img src="/roadside-guardian-angel/sos-logo.png" alt="" className="w-20 h-20 object-contain relative z-10" />
+                <img src={LOGO} alt="" className="w-20 h-20 object-contain relative z-10" />
               </div>
               <p className="text-gray-400 text-[14px]">Loading map...</p>
             </div>
