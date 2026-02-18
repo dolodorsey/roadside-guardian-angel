@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, MapPin, Clock, CreditCard, Shield, Car } from 'lucide-react';
-import { supabase, createJob, confirmJob, startMatching } from '@/lib/supabase';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase, createJob, startMatching } from '@/lib/supabase';
+import { ArrowLeft, MapPin, Car, Camera, ChevronDown, Clock, Shield, Zap, Plus, X } from 'lucide-react';
 
 interface Props {
   serviceType: string;
@@ -9,220 +9,231 @@ interface Props {
   onJobCreated: (id: string) => void;
 }
 
-const STEPS = ['select', 'details', 'confirm'] as const;
-type Step = typeof STEPS[number];
-
 const RequestFlow: React.FC<Props> = ({ serviceType, onClose, onJobCreated }) => {
-  const { user } = useAuth();
-  const [step, setStep] = useState<Step>('select');
-  const [loading, setLoading] = useState(false);
-  const [services, setServices] = useState<any[]>([]);
-  const [selected, setSelected] = useState(serviceType);
-  const [service, setService] = useState<any>(null);
+  const { user, profile } = useAuth();
+  const [svc, setSvc] = useState<any>(null);
   const [vehicles, setVehicles] = useState<any[]>([]);
-  const [vehicleId, setVehicleId] = useState<string | null>(null);
+  const [selectedVehicle, setSelectedVehicle] = useState<string | null>(null);
+  const [address, setAddress] = useState('');
+  const [lat, setLat] = useState(33.749);
+  const [lng, setLng] = useState(-84.388);
+  const [dropAddress, setDropAddress] = useState('');
+  const [dropLat, setDropLat] = useState<number | null>(null);
+  const [dropLng, setDropLng] = useState<number | null>(null);
   const [notes, setNotes] = useState('');
-  const [dropoff, setDropoff] = useState('');
-  const [pickupLat] = useState(33.749);
-  const [pickupLng] = useState(-84.388);
+  const [photos, setPhotos] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [showVehicles, setShowVehicles] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    supabase.from('service_catalog').select('*').eq('is_active', true).order('sort_order')
-      .then(({ data }) => {
-        if (data) { setServices(data); setService(data.find((d: any) => d.service_type === serviceType)); }
-      });
+    supabase.from('service_catalog').select('*').eq('service_type', serviceType).single()
+      .then(({ data }) => setSvc(data));
     if (user) {
-      supabase.from('vehicles').select('*').eq('customer_id', user.id).order('is_primary', { ascending: false })
-        .then(({ data }) => { if (data?.length) { setVehicles(data); setVehicleId(data[0].id); } });
+      supabase.from('vehicles').select('*').eq('customer_id', user.id).order('is_default', { ascending: false })
+        .then(({ data }) => { if (data?.length) { setVehicles(data); setSelectedVehicle(data[0].id); }});
     }
-    navigator.geolocation?.getCurrentPosition(() => {});
+    navigator.geolocation?.getCurrentPosition(pos => {
+      setLat(pos.coords.latitude); setLng(pos.coords.longitude);
+      setAddress('Current Location');
+    });
   }, [serviceType, user]);
 
-  const pick = (svc: any) => { setSelected(svc.service_type); setService(svc); setStep('details'); };
-
-  const confirm = async () => {
-    setLoading(true);
-    try {
-      const r = await createJob({ service_type: selected, pickup_lat: pickupLat, pickup_lng: pickupLng, vehicle_id: vehicleId || undefined, notes: notes || undefined });
-      if (r.success && r.job) {
-        await confirmJob(r.job.id).catch(() => {});
-        await startMatching(r.job.id).catch(() => {});
-        onJobCreated(r.job.id);
-      } else { onJobCreated('demo-' + Date.now()); }
-    } catch { onJobCreated('demo-' + Date.now()); }
-    setLoading(false);
+  const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => { if (reader.result) setPhotos(p => [...p, reader.result as string]); };
+    reader.readAsDataURL(file);
   };
 
-  const price = service?.pricing_model === 'base_plus_miles'
-    ? `$${((service?.base_fee_cents || 7500) / 100).toFixed(0)}+`
-    : `$${((service?.base_fee_cents || 4500) / 100).toFixed(0)}`;
+  const handleConfirm = async () => {
+    setLoading(true);
+    try {
+      const payload: any = {
+        service_type: serviceType,
+        pickup_lat: lat, pickup_lng: lng,
+        pickup_address: address || 'Current Location',
+        notes: notes || undefined,
+        vehicle_id: selectedVehicle || undefined,
+      };
+      if (dropLat && dropLng) {
+        payload.dropoff_lat = dropLat;
+        payload.dropoff_lng = dropLng;
+        payload.dropoff_address = dropAddress;
+      }
+      const r = await createJob(payload);
+      if (r.job?.id) {
+        await startMatching(r.job.id).catch(() => {});
+        onJobCreated(r.job.id);
+      } else {
+        onJobCreated('demo-' + Date.now());
+      }
+    } catch {
+      onJobCreated('demo-' + Date.now());
+    }
+  };
 
-  const stepIdx = STEPS.indexOf(step);
+  const vehicle = vehicles.find(v => v.id === selectedVehicle);
+  const isNow = svc?.mode === 'request_now';
+  const isQuote = svc?.pricing_model === 'quote_required';
+  const needsDropoff = svc?.pricing_model === 'base_plus_miles';
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#FFFBF5] flex flex-col">
+    <div className="min-h-[100dvh] bg-[#FFFBF5] flex flex-col">
       {/* Header */}
-      <div className="px-5 pt-safe bg-white border-b border-gray-100">
-        <div className="flex items-center gap-3 py-4">
-          <button onClick={onClose} className="w-11 h-11 rounded-2xl bg-gray-50 border border-gray-200 flex items-center justify-center active:scale-95 transition-transform">
+      <div className="pt-safe bg-white border-b border-gray-100">
+        <div className="px-5 py-3 flex items-center gap-3">
+          <button onClick={onClose} className="w-10 h-10 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center active:scale-95 transition-transform">
             <ArrowLeft className="w-5 h-5 text-gray-600" />
           </button>
           <div className="flex-1">
-            <h2 className="font-display text-[18px] font-bold text-gray-900">
-              {step === 'select' ? 'Choose Service' : step === 'details' ? 'Review Details' : 'Confirm Rescue'}
-            </h2>
+            <h1 className="font-display text-[17px] font-bold text-gray-900">{svc?.display_name || 'Loading...'}</h1>
+            <p className="text-[12px] text-gray-400">{svc?.description}</p>
           </div>
-          <span className="text-[13px] text-gray-400 font-medium">{stepIdx + 1}/3</span>
-        </div>
-        {/* Progress bar */}
-        <div className="flex gap-1.5 pb-3">
-          {STEPS.map((s, i) => (
-            <div key={s} className={`h-[3px] flex-1 rounded-full transition-all duration-500 ${i <= stepIdx ? 'bg-red-500' : 'bg-gray-200'}`} />
-          ))}
+          {isNow && (
+            <span className="px-2.5 py-1 bg-red-50 text-red-600 text-[11px] font-bold rounded-lg">NOW</span>
+          )}
         </div>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 overflow-y-auto px-5 pb-36">
-        {step === 'select' && (
-          <div className="py-5 space-y-3">
-            <p className="text-[13px] text-gray-400 font-semibold uppercase tracking-wider mb-1">Emergency Services</p>
-            {services.filter(s => s.mode === 'request_now').map((svc, i) => (
-              <button key={svc.service_type} onClick={() => pick(svc)}
-                className={`w-full p-5 rounded-2xl border-2 flex items-center gap-4 transition-all animate-fade-up active:scale-[0.98] ${
-                  selected === svc.service_type ? 'border-red-500 bg-red-50/50 shadow-card' : 'border-gray-100 bg-white hover:border-gray-200'
-                }`}
-                style={{ animationDelay: `${i * 50}ms` }}>
-                <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center text-[28px]">
-                  {svc.service_type === 'tow' ? '🚛' : svc.service_type === 'jump' ? '⚡' : svc.service_type === 'flat' ? '🔧' : svc.service_type === 'lockout' ? '🔑' : svc.service_type === 'fuel' ? '⛽' : '🪝'}
-                </div>
-                <div className="flex-1 text-left">
-                  <p className="text-[16px] font-semibold text-gray-900">{svc.display_name}</p>
-                  <p className="text-[13px] text-gray-400 mt-0.5">{svc.description || 'Emergency service'}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-[18px] font-bold text-red-600">${(svc.base_fee_cents / 100).toFixed(0)}{svc.pricing_model === 'base_plus_miles' ? '+' : ''}</p>
-                  <p className="text-[11px] text-gray-400">{svc.pricing_model === 'base_plus_miles' ? 'base + mi' : 'flat rate'}</p>
-                </div>
-              </button>
-            ))}
-          </div>
-        )}
-
-        {step === 'details' && service && (
-          <div className="py-5 space-y-4">
-            {/* Price Card */}
-            <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-card">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <p className="text-[13px] text-gray-400 font-medium">Your rescue</p>
-                  <h3 className="font-display text-[20px] font-bold text-gray-900 mt-0.5">{service.display_name}</h3>
-                </div>
-                <div className="bg-red-50 px-4 py-2 rounded-xl">
-                  <span className="font-display text-[24px] font-bold text-red-600">{price}</span>
-                </div>
-              </div>
-              <div className="space-y-2.5">
-                {[
-                  ['Base fee', `$${(service.base_fee_cents / 100).toFixed(2)}`],
-                  ...(service.pricing_model === 'base_plus_miles' ? [['Per mile', `$${(service.per_mile_cents / 100).toFixed(2)}/mi`]] : []),
-                  ['Minimum', `$${(service.minimum_fee_cents / 100).toFixed(2)}`],
-                ].map(([l, v]) => (
-                  <div key={l as string} className="flex justify-between text-[14px]">
-                    <span className="text-gray-400">{l}</span>
-                    <span className="text-gray-700 font-medium">{v}</span>
-                  </div>
-                ))}
-                <div className="h-px bg-gray-100 my-1" />
-                <div className="flex justify-between items-center">
-                  <span className="text-[14px] text-gray-400 flex items-center gap-1.5"><Clock className="w-4 h-4" /> Est. arrival</span>
-                  <span className="text-[15px] text-red-600 font-bold">{service.eta_range_json?.min || 15}–{service.eta_range_json?.max || 45} min</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Location */}
-            <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-card flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center"><MapPin className="w-5 h-5 text-red-600" /></div>
-              <div className="flex-1"><p className="text-[12px] text-gray-400">Pickup location</p><p className="text-[15px] text-gray-800 font-medium">Current Location</p></div>
-            </div>
-
-            {service.service_type === 'tow' && (
-              <input type="text" placeholder="Drop-off address (for tow)" value={dropoff}
-                onChange={e => setDropoff(e.target.value)}
-                className="w-full h-[52px] px-4 bg-white border border-gray-200 rounded-2xl text-[15px] text-gray-900 placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-100 transition-all" />
-            )}
-
-            {/* Vehicle */}
-            {vehicles.length > 0 && (
-              <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-card flex items-center gap-3">
-                <Car className="w-5 h-5 text-gray-400" />
-                <select value={vehicleId || ''} onChange={e => setVehicleId(e.target.value)}
-                  className="flex-1 bg-transparent text-[15px] text-gray-800 focus:outline-none">
-                  {vehicles.map(v => <option key={v.id} value={v.id}>{v.year} {v.make} {v.model}</option>)}
-                </select>
-              </div>
-            )}
-
-            <textarea placeholder="Notes for your Superhero (optional)" value={notes}
-              onChange={e => setNotes(e.target.value)} rows={2}
-              className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-2xl text-[15px] text-gray-900 placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-100 resize-none transition-all" />
-          </div>
-        )}
-
-        {step === 'confirm' && service && (
-          <div className="py-5 space-y-4">
-            <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-card space-y-3">
-              <div className="flex justify-between items-center">
-                <h3 className="font-display text-[18px] font-bold text-gray-900">{service.display_name}</h3>
-                <span className="font-display text-[22px] font-bold text-red-600">{price}</span>
-              </div>
-              <div className="flex items-center gap-2 text-[14px] text-gray-500"><MapPin className="w-4 h-4 text-red-500" /> Current Location</div>
-              <div className="flex items-center gap-2 text-[14px] text-gray-500"><Clock className="w-4 h-4 text-green-500" /> ETA: {service.eta_range_json?.min || 15}–{service.eta_range_json?.max || 45} min</div>
-            </div>
-            <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-card flex items-center gap-3">
-              <CreditCard className="w-5 h-5 text-gray-400" />
-              <span className="text-[15px] text-gray-700 flex-1">Payment method</span>
-              <span className="text-[14px] text-red-600 font-medium">Add card →</span>
-            </div>
-            <div className="bg-green-50 rounded-2xl p-4 border border-green-100 flex items-start gap-3">
-              <Shield className="w-5 h-5 text-green-600 mt-0.5" />
+      {/* Form */}
+      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+        {/* Price Banner */}
+        {svc && (
+          <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-card">
+            <div className="flex items-center justify-between">
               <div>
-                <p className="text-[14px] font-semibold text-gray-800">Safety Features Active</p>
-                <p className="text-[13px] text-gray-500 mt-0.5">Live tracking, panic button, and trip sharing during your rescue.</p>
+                <p className="text-[12px] text-gray-400 font-medium uppercase tracking-wider">
+                  {isQuote ? 'Custom Quote' : 'Estimated Price'}
+                </p>
+                {!isQuote && (
+                  <p className="text-[28px] font-bold text-gray-900 font-display">
+                    ${(svc.base_fee_cents / 100).toFixed(0)}
+                    {needsDropoff && <span className="text-[16px] text-gray-400 font-normal">+/mi</span>}
+                  </p>
+                )}
+                {isQuote && <p className="text-[18px] font-bold text-red-600 font-display">Request a Quote</p>}
               </div>
+              {svc.eta_range_json?.min > 0 && (
+                <div className="text-right">
+                  <p className="text-[12px] text-gray-400">ETA</p>
+                  <p className="text-[16px] font-bold text-gray-700 flex items-center gap-1">
+                    <Clock className="w-4 h-4 text-red-500" />
+                    {svc.eta_range_json.min}–{svc.eta_range_json.max}m
+                  </p>
+                </div>
+              )}
             </div>
-            <p className="text-[13px] text-gray-400 text-center px-4 leading-relaxed">
-              Payment is held securely and only charged when rescue is complete. Free cancellation before provider arrives.
-            </p>
+            {svc.included_text && (
+              <p className="mt-2 text-[12px] text-green-600 flex items-center gap-1 pt-2 border-t border-gray-50">
+                <Shield className="w-3.5 h-3.5" /> {svc.included_text}
+              </p>
+            )}
           </div>
         )}
+
+        {/* Location */}
+        <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-card space-y-3">
+          <p className="text-[12px] text-gray-400 font-semibold uppercase tracking-wider">Location</p>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0">
+              <MapPin className="w-5 h-5 text-red-500" />
+            </div>
+            <input type="text" value={address} onChange={e => setAddress(e.target.value)}
+              placeholder="Pickup address" 
+              className="flex-1 h-[44px] px-3 bg-gray-50 rounded-xl text-[15px] text-gray-900 placeholder-gray-400 border-0 focus:outline-none focus:ring-2 focus:ring-red-100" />
+          </div>
+          {needsDropoff && (
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+                <MapPin className="w-5 h-5 text-blue-500" />
+              </div>
+              <input type="text" value={dropAddress} onChange={e => setDropAddress(e.target.value)}
+                placeholder="Drop-off address"
+                className="flex-1 h-[44px] px-3 bg-gray-50 rounded-xl text-[15px] text-gray-900 placeholder-gray-400 border-0 focus:outline-none focus:ring-2 focus:ring-red-100" />
+            </div>
+          )}
+        </div>
+
+        {/* Vehicle */}
+        <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-card">
+          <p className="text-[12px] text-gray-400 font-semibold uppercase tracking-wider mb-3">Vehicle</p>
+          {vehicle ? (
+            <button onClick={() => setShowVehicles(!showVehicles)}
+              className="w-full flex items-center gap-3 py-2">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+                <Car className="w-5 h-5 text-blue-500" />
+              </div>
+              <div className="flex-1 text-left">
+                <p className="text-[15px] font-semibold text-gray-900">
+                  {vehicle.year} {vehicle.make} {vehicle.model}
+                </p>
+                {vehicle.color && <p className="text-[12px] text-gray-400">{vehicle.color}</p>}
+              </div>
+              <ChevronDown className="w-4 h-4 text-gray-300" />
+            </button>
+          ) : (
+            <button className="w-full flex items-center gap-3 py-3 bg-gray-50 rounded-xl px-3">
+              <Plus className="w-5 h-5 text-gray-400" />
+              <span className="text-[14px] text-gray-500">Add vehicle (optional)</span>
+            </button>
+          )}
+        </div>
+
+        {/* Notes + Photos */}
+        <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-card space-y-3">
+          <p className="text-[12px] text-gray-400 font-semibold uppercase tracking-wider">Notes & Photos</p>
+          <textarea value={notes} onChange={e => setNotes(e.target.value)}
+            placeholder="Describe the issue, location details, special instructions..."
+            rows={3}
+            className="w-full px-3 py-3 bg-gray-50 rounded-xl text-[15px] text-gray-900 placeholder-gray-400 border-0 resize-none focus:outline-none focus:ring-2 focus:ring-red-100" />
+          <div className="flex gap-2 flex-wrap">
+            {photos.map((p, i) => (
+              <div key={i} className="relative w-16 h-16 rounded-xl overflow-hidden">
+                <img src={p} className="w-full h-full object-cover" />
+                <button onClick={() => setPhotos(photos.filter((_, j) => j !== i))}
+                  className="absolute top-0.5 right-0.5 w-5 h-5 bg-black/50 rounded-full flex items-center justify-center">
+                  <X className="w-3 h-3 text-white" />
+                </button>
+              </div>
+            ))}
+            <button onClick={() => fileRef.current?.click()}
+              className="w-16 h-16 rounded-xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-0.5">
+              <Camera className="w-5 h-5 text-gray-300" />
+              <span className="text-[9px] text-gray-300">Add</span>
+            </button>
+            <input ref={fileRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handlePhoto} />
+          </div>
+        </div>
+
+        {/* Safety Features */}
+        <div className="bg-red-50 rounded-2xl p-3 border border-red-100 flex items-center gap-3">
+          <Shield className="w-5 h-5 text-red-500 flex-shrink-0" />
+          <div className="flex-1">
+            <p className="text-[12px] font-semibold text-gray-800">Safety features enabled</p>
+            <p className="text-[11px] text-gray-500">Verified providers • GPS tracking • Trip sharing</p>
+          </div>
+        </div>
       </div>
 
-      {/* Bottom CTA */}
-      <div className="fixed bottom-0 left-0 right-0 p-5 pb-safe bg-gradient-to-t from-[#FFFBF5] via-[#FFFBF5] to-transparent pt-10 z-30">
-        {step === 'select' && (
-          <button onClick={() => { if (service) setStep('details'); }}
-            className="w-full h-[58px] bg-gradient-to-r from-red-600 to-red-700 text-white text-[16px] font-bold rounded-2xl shadow-[0_4px_24px_rgba(220,38,38,0.25)] active:scale-[0.98] transition-all">
-            Continue with {service?.display_name || 'Service'}
-          </button>
-        )}
-        {step === 'details' && (
-          <button onClick={() => setStep('confirm')}
-            className="w-full h-[58px] bg-gradient-to-r from-red-600 to-red-700 text-white text-[16px] font-bold rounded-2xl shadow-[0_4px_24px_rgba(220,38,38,0.25)] active:scale-[0.98] transition-all">
-            Review & Confirm — {price}
-          </button>
-        )}
-        {step === 'confirm' && (
-          <button onClick={confirm} disabled={loading}
-            className="w-full h-[58px] bg-gradient-to-r from-red-600 to-red-700 text-white text-[17px] font-bold rounded-2xl shadow-[0_4px_24px_rgba(220,38,38,0.25)]-lg active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2">
-            {loading ? (
-              <><svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg> Finding a Superhero...</>
-            ) : (
-              <><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> Confirm — {price}</>
-            )}
-          </button>
-        )}
+      {/* CTA */}
+      <div className="px-5 py-4 pb-safe bg-white border-t border-gray-100">
+        <button onClick={handleConfirm} disabled={loading}
+          className="w-full h-[58px] bg-gradient-to-r from-red-600 to-red-700 text-white text-[16px] font-bold rounded-2xl shadow-[0_4px_24px_rgba(220,38,38,0.3)] active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+          {loading ? (
+            <span className="flex items-center gap-2">
+              <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+              Dispatching...
+            </span>
+          ) : (
+            <>
+              <Zap className="w-5 h-5" fill="white" />
+              {isQuote ? 'Request Quote' : isNow ? 'Dispatch Hero' : 'Book Mission'}
+              {!isQuote && svc && <span className="opacity-70">— ${(svc.base_fee_cents / 100).toFixed(0)}{needsDropoff ? '+' : ''}</span>}
+            </>
+          )}
+        </button>
       </div>
     </div>
   );
