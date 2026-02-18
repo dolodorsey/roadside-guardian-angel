@@ -80,7 +80,7 @@ export const WalletTab: React.FC = () => {
       <div className="px-5 py-6"><h1 className="font-display text-[24px] font-bold text-gray-900">Wallet</h1></div>
 
       {/* Balance Card */}
-      <div className="mx-5 bg-gradient-to-br from-orange-500 to-amber-500 rounded-3xl p-6 shadow-sos-lg">
+      <div className="mx-5 bg-gradient-to-br from-red-600 to-red-700 rounded-3xl p-6 shadow-[0_8px_40px_rgba(220,38,38,0.25)]">
         <p className="text-orange-100 text-[13px] font-medium">S.O.S Balance</p>
         <p className="text-white text-[40px] font-display font-bold mt-1">${(Math.abs(balance) / 100).toFixed(2)}</p>
         <div className="mt-5 flex gap-3">
@@ -123,7 +123,7 @@ export const AccountTab: React.FC = () => {
 
   const menu = [
     { icon: Car, label: 'My Vehicles', desc: 'Add or manage vehicles', color: 'bg-blue-50 text-blue-500' },
-    { icon: Shield, label: 'Safety Preferences', desc: 'Safe mode, Female-First', color: 'bg-orange-50 text-orange-500' },
+    { icon: Shield, label: 'Safety Preferences', desc: 'Safe mode, Female-First', color: 'bg-red-50 text-red-600' },
     { icon: Star, label: 'S.O.S+ Membership', desc: 'Unlock unlimited roadside', color: 'bg-amber-50 text-amber-500' },
     { icon: Gift, label: 'Refer a Friend', desc: 'Give $10, get $10', color: 'bg-green-50 text-green-500' },
     { icon: Bell, label: 'Notifications', desc: 'Push, SMS, email', color: 'bg-purple-50 text-purple-500' },
@@ -134,10 +134,10 @@ export const AccountTab: React.FC = () => {
     <div className="min-h-screen bg-[#FFFBF5] pt-safe">
       {/* Profile */}
       <div className="px-5 py-6 flex items-center gap-4">
-        <div className="w-[68px] h-[68px] rounded-2xl bg-orange-50 border-2 border-orange-200 flex items-center justify-center overflow-hidden">
+        <div className="w-[68px] h-[68px] rounded-2xl bg-red-50 border-2 border-red-200 flex items-center justify-center overflow-hidden">
           {profile?.photo_url
             ? <img src={profile.photo_url} alt="" className="w-full h-full object-cover" />
-            : <span className="text-[28px] font-bold text-orange-400">{(profile?.full_name || 'U')[0]}</span>
+            : <span className="text-[28px] font-bold text-red-500">{(profile?.full_name || 'U')[0]}</span>
           }
         </div>
         <div>

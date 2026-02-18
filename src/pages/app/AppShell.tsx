@@ -17,32 +17,20 @@ const AppShell: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-[100dvh] bg-[#FFFBF5] flex items-center justify-center">
+      <div className="min-h-[100dvh] bg-[#0a0a0a] flex items-center justify-center">
         <div className="text-center animate-fade-up">
-          <div className="relative w-20 h-20 mx-auto mb-5">
-            <div className="absolute inset-0 bg-orange-200/40 rounded-[24px] animate-sos-ring" />
-            <div className="relative w-20 h-20 rounded-[24px] bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-sos-lg">
-              <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-            </div>
+          <div className="relative mx-auto mb-4">
+            <div className="absolute inset-[-16px] bg-red-500/10 rounded-full animate-sos-ring" />
+            <img src="/roadside-guardian-angel/sos-logo.png" alt="S.O.S" className="w-28 h-28 object-contain relative z-10 drop-shadow-[0_0_30px_rgba(220,38,38,0.3)]" />
           </div>
-          <h2 className="font-display text-[22px] font-bold text-gray-900">S.O.S</h2>
-          <p className="text-[14px] text-gray-400 mt-1">Superheros On Standby</p>
         </div>
       </div>
     );
   }
 
   if (!user) return <AuthScreen />;
-
-  if (activeJob) {
-    return <LiveRescue jobId={activeJob} onComplete={() => { setActiveJob(null); setTab('activity'); }} onClose={() => setActiveJob(null)} />;
-  }
-
-  if (reqService) {
-    return <RequestFlow serviceType={reqService} onClose={() => setReqService(null)} onJobCreated={id => { setReqService(null); setActiveJob(id); }} />;
-  }
+  if (activeJob) return <LiveRescue jobId={activeJob} onComplete={() => { setActiveJob(null); setTab('activity'); }} onClose={() => setActiveJob(null)} />;
+  if (reqService) return <RequestFlow serviceType={reqService} onClose={() => setReqService(null)} onJobCreated={id => { setReqService(null); setActiveJob(id); }} />;
 
   return (
     <div className="min-h-[100dvh] bg-[#FFFBF5]">

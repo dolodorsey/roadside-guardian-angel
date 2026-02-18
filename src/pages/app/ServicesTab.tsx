@@ -37,7 +37,7 @@ const ServicesTab: React.FC<Props> = ({ onRequestService }) => {
           return (
             <button key={k} onClick={() => setMode(k)}
               className={`flex-1 py-3.5 rounded-2xl text-[13px] font-semibold transition-all flex items-center justify-center gap-1.5 ${
-                active ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-sos' : 'bg-white text-gray-500 border border-gray-200'
+                active ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-[0_4px_20px_rgba(220,38,38,0.2)]' : 'bg-white text-gray-500 border border-gray-200'
               }`}>
               <cfg.icon className="w-4 h-4" />
               {cfg.label}
@@ -66,9 +66,9 @@ const ServicesTab: React.FC<Props> = ({ onRequestService }) => {
             </div>
             <div className="text-right flex-shrink-0 mr-1">
               {svc.pricing_model === 'quote_required' ? (
-                <span className="text-[13px] text-orange-500 font-semibold">Get Quote</span>
+                <span className="text-[13px] text-red-600 font-semibold">Get Quote</span>
               ) : (
-                <span className="text-[17px] font-bold text-orange-500">${(svc.base_fee_cents / 100).toFixed(0)}{svc.pricing_model === 'base_plus_miles' ? '+' : ''}</span>
+                <span className="text-[17px] font-bold text-red-600">${(svc.base_fee_cents / 100).toFixed(0)}{svc.pricing_model === 'base_plus_miles' ? '+' : ''}</span>
               )}
             </div>
             <ChevronRight className="w-4 h-4 text-gray-300 flex-shrink-0" />

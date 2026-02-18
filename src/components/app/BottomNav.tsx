@@ -22,16 +22,16 @@ const BottomNav: React.FC<{ activeTab: Tab; onTabChange: (t: Tab) => void }> = (
             onClick={() => onTabChange(id)}
             className="flex flex-col items-center justify-center gap-0.5 min-w-[56px] py-1 transition-all active:scale-95"
           >
-            <div className={`relative p-1.5 rounded-xl transition-all ${active ? 'bg-orange-50' : ''}`}>
+            <div className={`relative p-1.5 rounded-xl transition-all ${active ? 'bg-red-50' : ''}`}>
               <Icon
-                className={`w-[22px] h-[22px] transition-colors ${active ? 'text-orange-500' : 'text-gray-400'}`}
+                className={`w-[22px] h-[22px] transition-colors ${active ? 'text-red-600' : 'text-gray-400'}`}
                 strokeWidth={active ? 2.2 : 1.6}
               />
               {active && (
-                <div className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full" />
+                <div className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full" />
               )}
             </div>
-            <span className={`text-[10px] font-semibold transition-colors ${active ? 'text-orange-500' : 'text-gray-400'}`}>
+            <span className={`text-[10px] font-semibold transition-colors ${active ? 'text-red-600' : 'text-gray-400'}`}>
               {label}
             </span>
           </button>
