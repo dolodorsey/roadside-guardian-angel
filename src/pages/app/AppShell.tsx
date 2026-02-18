@@ -1,10 +1,11 @@
-import { LOGO } from "@/lib/assets";
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { LOGO } from '@/lib/assets';
 import BottomNav from '@/components/app/BottomNav';
 import type { Tab } from '@/components/app/BottomNav';
 import AuthScreen from './AuthScreen';
 import HomeScreen from './HomeScreen';
+import CategoryScreen from './CategoryScreen';
 import RequestFlow from './RequestFlow';
 import LiveRescue from './LiveRescue';
 import ServicesTab from './ServicesTab';
@@ -13,6 +14,7 @@ import { ActivityTab, WalletTab, AccountTab } from './Tabs';
 const AppShell: React.FC = () => {
   const { user, loading } = useAuth();
   const [tab, setTab] = useState<Tab>('home');
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [reqService, setReqService] = useState<string | null>(null);
   const [activeJob, setActiveJob] = useState<string | null>(null);
 
@@ -31,16 +33,17 @@ const AppShell: React.FC = () => {
 
   if (!user) return <AuthScreen />;
   if (activeJob) return <LiveRescue jobId={activeJob} onComplete={() => { setActiveJob(null); setTab('activity'); }} onClose={() => setActiveJob(null)} />;
-  if (reqService) return <RequestFlow serviceType={reqService} onClose={() => setReqService(null)} onJobCreated={id => { setReqService(null); setActiveJob(id); }} />;
+  if (reqService) return <RequestFlow serviceType={reqService} onClose={() => { setReqService(null); }} onJobCreated={id => { setReqService(null); setActiveJob(id); }} />;
+  if (activeCategory) return <CategoryScreen category={activeCategory} onBack={() => setActiveCategory(null)} onSelectMission={t => { setActiveCategory(null); setReqService(t); }} />;
 
   return (
     <div className="min-h-[100dvh] bg-[#FFFBF5]">
-      {tab === 'home' && <HomeScreen onRequestService={setReqService} onOpenServices={() => setTab('services')} />}
+      {tab === 'home' && <HomeScreen onRequestService={setReqService} onOpenCategory={setActiveCategory} />}
       {tab === 'services' && <ServicesTab onRequestService={setReqService} />}
       {tab === 'activity' && <ActivityTab />}
       {tab === 'wallet' && <WalletTab />}
       {tab === 'account' && <AccountTab />}
-      <BottomNav activeTab={tab} onTabChange={setTab} />
+      <BottomNav activeTab={tab} onTabChange={t => { setActiveCategory(null); setTab(t); }} />
     </div>
   );
 };
