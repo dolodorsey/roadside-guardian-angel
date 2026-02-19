@@ -91,13 +91,27 @@ const App: React.FC = () => {
   };
 
   return (
-    <div style={wrapper}>
-      {screen==='landing' && <Landing onGetHelp={()=>navigate('auth-citizen')} onHeroPortal={()=>navigate('auth-hero')}/>}
-      {screen==='auth-citizen' && <AuthScreen role="citizen" onBack={()=>navigate('landing')} onLogin={(n)=>{setUserName(n);navigate('citizen');}}/>}
-      {screen==='auth-hero' && <AuthScreen role="hero" onBack={()=>navigate('landing')} onLogin={(n)=>{setUserName(n);navigate('hero');}}/>}
-      {screen==='citizen' && <CitizenApp userName={userName} onBack={()=>navigate('landing')}/>}
-      {screen==='hero' && <HeroDashboard userName={userName} onBack={()=>navigate('landing')}/>}
-    </div>
+    <>
+      <style>{`
+        @keyframes anim-rise{0%{opacity:0;transform:translateY(24px)}100%{opacity:1;transform:translateY(0)}}
+        @keyframes anim-pop{0%{opacity:0;transform:scale(.85)}100%{opacity:1;transform:scale(1)}}
+        @keyframes anim-slide-up{0%{opacity:0;transform:translateY(40px)}100%{opacity:1;transform:translateY(0)}}
+        @keyframes anim-fade{0%{opacity:0}100%{opacity:1}}
+        @keyframes anim-tab{0%{opacity:0;transform:translateY(12px)}100%{opacity:1;transform:translateY(0)}}
+        .anim-rise{animation:anim-rise .5s ease-out both}
+        .anim-pop{animation:anim-pop .4s cubic-bezier(.34,1.56,.64,1) both}
+        .anim-slide-up{animation:anim-slide-up .6s ease-out both}
+        .anim-fade{animation:anim-fade .4s ease-out both}
+        .anim-tab{animation:anim-tab .35s ease-out both}
+      `}</style>
+      <div style={wrapper}>
+        {screen==='landing' && <Landing onGetHelp={()=>navigate('auth-citizen')} onHeroPortal={()=>navigate('auth-hero')}/>}
+        {screen==='auth-citizen' && <AuthScreen role="citizen" onBack={()=>navigate('landing')} onLogin={(n)=>{setUserName(n);navigate('citizen');}}/>}
+        {screen==='auth-hero' && <AuthScreen role="hero" onBack={()=>navigate('landing')} onLogin={(n)=>{setUserName(n);navigate('hero');}}/>}
+        {screen==='citizen' && <CitizenApp userName={userName} onBack={()=>navigate('landing')}/>}
+        {screen==='hero' && <HeroDashboard userName={userName} onBack={()=>navigate('landing')}/>}
+      </div>
+    </>
   );
 };
 
@@ -233,12 +247,12 @@ const Landing:React.FC<{onGetHelp:()=>void;onHeroPortal:()=>void}> = ({onGetHelp
       </nav>
 
       {/* HERO */}
-      <section style={{padding:'60px 24px 40px',textAlign:'center',background:`radial-gradient(ellipse at 50% 0%,rgba(239,68,68,0.12) 0%,transparent 60%)`}}>
-        <div style={{fontSize:10,color:C.red,fontWeight:700,letterSpacing:3,textTransform:'uppercase',marginBottom:12}}>Emergency Rescue Network</div>
-        <h1 style={{fontSize:48,fontWeight:900,color:C.white,margin:'0 0 8px',letterSpacing:2}}>S.O.S</h1>
-        <p style={{fontSize:18,color:C.gray,margin:'0 0 4px',fontWeight:500}}>Superheros On Standby</p>
-        <p style={{fontSize:14,color:C.muted,margin:'0 0 32px',fontStyle:'italic'}}>There's Always a Superhero On Standby!</p>
-        <div style={flex('column','center','center',12)}>
+      <section className="anim-rise" style={{padding:'60px 24px 40px',textAlign:'center',background:`radial-gradient(ellipse at 50% 0%,rgba(239,68,68,0.12) 0%,transparent 60%)`}}>
+        <div className="anim-fade" style={{fontSize:10,color:C.red,fontWeight:700,letterSpacing:3,textTransform:'uppercase',marginBottom:12,animationDelay:'.1s'}}>Emergency Rescue Network</div>
+        <h1 className="anim-rise" style={{fontSize:48,fontWeight:900,color:C.white,margin:'0 0 8px',letterSpacing:2,animationDelay:'.15s'}}>S.O.S</h1>
+        <p className="anim-fade" style={{fontSize:18,color:C.gray,margin:'0 0 4px',fontWeight:500,animationDelay:'.25s'}}>Superheros On Standby</p>
+        <p className="anim-fade" style={{fontSize:14,color:C.muted,margin:'0 0 32px',fontStyle:'italic',animationDelay:'.35s'}}>There's Always a Superhero On Standby!</p>
+        <div className="anim-slide-up" style={{...flex('column','center','center',12),animationDelay:'.4s'}}>
           <button onClick={onGetHelp} style={{...btn(C.red),width:'100%',maxWidth:280,fontSize:18,padding:'16px 32px',boxShadow:`0 0 30px ${C.red}40`}}>🚨 Get Help Now</button>
           <button onClick={onHeroPortal} style={{...btn('transparent',C.white,{border:`2px solid ${C.border}`,width:'100%',maxWidth:280})}}>🦸 Become a Hero</button>
         </div>
@@ -259,8 +273,8 @@ const Landing:React.FC<{onGetHelp:()=>void;onHeroPortal:()=>void}> = ({onGetHelp
           {step:'1',title:'Send Your Signal',desc:'Tap SOS NOW and describe your situation. We instantly locate verified Heroes near you.',icon:'📡',color:C.red},
           {step:'2',title:'Hero Dispatched',desc:'We match you with the closest qualified Hero. Track their arrival in real-time with GPS.',icon:'🦸',color:C.blue},
           {step:'3',title:'Mission Complete',desc:'Professional service with transparent pricing. Pay securely through the app when the job is complete.',icon:'✅',color:C.green},
-        ].map(s=>(
-          <div key={s.step} style={{...cardStyle,...flex('row','flex-start','flex-start',16),marginBottom:16}}>
+        ].map((s,i)=>(
+          <div key={s.step} className="anim-rise" style={{...cardStyle,...flex('row','flex-start','flex-start',16),marginBottom:16,animationDelay:`${i*0.12}s`}}>
             <div style={{width:48,height:48,borderRadius:12,background:`${s.color}20`,...flex('row','center','center'),fontSize:24,flexShrink:0}}>{s.icon}</div>
             <div>
               <div style={{fontSize:12,color:s.color,fontWeight:700,marginBottom:4}}>STEP {s.step}</div>
@@ -276,8 +290,8 @@ const Landing:React.FC<{onGetHelp:()=>void;onHeroPortal:()=>void}> = ({onGetHelp
         <h2 style={{fontSize:24,fontWeight:800,textAlign:'center',color:C.white,margin:'0 0 8px'}}>Our Services</h2>
         <p style={{textAlign:'center',color:C.muted,fontSize:14,margin:'0 0 32px'}}>Professional rescue for every situation</p>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
-          {SERVICES.map(s=>(
-            <div key={s.name} style={{...cardStyle,textAlign:'center',padding:20}}>
+          {SERVICES.map((s,i)=>(
+            <div key={s.name} className="anim-pop" style={{...cardStyle,textAlign:'center',padding:20,animationDelay:`${i*0.08}s`}}>
               <div style={{fontSize:32,marginBottom:8}}>{s.emoji}</div>
               <div style={{fontSize:14,fontWeight:700,color:C.white,marginBottom:4}}>{s.name}</div>
               <div style={{fontSize:18,fontWeight:800,color:C.green}}>${s.price}</div>
@@ -566,7 +580,7 @@ const CitizenApp:React.FC<{userName:string;onBack:()=>void}> = ({userName,onBack
       )}
 
       {tab==='home'&&(
-        <>
+        <div className="anim-tab">
           {/* Map area */}
           <div style={{margin:'0 20px',height:200,background:C.card,borderRadius:20,position:'relative',overflow:'hidden',...flex('column','center','center')}}>
             <div style={{position:'absolute',inset:0,background:`radial-gradient(circle at 50% 50%,${C.card2} 0%,${C.bg} 100%)`}}/>
@@ -587,8 +601,8 @@ const CitizenApp:React.FC<{userName:string;onBack:()=>void}> = ({userName,onBack
           <div style={{padding:'8px 20px'}}>
             <div style={{fontSize:15,fontWeight:700,color:C.white,marginBottom:12}}>Services</div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:10}}>
-              {SERVICES.map(s=>(
-                <button key={s.name} onClick={()=>startRequest(s)} style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:14,padding:'14px 8px',cursor:'pointer',textAlign:'center'}}>
+              {SERVICES.map((s,i)=>(
+                <button key={s.name} className="anim-pop" onClick={()=>startRequest(s)} style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:14,padding:'14px 8px',cursor:'pointer',textAlign:'center',animationDelay:`${i*0.07}s`}}>
                   <div style={{fontSize:28,marginBottom:4}}>{s.emoji}</div>
                   <div style={{fontSize:11,color:C.white,fontWeight:600}}>{s.name}</div>
                   <div style={{fontSize:12,color:C.green,fontWeight:800}}>${s.price}</div>
@@ -610,11 +624,11 @@ const CitizenApp:React.FC<{userName:string;onBack:()=>void}> = ({userName,onBack
               </div>
             ))}
           </div>
-        </>
+        </div>
       )}
 
       {tab==='history'&&(
-        <div style={{padding:20}}>
+        <div className="anim-tab" style={{padding:20}}>
           <h2 style={{fontSize:20,fontWeight:800,color:C.white,marginBottom:16}}>Mission History</h2>
           {CITIZEN_HISTORY.map((h,i)=>(
             <div key={i} style={{...cardStyle,...flex('row','center','space-between'),marginBottom:12}}>
@@ -630,7 +644,7 @@ const CitizenApp:React.FC<{userName:string;onBack:()=>void}> = ({userName,onBack
       )}
 
       {tab==='wallet'&&(
-        <div style={{padding:20}}>
+        <div className="anim-tab" style={{padding:20}}>
           <h2 style={{fontSize:20,fontWeight:800,color:C.white,marginBottom:16}}>Wallet</h2>
           <div style={{...cardStyle,textAlign:'center',marginBottom:20}}>
             <div style={{fontSize:11,color:C.muted,marginBottom:4}}>S.O.S Balance</div>
@@ -657,7 +671,7 @@ const CitizenApp:React.FC<{userName:string;onBack:()=>void}> = ({userName,onBack
       )}
 
       {tab==='profile'&&(
-        <div style={{padding:20,...flex('column','center','center'),minHeight:'60vh'}}>
+        <div className="anim-tab" style={{padding:20,...flex('column','center','center'),minHeight:'60vh'}}>
           <div style={{width:80,height:80,borderRadius:'50%',background:C.card2,...flex('row','center','center'),fontSize:36,marginBottom:16}}>👤</div>
           <div style={{fontSize:18,fontWeight:700,color:C.white,marginBottom:4}}>{userName || 'Citizen'}</div>
           <div style={{fontSize:13,color:C.muted,marginBottom:24}}>Shield Free Member</div>
@@ -756,7 +770,7 @@ const HeroDashboard:React.FC<{userName:string;onBack:()=>void}> = ({userName,onB
       )}
 
       {tab==='dashboard'&&(
-        <div style={{padding:20}}>
+        <div className="anim-tab" style={{padding:20}}>
           {/* Earnings card */}
           <div style={{...cardStyle,marginBottom:16}}>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:12,textAlign:'center'}}>
@@ -812,7 +826,7 @@ const HeroDashboard:React.FC<{userName:string;onBack:()=>void}> = ({userName,onB
       )}
 
       {tab==='jobs'&&(
-        <div style={{padding:20}}>
+        <div className="anim-tab" style={{padding:20}}>
           <h2 style={{fontSize:20,fontWeight:800,color:C.white,marginBottom:16}}>Recent Jobs</h2>
           {MISSIONS_HISTORY.map((m,i)=>(
             <div key={i} style={{...cardStyle,...flex('row','center','space-between'),marginBottom:12}}>
@@ -828,7 +842,7 @@ const HeroDashboard:React.FC<{userName:string;onBack:()=>void}> = ({userName,onB
       )}
 
       {tab==='earnings'&&(
-        <div style={{padding:20}}>
+        <div className="anim-tab" style={{padding:20}}>
           <h2 style={{fontSize:20,fontWeight:800,color:C.white,marginBottom:16}}>Earnings</h2>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:24}}>
             <div style={{...cardStyle,textAlign:'center'}}>
@@ -857,7 +871,7 @@ const HeroDashboard:React.FC<{userName:string;onBack:()=>void}> = ({userName,onB
       )}
 
       {tab==='profile'&&(
-        <div style={{padding:20,...flex('column','center','center'),minHeight:'60vh'}}>
+        <div className="anim-tab" style={{padding:20,...flex('column','center','center'),minHeight:'60vh'}}>
           <div style={{width:80,height:80,borderRadius:'50%',background:C.green,...flex('row','center','center'),fontSize:36,marginBottom:16}}>🦸</div>
           <div style={{fontSize:18,fontWeight:700,color:C.white,marginBottom:4}}>{userName || 'Hero'}</div>
           <div style={{fontSize:13,color:C.green,marginBottom:24}}>⭐ 4.9 Rating • 847 Missions</div>
