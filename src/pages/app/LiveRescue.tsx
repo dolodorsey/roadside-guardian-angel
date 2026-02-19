@@ -35,7 +35,7 @@ const LiveRescue: React.FC<Props> = ({ jobId, onComplete, onClose }) => {
       supabase.from('jobs').select('*, service_catalog(display_name, icon_name)').eq('id', jobId).single()
         .then(({ data }) => setJob(data));
       const sub = subscribeToJob(jobId, payload => setJob(payload.new));
-      return () => { sub.then(s => supabase.removeChannel(s)); };
+      return () => { supabase.removeChannel(sub); };
     } else {
       // Demo mode
       const statuses = ['matching','assigned','en_route','on_site','in_progress','completed'];

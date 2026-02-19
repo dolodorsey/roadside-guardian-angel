@@ -50,11 +50,11 @@ const RoadsideMasterBlueprint = () => {
     {
       id: 'vision',
       title: 'Vision & Brand',
-      subtitle: 'Tesla/Uber of Roadside Assistance',
+      subtitle: 'Tesla/Uber of Rescue Assistance',
       status: 'complete',
       priority: 'mvp',
       icon: Crown,
-      description: 'Core brand positioning as premium, tech-first roadside assistance that users want to share',
+      description: 'Core brand positioning as premium, tech-first rescue assistance that Citizens want to share',
       keyFeatures: [
         'Cinematic design system',
         'Premium brand positioning',
@@ -213,7 +213,7 @@ const RoadsideMasterBlueprint = () => {
     },
     {
       id: 'wallet',
-      title: 'Roadside Wallet',
+      title: 'S.O.S Wallet',
       subtitle: 'Digital Payment Ecosystem',
       status: 'planned',
       priority: 'phase-2',
@@ -450,7 +450,7 @@ const RoadsideMasterBlueprint = () => {
           </div>
           
           <Typography.Hero className="text-4xl md:text-6xl">
-            Roadside Master Blueprint
+            S.O.S Master Blueprint
           </Typography.Hero>
           <Typography.Subheadline className="text-muted-foreground max-w-4xl mx-auto">
             The complete cinematic roadmap — from emergency app to trillion-dollar mobility infrastructure. 
@@ -733,7 +733,7 @@ const RoadsideMasterBlueprint = () => {
                 <Typography.Headline className="text-4xl text-emergency-red">MVP Ready</Typography.Headline>
                 <Typography.Body className="font-medium">Core Platform</Typography.Body>
                 <Typography.Small className="text-muted-foreground">
-                  Emergency service delivery with real-time tracking, verified providers, and safety-first design
+                  Emergency service delivery with real-time tracking, verified Heroes, and safety-first design
                 </Typography.Small>
               </div>
 
@@ -741,7 +741,7 @@ const RoadsideMasterBlueprint = () => {
                 <Typography.Headline className="text-4xl text-beacon-blue">$1.5T TAM</Typography.Headline>
                 <Typography.Body className="font-medium">Market Opportunity</Typography.Body>
                 <Typography.Small className="text-muted-foreground">
-                  From $11B roadside market to trillion-dollar mobility infrastructure through B2B expansion
+                  From $11B rescue market to trillion-dollar mobility infrastructure through B2B expansion
                 </Typography.Small>
               </div>
 
@@ -756,8 +756,8 @@ const RoadsideMasterBlueprint = () => {
 
             <div className="mt-8 p-6 bg-asphalt-gray/30 rounded-lg">
               <Typography.Body className="text-center italic text-lg">
-                "Roadside transforms from emergency app to trillion-dollar mobility infrastructure — 
-                the Tesla/Uber of roadside assistance with expansion into fleets, insurance, and global governments."
+                "S.O.S transforms from emergency app to trillion-dollar mobility infrastructure — 
+                the Tesla/Uber of rescue assistance with expansion into fleets, insurance, and global governments."
               </Typography.Body>
             </div>
           </Card>

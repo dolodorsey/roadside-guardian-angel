@@ -32,7 +32,7 @@ const TrainingStep: React.FC<TrainingStepProps> = ({ onNext, onBack }) => {
     {
       id: 'safety-protocols',
       title: 'Safety Protocols',
-      description: 'Essential safety procedures for roadside assistance',
+      description: 'Essential safety procedures for rescue assistance',
       icon: <Shield className="w-6 h-6" />,
       duration: '7 min',
       content: {

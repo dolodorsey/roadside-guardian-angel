@@ -353,7 +353,7 @@ const CinematicSplitScreen: React.FC<CinematicSplitScreenProps> = ({ onExit }) =
         <div className="inline-flex items-center gap-4 px-8 py-4 tech-surface rounded-2xl border border-border/50">
           <RoadsideBeacon size="md" variant="tech" />
           <div className="text-left">
-            <div className="font-guardian text-foreground text-lg">ROADSIDE</div>
+            <div className="font-guardian text-foreground text-lg">S.O.S</div>
             <div className="text-sm text-muted-foreground">Cinematic Demo Experience</div>
           </div>
           <div className="text-right text-xs text-electric-blue font-tech">

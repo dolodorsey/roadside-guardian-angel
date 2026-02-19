@@ -27,10 +27,10 @@ const InvestorShowcase = () => {
       id: 'investor',
       title: 'Investor Pitch',
       subtitle: 'Series A Fundraising',
-      description: 'Complete investor deck positioning Roadside as the Tesla/Uber of roadside assistance',
+      description: 'Complete investor deck positioning S.O.S as the Tesla/Uber of rescue assistance',
       icon: TrendingUp,
       color: 'text-pulse-green',
-      focus: '$11B roadside market with $1.5T expansion opportunity'
+      focus: '$11B rescue assistance market with $1.5T expansion opportunity'
     },
     {
       id: 'fleet',
@@ -45,7 +45,7 @@ const InvestorShowcase = () => {
       id: 'insurance',
       title: 'Insurance Partners',
       subtitle: 'Claims Integration',
-      description: 'Insurance partnership deck focused on claims automation and customer satisfaction',
+      description: 'Insurance partnership deck focused on claims automation and Citizen satisfaction',
       icon: Shield,
       color: 'text-emergency-red',
       focus: '$287B auto insurance market integration'
@@ -54,7 +54,7 @@ const InvestorShowcase = () => {
       id: 'dealership',
       title: 'Dealership Partners',
       subtitle: 'White-Label Solutions',
-      description: 'Dealership partnership deck for bundled roadside services with new vehicle sales',
+      description: 'Dealership partnership deck for bundled rescue services with new vehicle sales',
       icon: Building,
       color: 'text-metallic-silver',
       focus: '$1.2T automotive sales & service market'
@@ -104,7 +104,7 @@ const InvestorShowcase = () => {
           </Typography.Hero>
           <Typography.Subheadline className="text-muted-foreground max-w-3xl mx-auto">
             Fortune-500-ready presentation system — cinematic, undeniable, and inevitable. 
-            Position Roadside as the Tesla/Uber of roadside assistance.
+            Position S.O.S as the Tesla/Uber of rescue assistance.
           </Typography.Subheadline>
         </Motion.GuardianEnter>
 
@@ -212,11 +212,11 @@ const InvestorShowcase = () => {
               <Card className="tech-surface p-6">
                 <Typography.Subheadline className="mb-4 text-pulse-green">Opening Hook</Typography.Subheadline>
                 <div className="space-y-3">
-                  <Typography.Body className="italic">
-                    "AAA is 120 years old. Roadside is the future."
+                   <Typography.Body className="italic">
+                     "AAA is 120 years old. S.O.S is the future."
                   </Typography.Body>
                   <Typography.Small className="text-muted-foreground">
-                    Cinematic hazard triangle morphs into glowing Roadside "R" with bold positioning statement.
+                    Cinematic hazard triangle morphs into glowing S.O.S "R" with bold positioning statement.
                   </Typography.Small>
                 </div>
               </Card>
@@ -237,7 +237,7 @@ const InvestorShowcase = () => {
                 <Typography.Subheadline className="mb-4 text-beacon-blue">Market Positioning</Typography.Subheadline>
                 <div className="space-y-3">
                   <Typography.Body className="italic">
-                    "The Tesla/Uber of roadside assistance"
+                    "The Tesla/Uber of rescue assistance"
                   </Typography.Body>
                   <Typography.Small className="text-muted-foreground">
                     Position as category disruptor with tech-first approach and premium experience.
@@ -249,7 +249,7 @@ const InvestorShowcase = () => {
                 <Typography.Subheadline className="mb-4 text-pulse-green">Closing Vision</Typography.Subheadline>
                 <div className="space-y-3">
                   <Typography.Body className="italic">
-                    "Roadside will replace AAA. Be part of the inevitable."
+                    "S.O.S will replace AAA. Be part of the inevitable."
                   </Typography.Body>
                   <Typography.Small className="text-muted-foreground">
                     Strong call-to-action with inevitability positioning and FOMO creation.

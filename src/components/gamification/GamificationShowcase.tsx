@@ -36,13 +36,13 @@ const GamificationShowcase = () => {
     {
       type: 'milestone' as const,
       title: 'First Month Complete',
-      description: 'One month of safe driving with Roadside',
+      description: 'One month of safe driving with S.O.S',
       value: '1 month'
     },
     {
       type: 'referral' as const,
       title: 'Friend Saver',
-      description: 'Referred 5 friends to Roadside',
+      description: 'Referred 5 friends to S.O.S',
       value: 5
     }
   ];
@@ -139,7 +139,7 @@ const GamificationShowcase = () => {
                 </div>
                 <Typography.Body className="font-medium">Both Earn $5</Typography.Body>
                 <Typography.Small className="text-muted-foreground">
-                  Instant credit added to both Roadside Wallets automatically
+                  Instant credit added to both S.O.S Wallets automatically
                 </Typography.Small>
               </div>
             </div>
@@ -187,7 +187,7 @@ const GamificationShowcase = () => {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>• Build your road hero reputation</li>
                 <li>• Inspire friends to prioritize safety</li>
-                <li>• Grow the Roadside community</li>
+                <li>• Grow the S.O.S community</li>
                 <li>• Earn bonus credits through engagement</li>
                 <li>• Showcase your driving responsibility</li>
               </ul>

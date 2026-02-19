@@ -18,7 +18,7 @@ const ReferralFlow: React.FC<ReferralFlowProps> = ({ onClose }) => {
   const [friendsReferred, setFriendsReferred] = useState(3);
   const [earnedCredits, setEarnedCredits] = useState(15);
   
-  const shareLink = `https://roadside.app/join?ref=${referralCode}`;
+  const shareLink = `https://sos.app/join?ref=${referralCode}`;
 
   const copyToClipboard = async () => {
     try {
@@ -37,7 +37,7 @@ const ReferralFlow: React.FC<ReferralFlowProps> = ({ onClose }) => {
   const shareViaMethod = (method: string) => {
     setShareMethod(method);
     
-    const shareText = "Just joined Roadside - the premium roadside assistance app! Use my code ROADHERO5 and we both get $5 credit. Never be stranded again! 🚗✨";
+    const shareText = "Just joined S.O.S - the premium rescue assistance app! Use my code ROADHERO5 and we both get $5 credit. Never be stranded again! 🚗✨";
     
     switch (method) {
       case 'sms':

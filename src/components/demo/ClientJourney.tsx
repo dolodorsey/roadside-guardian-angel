@@ -67,7 +67,7 @@ const ClientJourney: React.FC<ClientJourneyProps> = ({ currentStep, isPlaying })
               <div className="space-y-4">
                 <div className="animate-slide-in-up" style={{ animationDelay: '2s' }}>
                   <h1 className="font-guardian text-3xl text-foreground mb-2">
-                    ROADSIDE
+                    S.O.S
                   </h1>
                   <div className="h-px w-16 mx-auto bg-gradient-emergency animate-shimmer"></div>
                 </div>

@@ -41,8 +41,8 @@ const ExpansionShowcase = () => {
     {
       id: 'dealership',
       title: 'Dealership Bundle',
-      subtitle: 'Your first year of Roadside Premium is included.',
-      description: 'Seamless integration where new car purchases include Premium Roadside with dealer co-branding.',
+      subtitle: 'Your first year of S.O.S Shield Pro is included.',
+      description: 'Seamless integration where new car purchases include Shield Pro with dealer co-branding.',
       visual: '🚗',
       component: DealershipIntegration
     },
@@ -58,7 +58,7 @@ const ExpansionShowcase = () => {
       id: 'corporate',
       title: 'Global Enterprise',
       subtitle: '24/7 protection across 67 countries.',
-      description: 'Enterprise-grade roadside assistance for corporations, government agencies, and municipalities.',
+      description: 'Enterprise-grade rescue assistance for corporations, government agencies, and municipalities.',
       visual: '🌍',
       component: CorporateAccounts
     }
@@ -80,7 +80,7 @@ const ExpansionShowcase = () => {
           </div>
           
           <Typography.Hero className="text-4xl md:text-6xl">
-            Roadside Infrastructure
+            S.O.S Infrastructure
           </Typography.Hero>
           <Typography.Subheadline className="text-muted-foreground max-w-3xl mx-auto">
             From emergency app to trillion-dollar mobility backbone — trusted by fleets, dealers, insurers, and governments worldwide
@@ -175,7 +175,7 @@ const ExpansionShowcase = () => {
                     </div>
                     <Typography.Body className="font-medium">Dealership Integration</Typography.Body>
                     <Typography.Small className="text-muted-foreground">
-                      White-label roadside services bundled with new vehicle sales and warranties
+                      White-label rescue services bundled with new vehicle sales and warranties
                     </Typography.Small>
                   </div>
 
@@ -261,7 +261,7 @@ const ExpansionShowcase = () => {
                     <Typography.Headline className="text-4xl text-pulse-green">-47%</Typography.Headline>
                     <Typography.Body className="font-medium">Cost Reduction</Typography.Body>
                     <Typography.Small className="text-muted-foreground">
-                      Average operational cost savings versus traditional roadside providers
+                      Average operational cost savings versus traditional rescue providers
                     </Typography.Small>
                   </div>
 
@@ -362,11 +362,11 @@ const ExpansionShowcase = () => {
         <Motion.SlideInUp>
           <Card className="tech-surface p-8 text-center border-pulse-green/30">
             <Typography.Subheadline className="mb-4">
-              Ready to Scale with Roadside?
+              Ready to Scale with S.O.S?
             </Typography.Subheadline>
             <Typography.Body className="text-muted-foreground mb-6 max-w-2xl mx-auto">
               Join the infrastructure that powers mobility safety worldwide. From emergency app to enterprise backbone — 
-              Roadside is the platform that scales with your business.
+              S.O.S is the platform that scales with your business.
             </Typography.Body>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button className="bg-pulse-green hover:bg-pulse-green/80 text-midnight-black">

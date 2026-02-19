@@ -132,7 +132,7 @@ const ConciergeOverlay: React.FC<ConciergeOverlayProps> = ({
           {messages.length === 0 ? (
             <div className="text-center text-muted-foreground py-8">
               <ConciergeShield isAnimating={false} size="md" variant="electric-blue" />
-              <p className="mt-4 font-tech">I'm here to help you through your roadside experience.</p>
+              <p className="mt-4 font-tech">I'm here to help you through your S.O.S experience.</p>
               <p className="mt-2 text-sm">Ask me anything about your service, safety, or account.</p>
             </div>
           ) : (

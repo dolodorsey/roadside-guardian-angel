@@ -97,7 +97,7 @@ const EmergencyFloatingButton: React.FC<EmergencyFloatingButtonProps> = ({
         {/* Voice Command Indicator */}
         {isListening && (
           <div className="absolute -top-16 right-0 bg-midnight-black/90 text-neon-green px-3 py-1 rounded-lg text-sm font-tech whitespace-nowrap">
-            Listening for "Hey Roadside"...
+            Listening for "Hey S.O.S"...
           </div>
         )}
       </div>

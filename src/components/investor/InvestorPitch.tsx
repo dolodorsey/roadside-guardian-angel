@@ -123,7 +123,7 @@ const InvestorPitch: React.FC<InvestorPitchProps> = ({
               </Typography.Hero>
               
               <Typography.Headline className="text-3xl text-muted-foreground max-w-4xl mx-auto">
-                AAA is 120 years old. Roadside is the future.
+                AAA is 120 years old. S.O.S is the future.
               </Typography.Headline>
             </Motion.SlideInUp>
           </div>
@@ -255,12 +255,12 @@ const InvestorPitch: React.FC<InvestorPitchProps> = ({
       content: (
         <div className="h-full flex items-center justify-center p-8">
           <div className="max-w-6xl mx-auto text-center space-y-12">
-            <Typography.Hero className="text-5xl text-pulse-green">
-              The Roadside Solution
+             <Typography.Hero className="text-5xl text-pulse-green">
+               The S.O.S Solution
             </Typography.Hero>
             
             <Typography.Headline className="text-2xl text-muted-foreground max-w-4xl mx-auto">
-              Uber-style dispatch meets Tesla-grade UX. Real-time tracking, verified providers, instant peace of mind.
+              Uber-style dispatch meets Tesla-grade UX. Real-time tracking, verified Heroes, instant peace of mind.
             </Typography.Headline>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -272,8 +272,8 @@ const InvestorPitch: React.FC<InvestorPitchProps> = ({
                   <Typography.Subheadline className="mb-3 text-pulse-green">
                     Instant Dispatch
                   </Typography.Subheadline>
-                  <Typography.Body className="text-muted-foreground">
-                    One-tap request with GPS auto-location. Verified provider matched in under 30 seconds.
+                   <Typography.Body className="text-muted-foreground">
+                     One-tap request with GPS auto-location. Verified Hero matched in under 30 seconds.
                   </Typography.Body>
                 </Card>
               </Motion.ProviderLock>
@@ -300,8 +300,8 @@ const InvestorPitch: React.FC<InvestorPitchProps> = ({
                   <Typography.Subheadline className="mb-3 text-metallic-silver">
                     Premium Trust
                   </Typography.Subheadline>
-                  <Typography.Body className="text-muted-foreground">
-                    Verified providers, insurance coverage, and safety protocols that users actually want to share.
+                   <Typography.Body className="text-muted-foreground">
+                     Verified Heroes, insurance coverage, and safety protocols that Citizens actually want to share.
                   </Typography.Body>
                 </Card>
               </Motion.ProviderLock>
@@ -325,8 +325,8 @@ const InvestorPitch: React.FC<InvestorPitchProps> = ({
                 <Typography.Headline className="text-3xl text-metallic-silver">
                   {liveData.totalJobs.toLocaleString()}
                 </Typography.Headline>
-                <Typography.Small>Jobs Completed</Typography.Small>
-              </div>
+                 <Typography.Small>Missions Completed</Typography.Small>
+               </div>
               <div className="text-center">
                 <Typography.Headline className="text-3xl text-emergency-red">
                   {liveData.monthlyGrowth}%
@@ -378,8 +378,8 @@ const InvestorPitch: React.FC<InvestorPitchProps> = ({
                 </div>
 
                 <Typography.Body className="text-lg">
-                  <strong className="text-pulse-green">Roadside positioned as the tech-first category disruptor</strong> — 
-                  the Tesla/Uber of roadside assistance with expansion into fleets, insurance, and government partnerships.
+                 <strong className="text-pulse-green">S.O.S positioned as the tech-first category disruptor</strong> — 
+                   the Tesla/Uber of rescue assistance with expansion into fleets, insurance, and government partnerships.
                 </Typography.Body>
               </div>
             </div>
@@ -552,7 +552,7 @@ const InvestorPitch: React.FC<InvestorPitchProps> = ({
             </Typography.Hero>
             
             <Typography.Headline className="text-2xl text-center text-muted-foreground">
-              "Roadside becomes the global standard for roadside safety"
+              "S.O.S becomes the global standard for rescue safety"
             </Typography.Headline>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -570,7 +570,7 @@ const InvestorPitch: React.FC<InvestorPitchProps> = ({
                   <div className="space-y-2">
                     <Typography.Small>✓ iOS/Android apps</Typography.Small>
                     <Typography.Small>✓ Membership platform</Typography.Small>
-                    <Typography.Small>✓ Provider network</Typography.Small>
+                    <Typography.Small>✓ Hero network</Typography.Small>
                   </div>
                 </Card>
               </Motion.GuardianEnter>
@@ -712,7 +712,7 @@ const InvestorPitch: React.FC<InvestorPitchProps> = ({
                     Category Leader
                   </Typography.Headline>
                   <Typography.Body className="text-muted-foreground">
-                    Become the Tesla/Uber of roadside assistance worldwide
+                    Become the Tesla/Uber of rescue assistance worldwide
                   </Typography.Body>
                 </Card>
               </Motion.CompletionGlow>
@@ -720,7 +720,7 @@ const InvestorPitch: React.FC<InvestorPitchProps> = ({
 
             <Motion.SOSRipple>
               <Typography.Emergency className="text-4xl">
-                ROADSIDE WILL REPLACE AAA
+                S.O.S WILL REPLACE AAA
               </Typography.Emergency>
               <Typography.Headline className="text-2xl text-pulse-green mt-4">
                 Be part of the inevitable future

@@ -249,7 +249,7 @@ const CinematicDemo: React.FC<CinematicDemoProps> = ({
         <div className="inline-flex items-center gap-3 px-6 py-3 tech-surface rounded-xl border border-border/50">
           <RoadsideBeacon size="sm" variant="tech" />
           <span className="font-tech text-foreground">
-            Roadside Cinematic Demo
+            S.O.S Cinematic Demo
           </span>
           <span className="text-muted-foreground">|</span>
           <span className="text-sm text-muted-foreground">

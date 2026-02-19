@@ -124,7 +124,7 @@ const VerificationStep: React.FC<VerificationStepProps> = ({ onNext, onDataUpdat
               value={formData.businessName}
               onChange={(e) => setFormData(prev => ({ ...prev, businessName: e.target.value }))}
               className="mt-2 tech-surface border-border/50 focus:border-neon-green"
-              placeholder="Mike's Roadside Services"
+              placeholder="Mike's Rescue Services"
             />
           </div>
         </div>

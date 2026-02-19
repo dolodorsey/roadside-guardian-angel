@@ -62,7 +62,7 @@ const CorporateAccounts = () => {
   const governmentPrograms = [
     {
       name: 'FEMA Emergency Response',
-      description: 'Disaster relief roadside support coordination',
+      description: 'Disaster relief rescue support coordination',
       status: 'Active',
       coverage: 'National',
       icon: '🚨'
@@ -87,7 +87,7 @@ const CorporateAccounts = () => {
     {
       icon: Globe,
       title: 'Global Coverage',
-      description: 'Worldwide roadside assistance for traveling employees',
+      description: 'Worldwide rescue assistance for traveling employees',
       tier: 'Enterprise'
     },
     {
@@ -150,7 +150,7 @@ const CorporateAccounts = () => {
         
         <Typography.Headline>Corporate & Government</Typography.Headline>
         <Typography.Body className="text-muted-foreground max-w-2xl mx-auto">
-          Enterprise-grade roadside assistance for corporations, municipalities, and government agencies. 
+          Enterprise-grade rescue assistance for corporations, municipalities, and government agencies. 
           Global coverage, custom protocols, and disaster response coordination.
         </Typography.Body>
       </div>
@@ -238,7 +238,7 @@ const CorporateAccounts = () => {
                 </div>
                 
                 <Typography.Body className="text-lg italic">
-                  "Roadside's enterprise solution reduced our travel-related incidents by 58% and saved us 
+                  "S.O.S's enterprise solution reduced our travel-related incidents by 58% and saved us 
                   over $200K in the first year. The global coverage gives our employees confidence wherever they travel."
                 </Typography.Body>
                 
@@ -344,8 +344,8 @@ const CorporateAccounts = () => {
             <Card className="tech-surface p-8 text-center border-beacon-blue/30">
               <Typography.Subheadline className="mb-4">Municipal Partnership Program</Typography.Subheadline>
               <Typography.Body className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                Join the growing network of cities and municipalities using Roadside for fleet management, 
-                emergency response, and citizen safety programs.
+                Join the growing network of cities and municipalities using S.O.S for fleet management, 
+                emergency response, and Citizen safety programs.
               </Typography.Body>
               <Button className="bg-beacon-blue hover:bg-beacon-blue/80 text-white">
                 Schedule Consultation

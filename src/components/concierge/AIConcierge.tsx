@@ -109,7 +109,7 @@ const AIConcierge: React.FC<AIConciergeProps> = ({
         
       case 'completed':
         addMessage(
-          "Service completed successfully! Thank you for choosing Roadside. Drive safely.",
+          "Service completed successfully! Thank you for choosing S.O.S. Drive safely.",
           'reassurance',
           { priority: 'medium' }
         );
