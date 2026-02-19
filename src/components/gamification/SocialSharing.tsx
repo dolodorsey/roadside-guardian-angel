@@ -23,14 +23,14 @@ const SocialSharing: React.FC<SocialSharingProps> = ({ achievement, onClose }) =
 
   const getShareContent = () => {
     const baseMessages = {
-      badge: `🏆 Just unlocked "${achievement.title}" on Roadside! ${achievement.description}`,
-      milestone: `🚗 Milestone achieved: ${achievement.title}! ${achievement.value} rescues completed with Roadside.`,
-      referral: `💪 Saved ${achievement.value} friends with Roadside referrals! Join the safety network.`,
-      anniversary: `🎉 ${achievement.title} with Roadside! ${achievement.description}`
+      badge: `🏆 Just unlocked "${achievement.title}" on S.O.S! ${achievement.description}`,
+      milestone: `🚗 Milestone achieved: ${achievement.title}! ${achievement.value} rescues completed with S.O.S.`,
+      referral: `💪 Saved ${achievement.value} friends with S.O.S referrals! Join the safety network.`,
+      anniversary: `🎉 ${achievement.title} with S.O.S! ${achievement.description}`
     };
 
-    const hashtags = '#RoadsideApp #RoadSafety #NeverStrandedAgain #RoadHero';
-    const link = 'https://roadside.app/join';
+    const hashtags = '#SOSApp #RoadSafety #NeverStrandedAgain #RoadHero';
+    const link = 'https://sos.app/join';
     
     return `${baseMessages[achievement.type]} ${hashtags} ${link}`;
   };
@@ -48,7 +48,7 @@ const SocialSharing: React.FC<SocialSharingProps> = ({ achievement, onClose }) =
   const shareToSocial = (platform: string) => {
     const content = customMessage || getShareContent();
     const encodedContent = encodeURIComponent(content);
-    const url = encodeURIComponent('https://roadside.app/join');
+    const url = encodeURIComponent('https://sos.app/join');
     
     const shareUrls = {
       twitter: `https://twitter.com/intent/tweet?text=${encodedContent}`,
@@ -180,7 +180,7 @@ const SocialSharing: React.FC<SocialSharingProps> = ({ achievement, onClose }) =
             </Typography.Small>
             <ul className="space-y-1 text-xs text-muted-foreground">
               <li>• Inspire friends to prioritize road safety</li>
-              <li>• Build the Roadside community</li>
+              <li>• Build the S.O.S community</li>
               <li>• Show off your road hero status</li>
               <li>• Earn referral credits when friends join</li>
             </ul>

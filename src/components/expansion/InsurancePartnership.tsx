@@ -107,7 +107,7 @@ const InsurancePartnership = () => {
         <Typography.Headline>Insurance Partnerships</Typography.Headline>
         <Typography.Body className="text-muted-foreground max-w-2xl mx-auto">
           Seamless integration with insurance providers. Automated claims processing, 
-          real-time coverage verification, and white-label roadside services for your policyholders.
+          real-time coverage verification, and white-label rescue services for your policyholders.
         </Typography.Body>
       </div>
 
@@ -134,7 +134,7 @@ const InsurancePartnership = () => {
                   </div>
                   
                   <Typography.Small className="text-midnight-black/70 mb-2">
-                    Roadside Coverage Active
+                    S.O.S Coverage Active
                   </Typography.Small>
                   
                   <Typography.Body className="font-medium text-midnight-black">
@@ -411,7 +411,7 @@ const InsurancePartnership = () => {
               </div>
               <Typography.Body className="font-medium">Better Coverage</Typography.Body>
               <Typography.Small className="text-muted-foreground">
-                Enhanced customer satisfaction with premium roadside services
+                Enhanced Citizen satisfaction with premium rescue services
               </Typography.Small>
             </div>
           </div>

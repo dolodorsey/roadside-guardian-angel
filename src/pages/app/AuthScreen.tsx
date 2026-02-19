@@ -47,7 +47,7 @@ const AuthScreen: React.FC = () => {
           />
         </div>
 
-        {/* Mini roadside animation */}
+        {/* Mini rescue animation */}
         <div className="mt-4 mb-2 w-[180px] h-[40px] relative overflow-hidden opacity-40">
           <div className="absolute bottom-0 left-0 right-0 h-[6px] bg-zinc-800 rounded-full overflow-hidden">
             <div className="absolute inset-0 flex gap-4 animate-road-scroll" style={{ width: '200%' }}>

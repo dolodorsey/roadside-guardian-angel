@@ -30,7 +30,7 @@ const DealershipIntegration: React.FC<DealershipIntegrationProps> = ({
   const [brandingOptions, setBrandingOptions] = useState({
     primaryColor: '#FF3B30',
     logoPlacement: 'co-branded',
-    customMessage: 'Your first year of Premium Roadside is included with your new vehicle purchase.'
+    customMessage: 'Your first year of S.O.S Shield Pro is included with your new vehicle purchase.'
   });
 
   const integrationFeatures = [
@@ -43,7 +43,7 @@ const DealershipIntegration: React.FC<DealershipIntegrationProps> = ({
     {
       icon: Shield,
       title: 'White-Label Service',
-      description: 'Fully branded roadside assistance',
+      description: 'Fully branded rescue assistance',
       status: 'Active'
     },
     {
@@ -55,7 +55,7 @@ const DealershipIntegration: React.FC<DealershipIntegrationProps> = ({
     {
       icon: Users,
       title: 'Customer Dashboard',
-      description: 'Manage all customer roadside services',
+      description: 'Manage all Citizen rescue services',
       status: 'Active'
     }
   ];
@@ -116,8 +116,8 @@ const DealershipIntegration: React.FC<DealershipIntegrationProps> = ({
         
         <Typography.Headline>Dealership Integration</Typography.Headline>
         <Typography.Body className="text-muted-foreground max-w-2xl mx-auto">
-          White-label Roadside services for {dealershipName}. Bundle premium roadside assistance 
-          with new vehicle sales and create a complete safety ecosystem for your customers.
+          White-label S.O.S services for {dealershipName}. Bundle premium rescue assistance 
+          with new vehicle sales and create a complete safety ecosystem for your Citizens.
         </Typography.Body>
       </div>
 
@@ -218,7 +218,7 @@ const DealershipIntegration: React.FC<DealershipIntegrationProps> = ({
               <div>
                 <Typography.Small className="mb-2">Logo Placement</Typography.Small>
                 <div className="space-y-2">
-                  {['co-branded', 'dealer-primary', 'roadside-white-label'].map((option) => (
+                  {['co-branded', 'dealer-primary', 'sos-white-label'].map((option) => (
                     <label key={option} className="flex items-center space-x-2 cursor-pointer">
                       <input 
                         type="radio" 
@@ -286,7 +286,7 @@ const DealershipIntegration: React.FC<DealershipIntegrationProps> = ({
                 className="w-full text-white font-medium"
                 style={{ backgroundColor: brandingOptions.primaryColor }}
               >
-                Request Roadside Assistance
+                Request S.O.S Assistance
               </Button>
             </div>
           </Card>
@@ -354,8 +354,8 @@ const DealershipIntegration: React.FC<DealershipIntegrationProps> = ({
             </div>
             
             <Typography.Body className="text-lg italic">
-              "Integrating Roadside into our new car packages increased customer satisfaction by 34% 
-              and created a new revenue stream. Our customers love the peace of mind."
+              "Integrating S.O.S into our new car packages increased Citizen satisfaction by 34% 
+              and created a new revenue stream. Our Citizens love the peace of mind."
             </Typography.Body>
             
             <div className="space-y-1">

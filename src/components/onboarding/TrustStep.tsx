@@ -88,7 +88,7 @@ const TrustStep: React.FC<TrustStepProps> = ({ onNext, onBack }) => {
       {/* Final Message */}
       <div className="p-4 rounded-xl bg-gradient-neon/5 border border-neon-green/20 mb-8 animate-fade-in" style={{ animationDelay: '0.7s' }}>
         <p className="text-sm text-muted-foreground">
-          Welcome to Roadside. One tap away from peace of mind.
+          Welcome to S.O.S. One tap away from peace of mind.
         </p>
       </div>
 

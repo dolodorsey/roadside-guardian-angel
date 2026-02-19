@@ -19,7 +19,7 @@ const DesignSystemShowcase = () => {
             <BrandKit.Logo size="lg" />
             <BrandKit.Wordmark />
           </div>
-          <Typography.Headline>Roadside Design System</Typography.Headline>
+          <Typography.Headline>S.O.S Design System</Typography.Headline>
           <Typography.Body className="max-w-2xl mx-auto">
             A cinematic brand kit balancing urgency and premium feel — from panic-proof usability to investor deck elegance.
           </Typography.Body>
@@ -226,7 +226,7 @@ const DesignSystemShowcase = () => {
         {/* Footer */}
         <div className="text-center pt-8 border-t border-border">
           <Typography.Caption>
-            Roadside Design System — Tesla OS meets Uber Black UI
+            S.O.S Design System — Tesla OS meets Uber Black UI
           </Typography.Caption>
         </div>
       </div>

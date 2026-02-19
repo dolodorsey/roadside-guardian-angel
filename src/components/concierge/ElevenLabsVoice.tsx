@@ -46,7 +46,7 @@ const ElevenLabsVoice: React.FC<ElevenLabsVoiceProps> = ({
     overrides: {
       agent: {
         prompt: {
-          prompt: `You are the AI Concierge for Roadside, a premium roadside assistance service. 
+          prompt: `You are the AI Concierge for S.O.S, a premium rescue assistance service. 
           
           Your personality:
           - Calm, empathetic, and professional

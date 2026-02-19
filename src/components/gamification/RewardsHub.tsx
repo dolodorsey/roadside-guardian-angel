@@ -135,7 +135,7 @@ const RewardsHub = () => {
                   <Coins className="w-6 h-6 text-pulse-green" />
                 </div>
                 <div>
-                  <Typography.Subheadline>Roadside Wallet</Typography.Subheadline>
+                  <Typography.Subheadline>S.O.S Wallet</Typography.Subheadline>
                   <Typography.Small>Available credit</Typography.Small>
                 </div>
               </div>

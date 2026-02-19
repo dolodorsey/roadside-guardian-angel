@@ -28,7 +28,7 @@ export const BrandKit = {
     return (
       <img 
         src="/lovable-uploads/5af48572-1074-4ae7-aeae-f251d4fa4641.png"
-        alt="Roadside Logo"
+        alt="S.O.S Logo"
         className={cn(
           sizeClasses[size],
           variantClasses[variant],
@@ -39,7 +39,7 @@ export const BrandKit = {
     );
   },
 
-  // Roadside Wordmark
+  // S.O.S Wordmark
   Wordmark: ({ variant = 'default', className, size = 'lg' }: { 
     variant?: 'default' | 'emergency' | 'tech';
     className?: string;
@@ -61,7 +61,7 @@ export const BrandKit = {
     return (
       <img 
         src="/lovable-uploads/c329aae6-9aa1-4899-94f8-98b1001c89b6.png"
-        alt="Roadside"
+        alt="S.O.S"
         className={cn(
           sizeClasses[size],
           variantClasses[variant],
