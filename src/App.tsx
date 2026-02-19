@@ -13,11 +13,13 @@ const flex = (dir='row',align='center',justify='center',gap=0):React.CSSProperti
 const btn = (bg:string,color='#fff',extra?:React.CSSProperties):React.CSSProperties=>({background:bg,color,border:'none',borderRadius:12,padding:'14px 28px',fontSize:16,fontWeight:700,cursor:'pointer',transition:'all .2s',...extra});
 const cardStyle:React.CSSProperties={background:C.card,borderRadius:16,padding:20,border:`1px solid ${C.border}`};
 const inputStyle:React.CSSProperties={width:'100%',padding:'14px 16px',background:C.card2,border:`1px solid ${C.border}`,borderRadius:12,color:C.white,fontSize:14,outline:'none',boxSizing:'border-box'};
+const errText:React.CSSProperties={fontSize:12,color:C.red,marginTop:4};
 
 /* ─── types ─── */
 type Screen = 'landing'|'auth-citizen'|'auth-hero'|'citizen'|'hero';
-type CitizenTab = 'home'|'sos'|'services'|'account';
-type HeroTab = 'dashboard'|'missions'|'earnings'|'account';
+type CitizenTab = 'home'|'history'|'wallet'|'profile';
+type HeroTab = 'dashboard'|'jobs'|'earnings'|'profile';
+type RequestStep = 'confirm'|'finding'|'found'|'tracking';
 
 const SERVICES = [
   {name:'Flat Tire',emoji:'🛞',price:45,eta:'12 min'},
@@ -37,7 +39,7 @@ const PLANS = [
 const REVIEWS = [
   {text:'S.O.S saved me when I was stranded with a flat tire at 2 AM. The Hero arrived in 6 minutes and had me back on the road quickly.',name:'Sarah M.',plan:'Shield Member',stars:5},
   {text:'As a rideshare driver, S.O.S keeps me earning. The family plan covers my whole fleet at an amazing price.',name:'Mike R.',plan:'Family Plan',stars:5},
-  {text:'The Hero was professional, fast, and kind. Best roadside experience I\'ve ever had. Already recommended to all my friends.',name:'Jessica L.',plan:'Shield Pro',stars:5},
+  {text:'The Hero was professional, fast, and kind. Best roadside experience I\'ve ever had.',name:'Jessica L.',plan:'Shield Pro',stars:5},
 ];
 
 const MISSIONS_HISTORY = [
@@ -47,12 +49,34 @@ const MISSIONS_HISTORY = [
   {customer:'Linda P.',service:'Fuel Delivery',earned:40,time:'Yesterday',rating:5},
 ];
 
+const CITIZEN_HISTORY = [
+  {service:'Jump Start',hero:'Marcus J.',date:'Today, 2:15 PM',cost:35,status:'Completed'},
+  {service:'Flat Tire',hero:'Diana K.',date:'Jan 15, 9:30 AM',cost:45,status:'Completed'},
+  {service:'Lockout',hero:'Carlos R.',date:'Dec 28, 7:45 PM',cost:55,status:'Completed'},
+];
+
+/* ─── validation helpers ─── */
+const isValidEmail = (e:string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+const passwordStrength = (p:string):{label:string;color:string;pct:number} => {
+  if(p.length<8) return {label:'Too short',color:C.red,pct:20};
+  let score=0;
+  if(/[a-z]/.test(p)) score++;
+  if(/[A-Z]/.test(p)) score++;
+  if(/[0-9]/.test(p)) score++;
+  if(/[^a-zA-Z0-9]/.test(p)) score++;
+  if(score<=1) return {label:'Weak',color:C.orange,pct:40};
+  if(score===2) return {label:'Fair',color:C.yellow,pct:60};
+  if(score===3) return {label:'Good',color:C.blue,pct:80};
+  return {label:'Strong',color:C.green,pct:100};
+};
+
 /* ════════════════════════════════════════ */
 /*               MAIN APP                  */
 /* ════════════════════════════════════════ */
 const App: React.FC = () => {
   const [screen, setScreen] = useState<Screen>('landing');
   const [fade, setFade] = useState(true);
+  const [userName, setUserName] = useState('');
 
   const navigate = useCallback((s:Screen)=>{
     setFade(false);
@@ -69,10 +93,10 @@ const App: React.FC = () => {
   return (
     <div style={wrapper}>
       {screen==='landing' && <Landing onGetHelp={()=>navigate('auth-citizen')} onHeroPortal={()=>navigate('auth-hero')}/>}
-      {screen==='auth-citizen' && <AuthScreen role="citizen" onBack={()=>navigate('landing')} onLogin={()=>navigate('citizen')}/>}
-      {screen==='auth-hero' && <AuthScreen role="hero" onBack={()=>navigate('landing')} onLogin={()=>navigate('hero')}/>}
-      {screen==='citizen' && <CitizenApp onBack={()=>navigate('landing')}/>}
-      {screen==='hero' && <HeroDashboard onBack={()=>navigate('landing')}/>}
+      {screen==='auth-citizen' && <AuthScreen role="citizen" onBack={()=>navigate('landing')} onLogin={(n)=>{setUserName(n);navigate('citizen');}}/>}
+      {screen==='auth-hero' && <AuthScreen role="hero" onBack={()=>navigate('landing')} onLogin={(n)=>{setUserName(n);navigate('hero');}}/>}
+      {screen==='citizen' && <CitizenApp userName={userName} onBack={()=>navigate('landing')}/>}
+      {screen==='hero' && <HeroDashboard userName={userName} onBack={()=>navigate('landing')}/>}
     </div>
   );
 };
@@ -80,11 +104,12 @@ const App: React.FC = () => {
 /* ════════════════════════════════════════ */
 /*             AUTH SCREEN                 */
 /* ════════════════════════════════════════ */
-const AuthScreen:React.FC<{role:'citizen'|'hero';onBack:()=>void;onLogin:()=>void}> = ({role,onBack,onLogin}) => {
+const AuthScreen:React.FC<{role:'citizen'|'hero';onBack:()=>void;onLogin:(name:string)=>void}> = ({role,onBack,onLogin}) => {
   const [mode,setMode]=useState<'signin'|'signup'>('signin');
   const [email,setEmail]=useState('');
   const [password,setPassword]=useState('');
   const [name,setName]=useState('');
+  const [touched,setTouched]=useState<{email?:boolean;password?:boolean;name?:boolean}>({});
 
   const isCitizen=role==='citizen';
   const accent=isCitizen?C.red:C.green;
@@ -92,9 +117,21 @@ const AuthScreen:React.FC<{role:'citizen'|'hero';onBack:()=>void;onLogin:()=>voi
   const subtitle=isCitizen?'Get rescue assistance anytime':'Join the Hero Network';
   const icon=isCitizen?'🚨':'🦸';
 
+  const emailErr = touched.email && !isValidEmail(email) ? 'Please enter a valid email address' : '';
+  const pwErr = touched.password && password.length>0 && password.length<8 ? 'Password must be at least 8 characters' : '';
+  const nameErr = touched.name && mode==='signup' && name.trim().length<2 ? 'Name must be at least 2 characters' : '';
+  const pwInfo = password.length>0 ? passwordStrength(password) : null;
+
+  const isValid = isValidEmail(email) && password.length>=8 && (mode==='signin' || name.trim().length>=2);
+
+  const handleSubmit = () => {
+    if(!isValid) return;
+    const displayName = mode==='signup' ? name.trim() : email.split('@')[0];
+    onLogin(displayName);
+  };
+
   return (
     <div style={{minHeight:'100dvh',background:C.bg,...flex('column','stretch','flex-start')}}>
-      {/* Header */}
       <div style={{padding:'16px 20px',...flex('row','center','space-between')}}>
         <button onClick={onBack} style={{background:'transparent',border:'none',color:C.gray,fontSize:14,cursor:'pointer',fontWeight:600}}>← Back</button>
         <div style={{fontWeight:800,fontSize:16,color:C.white,letterSpacing:1}}>S.O.S</div>
@@ -102,37 +139,47 @@ const AuthScreen:React.FC<{role:'citizen'|'hero';onBack:()=>void;onLogin:()=>voi
       </div>
 
       <div style={{flex:1,...flex('column','center','center'),padding:'40px 24px'}}>
-        {/* Icon */}
-        <div style={{width:80,height:80,borderRadius:'50%',background:`${accent}20`,...flex('row','center','center'),fontSize:40,marginBottom:20}}>
-          {icon}
-        </div>
+        <div style={{width:80,height:80,borderRadius:'50%',background:`${accent}20`,...flex('row','center','center'),fontSize:40,marginBottom:20}}>{icon}</div>
         <h1 style={{fontSize:24,fontWeight:800,color:C.white,margin:'0 0 4px'}}>{title}</h1>
         <p style={{fontSize:14,color:C.muted,margin:'0 0 32px'}}>{subtitle}</p>
 
         {/* Tabs */}
         <div style={{...flex('row','center','center',0),width:'100%',marginBottom:28,background:C.card,borderRadius:12,padding:4,border:`1px solid ${C.border}`}}>
-          <button onClick={()=>setMode('signin')} style={{flex:1,padding:'10px 0',borderRadius:10,border:'none',cursor:'pointer',fontSize:14,fontWeight:700,background:mode==='signin'?accent:'transparent',color:mode==='signin'?C.white:C.muted,transition:'all .2s'}}>Sign In</button>
-          <button onClick={()=>setMode('signup')} style={{flex:1,padding:'10px 0',borderRadius:10,border:'none',cursor:'pointer',fontSize:14,fontWeight:700,background:mode==='signup'?accent:'transparent',color:mode==='signup'?C.white:C.muted,transition:'all .2s'}}>Create Account</button>
+          <button onClick={()=>{setMode('signin');setTouched({});}} style={{flex:1,padding:'10px 0',borderRadius:10,border:'none',cursor:'pointer',fontSize:14,fontWeight:700,background:mode==='signin'?accent:'transparent',color:mode==='signin'?C.white:C.muted,transition:'all .2s'}}>Sign In</button>
+          <button onClick={()=>{setMode('signup');setTouched({});}} style={{flex:1,padding:'10px 0',borderRadius:10,border:'none',cursor:'pointer',fontSize:14,fontWeight:700,background:mode==='signup'?accent:'transparent',color:mode==='signup'?C.white:C.muted,transition:'all .2s'}}>Create Account</button>
         </div>
 
         {/* Form */}
         <div style={{width:'100%',maxWidth:360}}>
           {mode==='signup'&&(
             <div style={{marginBottom:16}}>
-              <label style={{fontSize:12,color:C.muted,fontWeight:600,marginBottom:6,display:'block'}}>{isCitizen?'Full Name':'Full Name'}</label>
-              <input value={name} onChange={e=>setName(e.target.value)} placeholder={isCitizen?'Enter your name':'Enter your name'} style={inputStyle}/>
+              <label style={{fontSize:12,color:C.muted,fontWeight:600,marginBottom:6,display:'block'}}>Full Name</label>
+              <input value={name} onChange={e=>setName(e.target.value)} onBlur={()=>setTouched(t=>({...t,name:true}))} placeholder="Enter your full name" style={{...inputStyle,borderColor:nameErr?C.red:C.border}}/>
+              {nameErr && <div style={errText}>{nameErr}</div>}
             </div>
           )}
           <div style={{marginBottom:16}}>
             <label style={{fontSize:12,color:C.muted,fontWeight:600,marginBottom:6,display:'block'}}>Email</label>
-            <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com" style={inputStyle}/>
+            <input type="email" value={email} onChange={e=>setEmail(e.target.value)} onBlur={()=>setTouched(t=>({...t,email:true}))} placeholder="you@example.com" style={{...inputStyle,borderColor:emailErr?C.red:C.border}}/>
+            {emailErr && <div style={errText}>{emailErr}</div>}
           </div>
-          <div style={{marginBottom:24}}>
+          <div style={{marginBottom:8}}>
             <label style={{fontSize:12,color:C.muted,fontWeight:600,marginBottom:6,display:'block'}}>Password</label>
-            <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" style={inputStyle}/>
+            <input type="password" value={password} onChange={e=>setPassword(e.target.value)} onBlur={()=>setTouched(t=>({...t,password:true}))} placeholder="••••••••" style={{...inputStyle,borderColor:pwErr?C.red:C.border}}/>
+            {pwErr && <div style={errText}>{pwErr}</div>}
           </div>
+          {/* Password strength */}
+          {pwInfo && (
+            <div style={{marginBottom:20}}>
+              <div style={{height:4,background:C.grayDarker,borderRadius:2,overflow:'hidden',marginBottom:4}}>
+                <div style={{height:'100%',width:`${pwInfo.pct}%`,background:pwInfo.color,borderRadius:2,transition:'all .3s'}}/>
+              </div>
+              <div style={{fontSize:11,color:pwInfo.color,fontWeight:600}}>{pwInfo.label}</div>
+            </div>
+          )}
+          {!pwInfo && <div style={{height:16,marginBottom:8}}/>}
 
-          <button onClick={onLogin} style={{...btn(accent),width:'100%',fontSize:16,marginBottom:16}}>
+          <button onClick={handleSubmit} disabled={!isValid} style={{...btn(accent),width:'100%',fontSize:16,marginBottom:16,opacity:isValid?1:0.4,cursor:isValid?'pointer':'not-allowed'}}>
             {mode==='signin'?'Sign In':'Create Account'}
           </button>
 
@@ -141,23 +188,18 @@ const AuthScreen:React.FC<{role:'citizen'|'hero';onBack:()=>void;onLogin:()=>voi
           )}
         </div>
 
-        {/* Divider */}
         <div style={{...flex('row','center','center',12),width:'100%',maxWidth:360,margin:'24px 0'}}>
           <div style={{flex:1,height:1,background:C.border}}/>
           <span style={{fontSize:12,color:C.muted}}>or continue with</span>
           <div style={{flex:1,height:1,background:C.border}}/>
         </div>
-
-        {/* Social buttons */}
         <div style={{...flex('row','center','center',12),width:'100%',maxWidth:360}}>
           {['Google','Apple'].map(provider=>(
-            <button key={provider} onClick={onLogin} style={{flex:1,padding:'12px 0',background:C.card,border:`1px solid ${C.border}`,borderRadius:12,color:C.white,fontSize:14,fontWeight:600,cursor:'pointer'}}>
+            <button key={provider} onClick={()=>onLogin(provider+' User')} style={{flex:1,padding:'12px 0',background:C.card,border:`1px solid ${C.border}`,borderRadius:12,color:C.white,fontSize:14,fontWeight:600,cursor:'pointer'}}>
               {provider==='Google'?'🔵':'🍎'} {provider}
             </button>
           ))}
         </div>
-
-        {/* Footer text */}
         <p style={{fontSize:11,color:C.grayDark,marginTop:32,textAlign:'center',maxWidth:300}}>
           By continuing, you agree to S.O.S Terms of Service and Privacy Policy.
         </p>
@@ -201,9 +243,9 @@ const Landing:React.FC<{onGetHelp:()=>void;onHeroPortal:()=>void}> = ({onGetHelp
           <button onClick={onHeroPortal} style={{...btn('transparent',C.white,{border:`2px solid ${C.border}`,width:'100%',maxWidth:280})}}>🦸 Become a Hero</button>
         </div>
         <div style={{...flex('row','center','center',20),marginTop:32,flexWrap:'wrap'}}>
-          {[['✓','Verified Heroes'],['⚡','Avg 8min Response'],['⭐','4.9/5 Rating']].map(([icon,label])=>(
+          {[['✓','Verified Heroes'],['⚡','Avg 8min Response'],['⭐','4.9/5 Rating']].map(([ic,label])=>(
             <div key={label} style={{...flex('row','center','center',6),fontSize:12,color:C.gray}}>
-              <span style={{color:C.green}}>{icon}</span>{label}
+              <span style={{color:C.green}}>{ic}</span>{label}
             </div>
           ))}
         </div>
@@ -252,9 +294,9 @@ const Landing:React.FC<{onGetHelp:()=>void;onHeroPortal:()=>void}> = ({onGetHelp
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
           {[
             {icon:'🛡️',title:'Background Checked',desc:'Comprehensive verification for all Heroes'},
-            {icon:'⭐',title:'Highly Rated',desc:'Only top-rated professionals with proven track records'},
-            {icon:'📍',title:'GPS Tracked',desc:'Real-time location sharing for complete transparency'},
-            {icon:'🏢',title:'24/7 Command Center',desc:'Always available support and emergency hotline'},
+            {icon:'⭐',title:'Highly Rated',desc:'Only top-rated professionals'},
+            {icon:'📍',title:'GPS Tracked',desc:'Real-time location sharing'},
+            {icon:'🏢',title:'24/7 Command Center',desc:'Always available support'},
           ].map(c=>(
             <div key={c.title} style={{...cardStyle,textAlign:'center',padding:20}}>
               <div style={{fontSize:28,marginBottom:8}}>{c.icon}</div>
@@ -337,45 +379,132 @@ const Landing:React.FC<{onGetHelp:()=>void;onHeroPortal:()=>void}> = ({onGetHelp
 /* ════════════════════════════════════════ */
 /*             CITIZEN APP                 */
 /* ════════════════════════════════════════ */
-const CitizenApp:React.FC<{onBack:()=>void}> = ({onBack}) => {
+const CitizenApp:React.FC<{userName:string;onBack:()=>void}> = ({userName,onBack}) => {
   const [tab,setTab]=useState<CitizenTab>('home');
   const [selectedService,setSelectedService]=useState<typeof SERVICES[0]|null>(null);
-  const [dispatching,setDispatching]=useState(false);
-  const [heroEnRoute,setHeroEnRoute]=useState(false);
+  const [reqStep,setReqStep]=useState<RequestStep|null>(null);
   const [eta,setEta]=useState(480);
+  const [notifOpen,setNotifOpen]=useState(false);
 
   useEffect(()=>{
-    if(!heroEnRoute)return;
+    if(reqStep!=='tracking') return;
     const t=setInterval(()=>setEta(p=>Math.max(0,p-1)),1000);
     return()=>clearInterval(t);
-  },[heroEnRoute]);
+  },[reqStep]);
 
-  const handleDispatch=()=>{
-    setDispatching(true);
-    setTimeout(()=>{setDispatching(false);setHeroEnRoute(true);setSelectedService(null);},3000);
+  const startRequest=(svc:typeof SERVICES[0])=>{
+    setSelectedService(svc);
+    setReqStep('confirm');
+  };
+
+  const dispatchHero=()=>{
+    setReqStep('finding');
+    setTimeout(()=>setReqStep('found'),3000);
+  };
+
+  const startTracking=()=>{
+    setEta(480);
+    setReqStep('tracking');
+  };
+
+  const cancelRequest=()=>{
+    setReqStep(null);
+    setSelectedService(null);
   };
 
   const formatEta=(s:number)=>`${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
 
-  // Dispatching overlay
-  if(dispatching)return(
-    <div style={{minHeight:'100dvh',background:C.bg,...flex('column','center','center'),padding:40}}>
-      <div style={{width:120,height:120,borderRadius:'50%',border:`3px solid ${C.red}`,animation:'spin 2s linear infinite',borderTopColor:'transparent',marginBottom:32}}/>
-      <div style={{fontSize:20,fontWeight:800,color:C.white,marginBottom:8}}>Locating Heroes...</div>
-      <div style={{fontSize:14,color:C.gray}}>Finding the closest verified Hero</div>
-      <style>{`@keyframes spin{to{transform:rotate(360deg)}} @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.7;transform:scale(1.05)}}`}</style>
+  /* ── Service Request Flow overlays ── */
+  if(reqStep==='confirm' && selectedService) return (
+    <div style={{minHeight:'100dvh',background:C.bg,...flex('column','stretch','flex-start')}}>
+      <div style={{padding:'16px 20px',...flex('row','center','space-between')}}>
+        <button onClick={cancelRequest} style={{background:'transparent',border:'none',color:C.gray,fontSize:14,cursor:'pointer',fontWeight:600}}>← Cancel</button>
+        <div style={{fontSize:14,fontWeight:700,color:C.white}}>Confirm Service</div>
+        <div style={{width:50}}/>
+      </div>
+      <div style={{flex:1,...flex('column','center','center'),padding:'40px 24px'}}>
+        <div style={{fontSize:64,marginBottom:20}}>{selectedService.emoji}</div>
+        <h2 style={{fontSize:28,fontWeight:900,color:C.white,margin:'0 0 8px'}}>{selectedService.name}</h2>
+        <div style={{...cardStyle,width:'100%',marginTop:24,marginBottom:24}}>
+          <div style={{...flex('row','center','space-between'),marginBottom:12}}>
+            <span style={{fontSize:14,color:C.gray}}>Service Price</span>
+            <span style={{fontSize:20,fontWeight:900,color:C.green}}>${selectedService.price}</span>
+          </div>
+          <div style={{...flex('row','center','space-between'),marginBottom:12}}>
+            <span style={{fontSize:14,color:C.gray}}>Estimated ETA</span>
+            <span style={{fontSize:16,fontWeight:700,color:C.white}}>~{selectedService.eta}</span>
+          </div>
+          <div style={{...flex('row','center','space-between')}}>
+            <span style={{fontSize:14,color:C.gray}}>Service Fee</span>
+            <span style={{fontSize:14,fontWeight:600,color:C.muted}}>$0.00</span>
+          </div>
+        </div>
+        <div style={{width:'100%',padding:'16px 20px',background:`${C.blue}15`,borderRadius:12,marginBottom:24,...flex('row','center','flex-start',10)}}>
+          <span style={{fontSize:18}}>📍</span>
+          <div>
+            <div style={{fontSize:13,fontWeight:600,color:C.white}}>Your current location</div>
+            <div style={{fontSize:11,color:C.muted}}>GPS detected automatically</div>
+          </div>
+        </div>
+        <button onClick={dispatchHero} style={{...btn(C.red),width:'100%',fontSize:18,padding:'18px 32px',boxShadow:`0 0 30px ${C.red}40`}}>🚨 Dispatch Hero</button>
+      </div>
     </div>
   );
 
-  // Hero En Route
-  if(heroEnRoute)return(
+  if(reqStep==='finding') return (
+    <div style={{minHeight:'100dvh',background:C.bg,...flex('column','center','center'),padding:40}}>
+      <div style={{position:'relative',width:160,height:160,marginBottom:40}}>
+        <div style={{position:'absolute',inset:0,borderRadius:'50%',border:`2px solid ${C.red}30`,animation:'pulse-ring 2s ease-out infinite'}}/>
+        <div style={{position:'absolute',inset:20,borderRadius:'50%',border:`2px solid ${C.red}50`,animation:'pulse-ring 2s ease-out infinite .5s'}}/>
+        <div style={{position:'absolute',inset:40,borderRadius:'50%',border:`2px solid ${C.red}80`,animation:'pulse-ring 2s ease-out infinite 1s'}}/>
+        <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',width:40,height:40,borderRadius:'50%',background:C.red,boxShadow:`0 0 30px ${C.red}`,...flex('row','center','center')}}>
+          <span style={{fontSize:20}}>📡</span>
+        </div>
+      </div>
+      <div style={{fontSize:22,fontWeight:800,color:C.white,marginBottom:8}}>Finding Your Hero...</div>
+      <div style={{fontSize:14,color:C.gray,textAlign:'center'}}>Searching for the closest verified Hero near you</div>
+      <style>{`@keyframes pulse-ring{0%{transform:scale(1);opacity:1}100%{transform:scale(1.5);opacity:0}}`}</style>
+    </div>
+  );
+
+  if(reqStep==='found') return (
+    <div style={{minHeight:'100dvh',background:C.bg,...flex('column','center','center'),padding:24}}>
+      <div style={{fontSize:48,marginBottom:16,animation:'bounce-in .5s ease'}}>🎉</div>
+      <h2 style={{fontSize:24,fontWeight:900,color:C.white,margin:'0 0 8px'}}>Hero Found!</h2>
+      <p style={{fontSize:14,color:C.gray,margin:'0 0 24px'}}>Your Hero is on the way</p>
+      <div style={{...cardStyle,width:'100%',maxWidth:360}}>
+        <div style={{...flex('row','center','flex-start',16),marginBottom:20}}>
+          <div style={{width:64,height:64,borderRadius:'50%',background:`${C.green}20`,...flex('row','center','center'),fontSize:32}}>🦸</div>
+          <div>
+            <div style={{fontSize:20,fontWeight:800,color:C.white}}>Marcus J.</div>
+            <div style={{fontSize:13,color:C.yellow}}>⭐ 4.9 • 847 missions</div>
+          </div>
+        </div>
+        <div style={{...flex('row','center','space-between'),padding:'12px 0',borderTop:`1px solid ${C.border}`}}>
+          <span style={{fontSize:13,color:C.gray}}>ETA</span>
+          <span style={{fontSize:16,fontWeight:700,color:C.white}}>~8 min</span>
+        </div>
+        <div style={{...flex('row','center','space-between'),padding:'12px 0',borderTop:`1px solid ${C.border}`}}>
+          <span style={{fontSize:13,color:C.gray}}>Vehicle</span>
+          <span style={{fontSize:13,fontWeight:600,color:C.white}}>2022 Ford F-150</span>
+        </div>
+        <div style={{...flex('row','center','space-between'),padding:'12px 0',borderTop:`1px solid ${C.border}`}}>
+          <span style={{fontSize:13,color:C.gray}}>Service</span>
+          <span style={{fontSize:13,fontWeight:600,color:C.white}}>{selectedService?.name}</span>
+        </div>
+      </div>
+      <button onClick={startTracking} style={{...btn(C.green),width:'100%',maxWidth:360,fontSize:16,marginTop:24}}>Track My Hero →</button>
+      <style>{`@keyframes bounce-in{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}`}</style>
+    </div>
+  );
+
+  if(reqStep==='tracking') return (
     <div style={{minHeight:'100dvh',background:C.bg,...flex('column','stretch','flex-start')}}>
       <div style={{padding:'16px 20px',...flex('row','center','space-between')}}>
-        <button onClick={()=>{setHeroEnRoute(false);}} style={{background:'transparent',border:'none',color:C.gray,fontSize:14,cursor:'pointer'}}>✕ Close</button>
+        <button onClick={cancelRequest} style={{background:'transparent',border:'none',color:C.gray,fontSize:14,cursor:'pointer'}}>✕ Close</button>
         <div style={{fontSize:14,fontWeight:700,color:C.green}}>Hero En Route</div>
         <div style={{width:40}}/>
       </div>
-      {/* Map placeholder */}
       <div style={{flex:1,minHeight:300,background:C.card,margin:'0 20px',borderRadius:16,position:'relative',overflow:'hidden',...flex('column','center','center')}}>
         <div style={{width:200,height:200,borderRadius:'50%',border:`2px dashed ${C.border}`,position:'absolute',...flex('column','center','center')}}>
           <div style={{width:120,height:120,borderRadius:'50%',border:`2px dashed ${C.border}`,position:'absolute',...flex('column','center','center')}}>
@@ -385,14 +514,13 @@ const CitizenApp:React.FC<{onBack:()=>void}> = ({onBack}) => {
         <div style={{position:'absolute',top:20,right:20,width:12,height:12,borderRadius:'50%',background:C.green,boxShadow:`0 0 12px ${C.green}`}}/>
         <div style={{position:'absolute',bottom:16,left:16,background:'rgba(0,0,0,0.7)',borderRadius:8,padding:'8px 12px',fontSize:11,color:C.gray}}>📍 Live GPS Tracking</div>
       </div>
-      {/* Hero info */}
       <div style={{padding:20}}>
         <div style={{...cardStyle,...flex('row','center','space-between'),marginBottom:16}}>
           <div style={flex('row','center','flex-start',12)}>
-            <div style={{width:48,height:48,borderRadius:'50%',background:C.card2,...flex('row','center','center'),fontSize:24}}>🦸</div>
+            <div style={{width:48,height:48,borderRadius:'50%',background:`${C.green}20`,...flex('row','center','center'),fontSize:24}}>🦸</div>
             <div>
               <div style={{fontSize:16,fontWeight:700,color:C.white}}>Marcus J.</div>
-              <div style={{fontSize:12,color:C.muted}}>⭐ 4.9 • 847 missions</div>
+              <div style={{fontSize:12,color:C.muted}}>⭐ 4.9 • 2022 Ford F-150</div>
             </div>
           </div>
           <div style={{textAlign:'right'}}>
@@ -403,110 +531,137 @@ const CitizenApp:React.FC<{onBack:()=>void}> = ({onBack}) => {
         <div style={flex('row','center','center',12)}>
           <button style={{...btn(C.card2,C.white,{flex:1,border:`1px solid ${C.border}`})}}>📞 Call</button>
           <button style={{...btn(C.card2,C.white,{flex:1,border:`1px solid ${C.border}`})}}>💬 Message</button>
+          <button onClick={cancelRequest} style={{...btn(C.card2,C.red,{flex:1,border:`1px solid ${C.red}40`})}}>Cancel</button>
         </div>
       </div>
     </div>
   );
 
+  /* ── Main Citizen Tabs ── */
   return (
     <div style={{minHeight:'100dvh',background:C.bg,paddingBottom:80}}>
       {/* Header */}
       <div style={{padding:'16px 20px',...flex('row','center','space-between')}}>
-        <button onClick={onBack} style={{background:'transparent',border:'none',color:C.gray,fontSize:14,cursor:'pointer'}}>← Back</button>
-        <div style={{fontWeight:800,fontSize:16,color:C.white,letterSpacing:1}}>S.O.S</div>
-        <div style={{width:40}}/>
+        <div style={flex('row','center','flex-start',10)}>
+          <div style={{width:32,height:32,borderRadius:'50%',background:C.red,...flex('row','center','center'),fontWeight:900,fontSize:10,color:C.white}}>SOS</div>
+          <div>
+            <div style={{fontSize:14,fontWeight:700,color:C.white}}>Hi, {userName || 'Citizen'} 👋</div>
+            <div style={{fontSize:11,color:C.muted}}>Shield Free Member</div>
+          </div>
+        </div>
+        <button onClick={()=>setNotifOpen(!notifOpen)} style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:10,width:40,height:40,cursor:'pointer',...flex('row','center','center'),position:'relative'}}>
+          <span style={{fontSize:18}}>🔔</span>
+          <div style={{position:'absolute',top:6,right:6,width:8,height:8,borderRadius:'50%',background:C.red}}/>
+        </button>
       </div>
+
+      {/* Notification dropdown */}
+      {notifOpen && (
+        <div style={{margin:'0 20px 16px',padding:16,background:C.card,borderRadius:12,border:`1px solid ${C.border}`}}>
+          <div style={{fontSize:13,fontWeight:700,color:C.white,marginBottom:12}}>Notifications</div>
+          {['🎉 Welcome to S.O.S! Your account is ready.','🛡️ Upgrade to Shield for priority response.'].map((n,i)=>(
+            <div key={i} style={{padding:'10px 0',borderBottom:i===0?`1px solid ${C.border}`:'none',fontSize:13,color:C.gray}}>{n}</div>
+          ))}
+        </div>
+      )}
 
       {tab==='home'&&(
         <>
           {/* Map area */}
-          <div style={{margin:'0 20px',height:280,background:C.card,borderRadius:20,position:'relative',overflow:'hidden',...flex('column','center','center')}}>
+          <div style={{margin:'0 20px',height:200,background:C.card,borderRadius:20,position:'relative',overflow:'hidden',...flex('column','center','center')}}>
             <div style={{position:'absolute',inset:0,background:`radial-gradient(circle at 50% 50%,${C.card2} 0%,${C.bg} 100%)`}}/>
-            {/* Grid lines */}
             <div style={{position:'absolute',inset:0,backgroundImage:`linear-gradient(${C.border} 1px,transparent 1px),linear-gradient(90deg,${C.border} 1px,transparent 1px)`,backgroundSize:'40px 40px',opacity:0.3}}/>
             <div style={{position:'relative',width:16,height:16,borderRadius:'50%',background:C.blue,boxShadow:`0 0 20px ${C.blue}80`}}/>
-            <div style={{position:'absolute',bottom:16,left:16,background:'rgba(0,0,0,0.6)',borderRadius:8,padding:'6px 10px',fontSize:11,color:C.gray}}>📍 Your location</div>
+            <div style={{position:'absolute',bottom:12,left:12,background:'rgba(0,0,0,0.6)',borderRadius:8,padding:'6px 10px',fontSize:11,color:C.gray}}>📍 Your location</div>
           </div>
 
           {/* SOS Button */}
-          <div style={{...flex('column','center','center'),padding:'24px 20px'}}>
-            <button onClick={()=>setTab('sos')} style={{width:120,height:120,borderRadius:'50%',background:`radial-gradient(circle,${C.red},${C.redDark})`,border:'none',color:C.white,fontSize:24,fontWeight:900,cursor:'pointer',boxShadow:`0 0 40px ${C.red}50`,letterSpacing:2}}>
-              SOS<br/><span style={{fontSize:11,fontWeight:600,letterSpacing:0}}>NOW</span>
+          <div style={{...flex('column','center','center'),padding:'20px 20px 12px'}}>
+            <button onClick={()=>startRequest(SERVICES[0])} style={{width:140,height:140,borderRadius:'50%',background:`radial-gradient(circle,${C.red},${C.redDark})`,border:'none',color:C.white,fontSize:16,fontWeight:900,cursor:'pointer',boxShadow:`0 0 50px ${C.red}50`,letterSpacing:1,animation:'sos-pulse 2s ease-in-out infinite'}}>
+              🚨<br/>SOS<br/><span style={{fontSize:11,fontWeight:600}}>Get Help Now</span>
             </button>
           </div>
+          <style>{`@keyframes sos-pulse{0%,100%{box-shadow:0 0 30px #ef444450}50%{box-shadow:0 0 60px #ef444480}}`}</style>
 
-          {/* Quick services */}
-          <div style={{padding:'0 20px'}}>
-            <div style={{fontSize:14,fontWeight:700,color:C.white,marginBottom:12}}>Quick Services</div>
-            <div style={{display:'flex',gap:8,overflowX:'auto',paddingBottom:8}}>
+          {/* Service cards grid */}
+          <div style={{padding:'8px 20px'}}>
+            <div style={{fontSize:15,fontWeight:700,color:C.white,marginBottom:12}}>Services</div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:10}}>
               {SERVICES.map(s=>(
-                <button key={s.name} onClick={()=>setSelectedService(s)} style={{background:C.card,border:`1px solid ${selectedService?.name===s.name?C.red:C.border}`,borderRadius:12,padding:'12px 16px',cursor:'pointer',flexShrink:0,textAlign:'center',minWidth:80}}>
-                  <div style={{fontSize:24,marginBottom:4}}>{s.emoji}</div>
+                <button key={s.name} onClick={()=>startRequest(s)} style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:14,padding:'14px 8px',cursor:'pointer',textAlign:'center'}}>
+                  <div style={{fontSize:28,marginBottom:4}}>{s.emoji}</div>
                   <div style={{fontSize:11,color:C.white,fontWeight:600}}>{s.name}</div>
-                  <div style={{fontSize:11,color:C.green,fontWeight:700}}>${s.price}</div>
+                  <div style={{fontSize:12,color:C.green,fontWeight:800}}>${s.price}</div>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Selected service detail */}
-          {selectedService&&(
-            <div style={{margin:'16px 20px',padding:20,background:C.card,borderRadius:16,border:`1px solid ${C.red}40`}}>
-              <div style={{...flex('row','center','space-between'),marginBottom:16}}>
+          {/* Recent history preview */}
+          <div style={{padding:'20px 20px 0'}}>
+            <div style={{fontSize:15,fontWeight:700,color:C.white,marginBottom:12}}>Recent Rescues</div>
+            {CITIZEN_HISTORY.map((h,i)=>(
+              <div key={i} style={{...flex('row','center','space-between'),padding:'12px 0',borderBottom:i<CITIZEN_HISTORY.length-1?`1px solid ${C.border}`:'none'}}>
                 <div>
-                  <div style={{fontSize:18,fontWeight:800,color:C.white}}>{selectedService.emoji} {selectedService.name}</div>
-                  <div style={{fontSize:12,color:C.muted}}>ETA: ~{selectedService.eta}</div>
+                  <div style={{fontSize:14,fontWeight:600,color:C.white}}>{h.service}</div>
+                  <div style={{fontSize:11,color:C.muted}}>{h.hero} • {h.date}</div>
                 </div>
-                <div style={{fontSize:28,fontWeight:900,color:C.green}}>${selectedService.price}</div>
+                <div style={{fontSize:14,fontWeight:700,color:C.white}}>${h.cost}</div>
               </div>
-              <button onClick={handleDispatch} style={{...btn(C.red),width:'100%',fontSize:16}}>🚨 Dispatch Hero</button>
-            </div>
-          )}
+            ))}
+          </div>
         </>
       )}
 
-      {tab==='sos'&&(
-        <div style={{padding:20,...flex('column','center','center'),minHeight:'60vh'}}>
-          <div style={{fontSize:14,color:C.muted,marginBottom:24}}>Select your emergency</div>
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,width:'100%'}}>
-            {SERVICES.map(s=>(
-              <button key={s.name} onClick={()=>{setSelectedService(s);setTab('home');}} style={{...cardStyle,cursor:'pointer',textAlign:'center',border:`1px solid ${C.border}`,padding:20}}>
-                <div style={{fontSize:32,marginBottom:8}}>{s.emoji}</div>
-                <div style={{fontSize:14,fontWeight:700,color:C.white}}>{s.name}</div>
-                <div style={{fontSize:16,fontWeight:800,color:C.green,marginTop:4}}>${s.price}</div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {tab==='services'&&(
+      {tab==='history'&&(
         <div style={{padding:20}}>
-          <h2 style={{fontSize:20,fontWeight:800,color:C.white,marginBottom:16}}>All Services</h2>
-          {SERVICES.map(s=>(
-            <div key={s.name} style={{...cardStyle,...flex('row','center','space-between'),marginBottom:12}}>
-              <div style={flex('row','center','flex-start',12)}>
-                <span style={{fontSize:28}}>{s.emoji}</span>
-                <div>
-                  <div style={{fontSize:15,fontWeight:700,color:C.white}}>{s.name}</div>
-                  <div style={{fontSize:12,color:C.muted}}>~{s.eta}</div>
-                </div>
+          <h2 style={{fontSize:20,fontWeight:800,color:C.white,marginBottom:16}}>Mission History</h2>
+          {CITIZEN_HISTORY.map((h,i)=>(
+            <div key={i} style={{...cardStyle,...flex('row','center','space-between'),marginBottom:12}}>
+              <div>
+                <div style={{fontSize:15,fontWeight:700,color:C.white}}>{h.service}</div>
+                <div style={{fontSize:12,color:C.muted}}>{h.hero} • {h.date}</div>
+                <div style={{fontSize:11,color:C.green,marginTop:4}}>✓ {h.status}</div>
               </div>
-              <div style={{textAlign:'right'}}>
-                <div style={{fontSize:18,fontWeight:800,color:C.green}}>${s.price}</div>
-                <button onClick={()=>{setSelectedService(s);setTab('home');}} style={{fontSize:11,color:C.red,background:'none',border:'none',cursor:'pointer',fontWeight:700}}>Request →</button>
-              </div>
+              <div style={{fontSize:18,fontWeight:800,color:C.white}}>${h.cost}</div>
             </div>
           ))}
         </div>
       )}
 
-      {tab==='account'&&(
+      {tab==='wallet'&&(
+        <div style={{padding:20}}>
+          <h2 style={{fontSize:20,fontWeight:800,color:C.white,marginBottom:16}}>Wallet</h2>
+          <div style={{...cardStyle,textAlign:'center',marginBottom:20}}>
+            <div style={{fontSize:11,color:C.muted,marginBottom:4}}>S.O.S Balance</div>
+            <div style={{fontSize:36,fontWeight:900,color:C.green}}>$0.00</div>
+          </div>
+          <div style={{...cardStyle,marginBottom:12}}>
+            <div style={{fontSize:14,fontWeight:700,color:C.white,marginBottom:12}}>Payment Methods</div>
+            <div style={{...flex('row','center','space-between'),padding:'12px 0',borderBottom:`1px solid ${C.border}`}}>
+              <span style={{fontSize:14,color:C.gray}}>💳 •••• 4242</span>
+              <span style={{fontSize:12,color:C.green}}>Default</span>
+            </div>
+            <button style={{...btn('transparent',C.blue,{border:'none',padding:'12px 0',fontSize:13,fontWeight:600})}}>+ Add Payment Method</button>
+          </div>
+          <div style={cardStyle}>
+            <div style={{fontSize:14,fontWeight:700,color:C.white,marginBottom:12}}>Recent Charges</div>
+            {CITIZEN_HISTORY.map((h,i)=>(
+              <div key={i} style={{...flex('row','center','space-between'),padding:'10px 0',borderBottom:i<CITIZEN_HISTORY.length-1?`1px solid ${C.border}`:'none'}}>
+                <span style={{fontSize:13,color:C.gray}}>{h.service} • {h.date}</span>
+                <span style={{fontSize:13,fontWeight:700,color:C.white}}>${h.cost}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {tab==='profile'&&(
         <div style={{padding:20,...flex('column','center','center'),minHeight:'60vh'}}>
           <div style={{width:80,height:80,borderRadius:'50%',background:C.card2,...flex('row','center','center'),fontSize:36,marginBottom:16}}>👤</div>
-          <div style={{fontSize:18,fontWeight:700,color:C.white,marginBottom:4}}>Citizen Account</div>
+          <div style={{fontSize:18,fontWeight:700,color:C.white,marginBottom:4}}>{userName || 'Citizen'}</div>
           <div style={{fontSize:13,color:C.muted,marginBottom:24}}>Shield Free Member</div>
-          {['My Missions','Shield Plans','Payment Methods','Safety Settings','Help & Support'].map(item=>(
+          {['My Profile','Shield Plans','Payment Methods','Safety Settings','Help & Support'].map(item=>(
             <div key={item} style={{...cardStyle,width:'100%',marginBottom:8,...flex('row','center','space-between'),padding:'16px 20px',cursor:'pointer'}}>
               <span style={{fontSize:14,color:C.white}}>{item}</span>
               <span style={{color:C.muted}}>→</span>
@@ -518,9 +673,9 @@ const CitizenApp:React.FC<{onBack:()=>void}> = ({onBack}) => {
 
       {/* Bottom Nav */}
       <div style={{position:'fixed',bottom:0,left:'50%',transform:'translateX(-50%)',width:'100%',maxWidth:430,background:C.card,borderTop:`1px solid ${C.border}`,padding:'8px 0 env(safe-area-inset-bottom,8px)',...flex('row','center','space-around'),zIndex:40}}>
-        {([['home','🏠','Home'],['sos','🚨','SOS'],['services','🔧','Services'],['account','👤','Account']] as [CitizenTab,string,string][]).map(([id,icon,label])=>(
+        {([['home','🏠','Home'],['history','📋','History'],['wallet','💳','Wallet'],['profile','👤','Profile']] as [CitizenTab,string,string][]).map(([id,ic,label])=>(
           <button key={id} onClick={()=>setTab(id)} style={{background:'none',border:'none',cursor:'pointer',...flex('column','center','center',2),padding:'6px 12px'}}>
-            <span style={{fontSize:id==='sos'?28:20}}>{icon}</span>
+            <span style={{fontSize:20}}>{ic}</span>
             <span style={{fontSize:10,color:tab===id?C.red:C.muted,fontWeight:tab===id?700:500}}>{label}</span>
           </button>
         ))}
@@ -532,7 +687,7 @@ const CitizenApp:React.FC<{onBack:()=>void}> = ({onBack}) => {
 /* ════════════════════════════════════════ */
 /*           HERO DASHBOARD                */
 /* ════════════════════════════════════════ */
-const HeroDashboard:React.FC<{onBack:()=>void}> = ({onBack}) => {
+const HeroDashboard:React.FC<{userName:string;onBack:()=>void}> = ({userName,onBack}) => {
   const [tab,setTab]=useState<HeroTab>('dashboard');
   const [onDuty,setOnDuty]=useState(false);
   const [showAlert,setShowAlert]=useState(false);
@@ -558,12 +713,21 @@ const HeroDashboard:React.FC<{onBack:()=>void}> = ({onBack}) => {
     <div style={{minHeight:'100dvh',background:C.bg,paddingBottom:80}}>
       {/* Header */}
       <div style={{padding:'16px 20px',...flex('row','center','space-between')}}>
-        <button onClick={onBack} style={{background:'transparent',border:'none',color:C.gray,fontSize:14,cursor:'pointer'}}>← Back</button>
-        <div style={{fontWeight:800,fontSize:16,color:C.white,letterSpacing:1}}>Hero Portal</div>
-        <div style={{width:40}}/>
+        <div style={flex('row','center','flex-start',10)}>
+          <div style={{width:32,height:32,borderRadius:'50%',background:C.green,...flex('row','center','center'),fontWeight:900,fontSize:10,color:C.white}}>SOS</div>
+          <div>
+            <div style={{fontSize:14,fontWeight:700,color:C.white}}>{userName || 'Hero'} 🦸</div>
+            <div style={{fontSize:11,color:onDuty?C.green:C.muted}}>{onDuty?'● Online':'○ Offline'}</div>
+          </div>
+        </div>
+        {/* Online/Offline toggle */}
+        <button onClick={()=>{setOnDuty(!onDuty);if(onDuty)setShowAlert(false);}} style={{...flex('row','center','center',8),background:onDuty?`${C.green}15`:`${C.grayDarker}`,border:`1px solid ${onDuty?C.green:C.border}`,borderRadius:20,padding:'8px 16px',cursor:'pointer'}}>
+          <div style={{width:10,height:10,borderRadius:'50%',background:onDuty?C.green:C.gray}}/>
+          <span style={{fontSize:12,fontWeight:700,color:onDuty?C.green:C.gray}}>{onDuty?'ON DUTY':'OFF DUTY'}</span>
+        </button>
       </div>
 
-      {/* Mission Alert Overlay */}
+      {/* Mission Alert */}
       {showAlert&&(
         <div style={{position:'fixed',inset:0,zIndex:60,background:'rgba(0,0,0,0.85)',backdropFilter:'blur(8px)',...flex('column','center','center'),padding:20}}>
           <div style={{...cardStyle,width:'100%',maxWidth:380,border:`1px solid ${C.red}60`,position:'relative'}}>
@@ -585,7 +749,7 @@ const HeroDashboard:React.FC<{onBack:()=>void}> = ({onBack}) => {
             </div>
             <div style={flex('row','center','center',12)}>
               <button onClick={()=>setShowAlert(false)} style={{...btn(C.card2,C.gray,{flex:1,border:`1px solid ${C.border}`})}}>Decline</button>
-              <button onClick={()=>{setShowAlert(false);setTab('missions');}} style={{...btn(C.red,C.white,{flex:2})}}>Accept Mission</button>
+              <button onClick={()=>{setShowAlert(false);setTab('jobs');}} style={{...btn(C.red,C.white,{flex:2})}}>Accept Mission</button>
             </div>
           </div>
         </div>
@@ -593,43 +757,63 @@ const HeroDashboard:React.FC<{onBack:()=>void}> = ({onBack}) => {
 
       {tab==='dashboard'&&(
         <div style={{padding:20}}>
-          {/* Duty toggle */}
-          <div style={{...cardStyle,...flex('row','center','space-between'),marginBottom:20,border:`1px solid ${onDuty?C.green:C.border}40`}}>
+          {/* Earnings card */}
+          <div style={{...cardStyle,marginBottom:16}}>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:12,textAlign:'center'}}>
+              <div>
+                <div style={{fontSize:11,color:C.muted}}>Today</div>
+                <div style={{fontSize:24,fontWeight:900,color:C.green}}>${todayEarnings}</div>
+              </div>
+              <div>
+                <div style={{fontSize:11,color:C.muted}}>This Week</div>
+                <div style={{fontSize:24,fontWeight:900,color:C.white}}>${weekEarnings}</div>
+              </div>
+              <div>
+                <div style={{fontSize:11,color:C.muted}}>Rating</div>
+                <div style={{fontSize:24,fontWeight:900,color:C.yellow}}>⭐ 5.0</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Availability */}
+          <div style={{...cardStyle,...flex('row','center','space-between'),marginBottom:16,border:`1px solid ${onDuty?C.green:C.border}40`}}>
             <div>
-              <div style={{fontSize:16,fontWeight:700,color:C.white}}>{onDuty?'On Duty':'Off Duty'}</div>
-              <div style={{fontSize:12,color:onDuty?C.green:C.muted}}>{onDuty?'Accepting missions':'Tap to go on duty'}</div>
+              <div style={{fontSize:16,fontWeight:700,color:C.white}}>Availability</div>
+              <div style={{fontSize:12,color:onDuty?C.green:C.muted}}>{onDuty?'Receiving job alerts':'Go online to receive jobs'}</div>
             </div>
             <button onClick={()=>{setOnDuty(!onDuty);if(onDuty)setShowAlert(false);}} style={{width:56,height:32,borderRadius:16,background:onDuty?C.green:C.grayDarker,border:'none',cursor:'pointer',position:'relative',transition:'all .3s'}}>
               <div style={{width:26,height:26,borderRadius:'50%',background:C.white,position:'absolute',top:3,left:onDuty?27:3,transition:'left .3s',boxShadow:'0 2px 4px rgba(0,0,0,0.3)'}}/>
             </button>
           </div>
 
-          {/* Map area */}
-          <div style={{height:220,background:C.card,borderRadius:16,marginBottom:20,position:'relative',overflow:'hidden',...flex('column','center','center')}}>
+          {/* Map */}
+          <div style={{height:200,background:C.card,borderRadius:16,marginBottom:16,position:'relative',overflow:'hidden',...flex('column','center','center')}}>
             <div style={{position:'absolute',inset:0,backgroundImage:`linear-gradient(${C.border} 1px,transparent 1px),linear-gradient(90deg,${C.border} 1px,transparent 1px)`,backgroundSize:'40px 40px',opacity:0.3}}/>
             <div style={{position:'relative',width:14,height:14,borderRadius:'50%',background:onDuty?C.green:C.gray,boxShadow:onDuty?`0 0 20px ${C.green}80`:'none'}}/>
             <div style={{position:'absolute',bottom:12,left:12,background:'rgba(0,0,0,0.6)',borderRadius:8,padding:'6px 10px',fontSize:11,color:C.gray}}>{onDuty?'🟢 Live':'⚫ Offline'}</div>
           </div>
 
-          {/* Today stats */}
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
-            <div style={{...cardStyle,textAlign:'center'}}>
-              <div style={{fontSize:11,color:C.muted,marginBottom:4}}>Today</div>
-              <div style={{fontSize:28,fontWeight:900,color:C.green}}>${todayEarnings}</div>
-              <div style={{fontSize:11,color:C.muted}}>4 missions</div>
-            </div>
-            <div style={{...cardStyle,textAlign:'center'}}>
-              <div style={{fontSize:11,color:C.muted,marginBottom:4}}>This Week</div>
-              <div style={{fontSize:28,fontWeight:900,color:C.white}}>${weekEarnings}</div>
-              <div style={{fontSize:11,color:C.muted}}>18 missions</div>
-            </div>
+          {/* Job alerts section */}
+          <div style={cardStyle}>
+            <div style={{fontSize:14,fontWeight:700,color:C.white,marginBottom:12}}>Incoming Jobs</div>
+            {!onDuty ? (
+              <div style={{textAlign:'center',padding:'20px 0'}}>
+                <div style={{fontSize:28,marginBottom:8}}>💤</div>
+                <div style={{fontSize:13,color:C.muted}}>Go online to receive jobs</div>
+              </div>
+            ) : (
+              <div style={{textAlign:'center',padding:'20px 0'}}>
+                <div style={{fontSize:28,marginBottom:8}}>📡</div>
+                <div style={{fontSize:13,color:C.green}}>Listening for missions...</div>
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      {tab==='missions'&&(
+      {tab==='jobs'&&(
         <div style={{padding:20}}>
-          <h2 style={{fontSize:20,fontWeight:800,color:C.white,marginBottom:16}}>Completed Missions</h2>
+          <h2 style={{fontSize:20,fontWeight:800,color:C.white,marginBottom:16}}>Recent Jobs</h2>
           {MISSIONS_HISTORY.map((m,i)=>(
             <div key={i} style={{...cardStyle,...flex('row','center','space-between'),marginBottom:12}}>
               <div>
@@ -661,7 +845,7 @@ const HeroDashboard:React.FC<{onBack:()=>void}> = ({onBack}) => {
             {[['Base earnings','$720.00'],['Tips','$85.00'],['Bonuses','$35.00'],['Platform fee','-$72.00']].map(([label,val])=>(
               <div key={label} style={{...flex('row','center','space-between'),padding:'10px 0',borderBottom:`1px solid ${C.border}`}}>
                 <span style={{fontSize:14,color:C.gray}}>{label}</span>
-                <span style={{fontSize:14,fontWeight:700,color:val.startsWith('-')?C.red:C.white}}>{val}</span>
+                <span style={{fontSize:14,fontWeight:700,color:(val as string).startsWith('-')?C.red:C.white}}>{val}</span>
               </div>
             ))}
             <div style={{...flex('row','center','space-between'),padding:'12px 0 0'}}>
@@ -672,10 +856,10 @@ const HeroDashboard:React.FC<{onBack:()=>void}> = ({onBack}) => {
         </div>
       )}
 
-      {tab==='account'&&(
+      {tab==='profile'&&(
         <div style={{padding:20,...flex('column','center','center'),minHeight:'60vh'}}>
           <div style={{width:80,height:80,borderRadius:'50%',background:C.green,...flex('row','center','center'),fontSize:36,marginBottom:16}}>🦸</div>
-          <div style={{fontSize:18,fontWeight:700,color:C.white,marginBottom:4}}>Hero Account</div>
+          <div style={{fontSize:18,fontWeight:700,color:C.white,marginBottom:4}}>{userName || 'Hero'}</div>
           <div style={{fontSize:13,color:C.green,marginBottom:24}}>⭐ 4.9 Rating • 847 Missions</div>
           {['My Profile','Vehicle Info','Documents','Payout Settings','Help & Support'].map(item=>(
             <div key={item} style={{...cardStyle,width:'100%',marginBottom:8,...flex('row','center','space-between'),padding:'16px 20px',cursor:'pointer'}}>
@@ -689,9 +873,9 @@ const HeroDashboard:React.FC<{onBack:()=>void}> = ({onBack}) => {
 
       {/* Bottom Nav */}
       <div style={{position:'fixed',bottom:0,left:'50%',transform:'translateX(-50%)',width:'100%',maxWidth:430,background:C.card,borderTop:`1px solid ${C.border}`,padding:'8px 0 env(safe-area-inset-bottom,8px)',...flex('row','center','space-around'),zIndex:40}}>
-        {([['dashboard','📊','Dashboard'],['missions','🎯','Missions'],['earnings','💰','Earnings'],['account','👤','Account']] as [HeroTab,string,string][]).map(([id,icon,label])=>(
+        {([['dashboard','📊','Dashboard'],['jobs','🎯','Jobs'],['earnings','💰','Earnings'],['profile','👤','Profile']] as [HeroTab,string,string][]).map(([id,ic,label])=>(
           <button key={id} onClick={()=>setTab(id)} style={{background:'none',border:'none',cursor:'pointer',...flex('column','center','center',2),padding:'6px 12px'}}>
-            <span style={{fontSize:20}}>{icon}</span>
+            <span style={{fontSize:20}}>{ic}</span>
             <span style={{fontSize:10,color:tab===id?C.green:C.muted,fontWeight:tab===id?700:500}}>{label}</span>
           </button>
         ))}
