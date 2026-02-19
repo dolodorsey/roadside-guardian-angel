@@ -39,7 +39,7 @@ const PLANS = [
 const REVIEWS = [
   {text:'S.O.S saved me when I was stranded with a flat tire at 2 AM. The Hero arrived in 6 minutes and had me back on the road quickly.',name:'Sarah M.',plan:'Shield Member',stars:5},
   {text:'As a rideshare driver, S.O.S keeps me earning. The family plan covers my whole fleet at an amazing price.',name:'Mike R.',plan:'Family Plan',stars:5},
-  {text:'The Hero was professional, fast, and kind. Best roadside experience I\'ve ever had.',name:'Jessica L.',plan:'Shield Pro',stars:5},
+  {text:'The Hero was professional, fast, and kind. Best rescue experience I\'ve ever had.',name:'Jessica L.',plan:'Shield Pro',stars:5},
 ];
 
 const MISSIONS_HISTORY = [
