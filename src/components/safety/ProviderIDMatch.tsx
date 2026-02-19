@@ -54,10 +54,10 @@ const ProviderIDMatch: React.FC<ProviderIDMatchProps> = ({
             <Shield className="w-8 h-8 text-electric-blue animate-pulse" />
           </div>
           <h2 className="font-guardian text-2xl text-foreground mb-2">
-            Provider Verification
+            Hero Verification
           </h2>
           <p className="text-muted-foreground">
-            Confirm this is your verified Roadside provider
+            Confirm this is your verified S.O.S Hero
           </p>
         </div>
 
@@ -66,7 +66,7 @@ const ProviderIDMatch: React.FC<ProviderIDMatchProps> = ({
           {/* Provider Photo Card */}
           <div className="tech-surface rounded-xl p-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-tech text-foreground">Provider Profile</h3>
+              <h3 className="font-tech text-foreground">Hero Profile</h3>
               {matchStatus === 'matched' && (
                 <CheckCircle className="w-5 h-5 text-neon-green animate-scale-in" />
               )}
@@ -80,7 +80,7 @@ const ProviderIDMatch: React.FC<ProviderIDMatchProps> = ({
               />
               <div>
                 <h4 className="font-guardian text-lg text-foreground">{provider.name}</h4>
-                <p className="text-muted-foreground text-sm">Verified Provider</p>
+                <p className="text-muted-foreground text-sm">Verified Hero</p>
               </div>
             </div>
           </div>
@@ -136,7 +136,7 @@ const ProviderIDMatch: React.FC<ProviderIDMatchProps> = ({
               <span className="font-tech">Verification Complete</span>
             </div>
             <p className="text-neon-green/80 text-sm mt-1">
-              This is your verified Roadside provider
+              This is your verified S.O.S Hero
             </p>
           </div>
         )}
@@ -148,7 +148,7 @@ const ProviderIDMatch: React.FC<ProviderIDMatchProps> = ({
               <span className="font-tech">Verification Failed</span>
             </div>
             <p className="text-emergency-red/80 text-sm mt-1">
-              Provider details do not match our records
+              Hero details do not match our records
             </p>
           </div>
         )}
@@ -160,7 +160,7 @@ const ProviderIDMatch: React.FC<ProviderIDMatchProps> = ({
               onClick={onConfirm}
               className="flex-1 emergency-cta font-guardian"
             >
-              Confirm Provider
+              Confirm Hero
             </Button>
           ) : (
             <Button

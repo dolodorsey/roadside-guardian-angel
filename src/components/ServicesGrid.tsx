@@ -42,7 +42,7 @@ const ServicesGrid: React.FC = () => {
     {
       icon: <Shield className="w-6 h-6 text-midnight-black" />,
       title: "Tire Change",
-      description: "Flat tire replacement service by certified roadside professionals",
+      description: "Flat tire replacement by certified Heroes",
       estimatedTime: "20-30 min",
       onRequest: () => console.log('Tire change requested')
     },
@@ -64,8 +64,8 @@ const ServicesGrid: React.FC = () => {
           </h2>
           <div className="neon-accent w-24 mx-auto mb-6"></div>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Professional roadside assistance at your fingertips. 
-            Verified providers, transparent pricing, real-time tracking.
+            Professional assistance at your fingertips. 
+            Verified Heroes, transparent pricing, real-time tracking.
           </p>
         </div>
         

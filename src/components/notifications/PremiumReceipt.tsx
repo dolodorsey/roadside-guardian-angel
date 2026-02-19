@@ -216,10 +216,10 @@ const PremiumReceipt: React.FC<PremiumReceiptProps> = ({
           {/* Footer */}
           <div className="mt-6 pt-4 border-t border-border/30 text-center">
             <p className="text-xs text-muted-foreground mb-2">
-              Thank you for choosing Roadside
+              Thank you for choosing S.O.S
             </p>
             <p className="text-xs text-electric-blue font-tech">
-              Need help? Call support: (555) ROADSIDE
+              Need help? Call Command Center: (555) HELP
             </p>
           </div>
         </div>

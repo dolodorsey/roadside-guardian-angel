@@ -77,13 +77,13 @@ const Index = () => {
             to="/membership"
             className="px-4 py-2 rounded-lg tech-surface border border-border/50 hover:border-electric-blue/50 transition-colors"
           >
-            <span className="text-electric-blue font-tech">Membership</span>
+            <span className="text-electric-blue font-tech">Membership Shield Plans</span>
           </Link>
           <Link 
             to="/provider/onboarding"
             className="px-4 py-2 rounded-lg tech-surface border border-border/50 hover:border-neon-green/50 transition-colors"
           >
-            <span className="text-neon-green font-tech">Provider Portal</span>
+            <span className="text-neon-green font-tech">Hero Portal</span>
           </Link>
           <button className="text-muted-foreground text-sm hover:text-neon-green transition-colors duration-300 font-tech">
             Sign In / Create Account
@@ -124,17 +124,21 @@ const Index = () => {
           <div className="mb-6 flex justify-center">
             <img 
               src="/lovable-uploads/faf67814-8153-400b-a3ea-b4203d7bf2c8.png"
-              alt="Roadside"
+              alt="S.O.S"
               className="h-16 md:h-20 lg:h-24 object-contain"
             />
           </div>
           
+          <p className="text-sm md:text-base text-muted-foreground mb-2 font-tech">
+            Superheros On Standby
+          </p>
+          
           <p className="text-xl md:text-2xl text-muted-foreground mb-4 font-tech">
-            Elite roadside assistance when you need it most
+            Real-world rescue when you need it most
           </p>
           
           <p className="text-lg text-electric-blue mb-12 font-tech">
-            Professional • Verified • Always Ready
+            There's Always a Superhero On Standby!
           </p>
 
           {/* CTA Buttons */}
@@ -153,7 +157,7 @@ const Index = () => {
               size="lg"
               className="min-w-[200px] border-neon-green/30 text-neon-green hover:bg-neon-green/10"
             >
-              How It Works
+              Become a Hero
             </EmergencyButton>
           </div>
 
@@ -161,7 +165,7 @@ const Index = () => {
           <div className="flex flex-wrap justify-center gap-8 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Shield className="w-4 h-4 text-neon-green" />
-              <span>Verified Professionals</span>
+              <span>Verified Heroes</span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-electric-blue" />
@@ -183,7 +187,7 @@ const Index = () => {
               Professional Services
             </h2>
             <p className="text-muted-foreground text-lg">
-              Elite technicians ready to solve your roadside emergency
+              Elite Heroes ready to solve your emergency
             </p>
           </div>
 
@@ -213,7 +217,7 @@ const Index = () => {
                 Jump Start
               </h3>
               <p className="text-muted-foreground text-center mb-6">
-                Quick battery jump start service to get you back on the road
+                Quick battery jump start to get you back on the road
               </p>
               <div className="text-center">
                 <span className="text-electric-blue font-tech">From $45</span>
@@ -245,7 +249,7 @@ const Index = () => {
                 Tire Change
               </h3>
               <p className="text-muted-foreground text-center mb-6">
-                Expert tire change service with proper safety equipment
+                Expert tire change with proper safety equipment
               </p>
               <div className="text-center">
                 <span className="text-emergency-red font-tech">From $55</span>
@@ -292,10 +296,10 @@ const Index = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="font-guardian text-4xl text-foreground mb-4">
-              How Roadside Works
+              How S.O.S Works
             </h2>
             <p className="text-muted-foreground text-lg">
-              Get help in three simple steps
+              Help in three simple steps
             </p>
           </div>
 
@@ -305,10 +309,10 @@ const Index = () => {
                 <span className="font-guardian text-2xl text-emergency-red">1</span>
               </div>
               <h3 className="font-guardian text-xl text-foreground mb-4">
-                Request Help
+                Send Your Signal
               </h3>
               <p className="text-muted-foreground">
-                Tap the emergency button and describe your situation. Our system instantly locates nearby verified professionals.
+                Tap SOS NOW and describe your situation. We instantly locate verified Heroes near you.
               </p>
             </div>
 
@@ -317,10 +321,10 @@ const Index = () => {
                 <span className="font-guardian text-2xl text-electric-blue">2</span>
               </div>
               <h3 className="font-guardian text-xl text-foreground mb-4">
-                Get Matched
+                Hero Dispatched
               </h3>
               <p className="text-muted-foreground">
-                We connect you with the closest qualified technician. Track their arrival in real-time with GPS updates.
+                We match you with the closest qualified Hero. Track their arrival in real-time with GPS.
               </p>
             </div>
 
@@ -329,10 +333,10 @@ const Index = () => {
                 <span className="font-guardian text-2xl text-neon-green">3</span>
               </div>
               <h3 className="font-guardian text-xl text-foreground mb-4">
-                Problem Solved
+                Mission Complete
               </h3>
               <p className="text-muted-foreground">
-                Professional service with transparent pricing. Pay securely through the app when the job is complete.
+                Professional service with transparent pricing. Pay securely through the app when the mission is complete.
               </p>
             </div>
           </div>
@@ -344,10 +348,10 @@ const Index = () => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="font-guardian text-4xl text-foreground mb-4">
-              Your Safety is Our Priority
+              Your Safety is Our Mission
             </h2>
             <p className="text-muted-foreground text-lg">
-              Every provider is thoroughly vetted and verified
+              Every Hero is thoroughly vetted and verified
             </p>
           </div>
 
@@ -356,7 +360,7 @@ const Index = () => {
               <Shield className="w-12 h-12 mx-auto mb-4 text-neon-green" />
               <h4 className="font-tech text-foreground mb-2">Background Checked</h4>
               <p className="text-muted-foreground text-sm">
-                All providers undergo comprehensive background verification
+                Comprehensive verification for all Heroes
               </p>
             </div>
 
@@ -378,9 +382,9 @@ const Index = () => {
 
             <div className="p-6 rounded-xl tech-surface border border-border/50 text-center">
               <Phone className="w-12 h-12 mx-auto mb-4 text-neon-green" />
-              <h4 className="font-tech text-foreground mb-2">24/7 Support</h4>
+              <h4 className="font-tech text-foreground mb-2">24/7 Command Center</h4>
               <p className="text-muted-foreground text-sm">
-                Always available customer support and emergency hotline
+                Always available support and emergency hotline
               </p>
             </div>
           </div>
@@ -399,7 +403,7 @@ const Index = () => {
           </h2>
           
           <p className="text-xl text-muted-foreground mb-12">
-            Join thousands of drivers who trust Roadside for their emergency needs
+            Join thousands of Citizens who trust S.O.S for their emergency needs
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
@@ -409,7 +413,7 @@ const Index = () => {
               showBeacon={true}
               className="min-w-[250px]"
             >
-              Download Roadside App
+              Download S.O.S App
             </EmergencyButton>
             
             <EmergencyButton 
@@ -434,10 +438,10 @@ const Index = () => {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <RoadsideBeacon size="sm" variant="guardian" />
-                <span className="font-guardian text-xl text-foreground">ROADSIDE</span>
+                <span className="font-guardian text-xl text-foreground">S.O.S</span>
               </div>
               <p className="text-muted-foreground text-sm">
-                Elite roadside assistance when you need it most.
+                Help. Here. Now.
               </p>
             </div>
 
@@ -469,14 +473,14 @@ const Index = () => {
                 <li>Help Center</li>
                 <li>Contact Us</li>
                 <li>Emergency: 911</li>
-                <li>Roadside: (555) HELP</li>
+                <li>S.O.S: (555) HELP</li>
               </ul>
             </div>
           </div>
 
           <div className="mt-12 pt-8 border-t border-border/30 flex flex-col md:flex-row justify-between items-center">
             <p className="text-muted-foreground text-sm">
-              © 2024 Roadside. All rights reserved.
+              © 2026 S.O.S. All rights reserved.
             </p>
             <div className="flex gap-6 mt-4 md:mt-0">
               <a href="#" className="text-muted-foreground hover:text-neon-green text-sm transition-colors">
@@ -498,7 +502,6 @@ const Index = () => {
         serviceRequestState="idle"
         onServiceAction={(action, data) => {
           console.log('Service action:', action, data);
-          // Handle service actions like cancel, contact support, etc.
         }}
       />
 

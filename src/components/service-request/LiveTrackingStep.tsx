@@ -359,8 +359,8 @@ const LiveTrackingStep: React.FC<LiveTrackingStepProps> = ({
           size="lg"
           className="flex-1 flex items-center justify-center gap-2"
           onClick={() => navigator.share?.({ 
-            title: 'Roadside ETA', 
-            text: `My roadside assistance provider ${serviceRequest.provider?.name} will arrive in ${estimatedArrival} minutes.` 
+            title: 'S.O.S ETA', 
+            text: `My S.O.S Hero ${serviceRequest.provider?.name} will arrive in ${estimatedArrival} minutes.` 
           })}
         >
           <Share className="w-4 h-4" />

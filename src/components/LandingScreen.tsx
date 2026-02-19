@@ -58,7 +58,7 @@ const LandingScreen: React.FC = () => {
           <RoadsideBeacon size="sm" variant="guardian" />
           <img 
             src="/lovable-uploads/faf67814-8153-400b-a3ea-b4203d7bf2c8.png"
-            alt="Roadside"
+            alt="S.O.S"
             className="h-6 object-contain"
           />
         </div>
@@ -75,7 +75,7 @@ const LandingScreen: React.FC = () => {
             className="text-xl px-16 py-6 mb-4 animate-pulse"
             onClick={() => setShowServiceRequest(true)}
           >
-            Request Help Now
+            Get Help Now
           </EmergencyButton>
           
           {/* Microcopy */}
@@ -97,11 +97,11 @@ const LandingScreen: React.FC = () => {
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-6 text-xs text-muted-foreground">
         <div className="flex items-center gap-2">
           <div className="w-1.5 h-1.5 bg-neon-green rounded-full animate-pulse"></div>
-          <span>Verified Providers</span>
+          <span>Verified Heroes</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-1.5 h-1.5 bg-electric-blue rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-          <span>24/7 Support</span>
+          <span>24/7 Command Center</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-1.5 h-1.5 bg-emergency-red rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>

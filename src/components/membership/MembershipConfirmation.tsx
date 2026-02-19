@@ -13,24 +13,24 @@ const MembershipConfirmation: React.FC<MembershipConfirmationProps> = ({ planId,
 
   const planDetails = {
     free: {
-      name: 'Free Plan',
+      name: 'Shield Free',
       icon: <Shield className="w-12 h-12" />,
       color: 'metallic-silver',
-      message: 'Welcome to Roadside',
+      message: 'Welcome to S.O.S',
       subMessage: 'You\'re now protected on every journey'
     },
     basic: {
-      name: 'Basic Plan',
+      name: 'Shield Plan',
       icon: <Shield className="w-12 h-12" />,
       color: 'electric-blue',
-      message: 'Welcome to Roadside Basic',
+      message: 'Welcome to S.O.S Shield',
       subMessage: 'Your guardian angel is now active'
     },
     premium: {
-      name: 'Premium Plan',
+      name: 'Shield Pro',
       icon: <Crown className="w-12 h-12" />,
       color: 'neon-green',
-      message: 'Welcome to Roadside Premium',
+      message: 'Welcome to S.O.S Shield Pro',
       subMessage: 'Drive without fear. You\'re fully covered.'
     }
   };
@@ -38,12 +38,11 @@ const MembershipConfirmation: React.FC<MembershipConfirmationProps> = ({ planId,
   const plan = planDetails[planId as keyof typeof planDetails];
 
   useEffect(() => {
-    // Animation sequence
     const timers = [
-      setTimeout(() => setAnimationPhase(1), 500),   // Shield appears
-      setTimeout(() => setAnimationPhase(2), 1500),  // Message fades in
-      setTimeout(() => setAnimationPhase(3), 2500),  // Benefits appear
-      setTimeout(() => setAnimationPhase(4), 3500),  // CTA appears
+      setTimeout(() => setAnimationPhase(1), 500),
+      setTimeout(() => setAnimationPhase(2), 1500),
+      setTimeout(() => setAnimationPhase(3), 2500),
+      setTimeout(() => setAnimationPhase(4), 3500),
     ];
 
     return () => timers.forEach(clearTimeout);
@@ -61,13 +60,11 @@ const MembershipConfirmation: React.FC<MembershipConfirmationProps> = ({ planId,
                   {plan.icon}
                 </div>
                 
-                {/* Expanding protection rings */}
                 <div className="absolute inset-0 rounded-full border-2 border-neon-green/30 animate-ping scale-110"></div>
                 <div className="absolute inset-0 rounded-full border-2 border-neon-green/20 animate-ping scale-125" style={{ animationDelay: '0.5s' }}></div>
                 <div className="absolute inset-0 rounded-full border-2 border-neon-green/10 animate-ping scale-150" style={{ animationDelay: '1s' }}></div>
               </div>
               
-              {/* Pulsing beacon */}
               <div className="flex justify-center">
                 <RoadsideBeacon size="md" variant="guardian" />
               </div>
@@ -75,7 +72,6 @@ const MembershipConfirmation: React.FC<MembershipConfirmationProps> = ({ planId,
           )}
         </div>
 
-        {/* Welcome Message */}
         {animationPhase >= 2 && (
           <div className="mb-12 animate-fade-in">
             <h1 className="font-guardian text-4xl md:text-5xl text-foreground mb-4">
@@ -87,7 +83,6 @@ const MembershipConfirmation: React.FC<MembershipConfirmationProps> = ({ planId,
           </div>
         )}
 
-        {/* Activation Benefits */}
         {animationPhase >= 3 && (
           <div className="mb-12 animate-fade-in" style={{ animationDelay: '0.3s' }}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -107,7 +102,7 @@ const MembershipConfirmation: React.FC<MembershipConfirmationProps> = ({ planId,
                 </div>
                 <h3 className="font-tech text-foreground mb-2">Verified Network</h3>
                 <p className="text-muted-foreground text-sm">
-                  Access to thousands of trusted providers
+                  Access to thousands of trusted Heroes
                 </p>
               </div>
               
@@ -124,7 +119,6 @@ const MembershipConfirmation: React.FC<MembershipConfirmationProps> = ({ planId,
           </div>
         )}
 
-        {/* Protection Status */}
         {animationPhase >= 3 && (
           <div className="mb-12 p-8 rounded-2xl bg-neon-green/5 border border-neon-green/20 animate-fade-in" style={{ animationDelay: '0.6s' }}>
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -132,12 +126,11 @@ const MembershipConfirmation: React.FC<MembershipConfirmationProps> = ({ planId,
               <span className="font-tech text-neon-green text-lg">Protection Status: ACTIVE</span>
             </div>
             <p className="text-muted-foreground">
-              You're now part of the Roadside family. Drive with confidence knowing help is always just one tap away.
+              You're now part of the S.O.S family. Drive with confidence knowing help is always just one tap away.
             </p>
           </div>
         )}
 
-        {/* Next Steps */}
         {animationPhase >= 4 && (
           <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
             <EmergencyButton
@@ -147,7 +140,7 @@ const MembershipConfirmation: React.FC<MembershipConfirmationProps> = ({ planId,
               className="mb-4"
               showBeacon={true}
             >
-              Start Using Roadside
+              Start Using S.O.S
             </EmergencyButton>
             
             <p className="text-muted-foreground text-sm">
@@ -156,7 +149,6 @@ const MembershipConfirmation: React.FC<MembershipConfirmationProps> = ({ planId,
           </div>
         )}
 
-        {/* Subtle background effects */}
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-beacon opacity-10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-gradient-neon opacity-10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
       </div>

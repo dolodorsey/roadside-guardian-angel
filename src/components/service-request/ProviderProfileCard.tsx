@@ -30,7 +30,7 @@ const ProviderProfileCard: React.FC<ProviderProfileCardProps> = ({ provider, onC
         
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h3 className="font-guardian text-xl text-foreground">Provider Details</h3>
+          <h3 className="font-guardian text-xl text-foreground">Hero Details</h3>
           <button 
             onClick={onClose}
             className="p-2 rounded-full bg-metallic-silver/10 hover:bg-metallic-silver/20 transition-colors"
@@ -98,7 +98,7 @@ const ProviderProfileCard: React.FC<ProviderProfileCardProps> = ({ provider, onC
         <div className="flex gap-4">
           <button className="flex-1 flex items-center justify-center gap-2 p-4 rounded-xl border border-electric-blue/30 bg-electric-blue/5 hover:bg-electric-blue/10 transition-colors">
             <Phone className="w-5 h-5 text-electric-blue" />
-            <span className="text-electric-blue font-tech">Call Provider</span>
+            <span className="text-electric-blue font-tech">Call Hero</span>
           </button>
           
           <button className="flex-1 flex items-center justify-center gap-2 p-4 rounded-xl border border-neon-green/30 bg-neon-green/5 hover:bg-neon-green/10 transition-colors">
@@ -114,7 +114,7 @@ const ProviderProfileCard: React.FC<ProviderProfileCardProps> = ({ provider, onC
             <span className="text-emergency-red text-sm font-tech">Safety Reminder</span>
           </div>
           <p className="text-muted-foreground text-sm">
-            Verify provider ID and vehicle details before accepting service. Your safety is our priority.
+            Verify Hero ID and vehicle details before accepting service. Your safety is our mission.
           </p>
         </div>
       </div>

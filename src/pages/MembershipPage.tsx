@@ -15,10 +15,8 @@ const MembershipPage: React.FC = () => {
   const handlePlanSelect = (planId: string) => {
     setSelectedPlan(planId);
     if (planId === 'free') {
-      // Free plan doesn't need payment
       setShowConfirmation(true);
     } else {
-      // Navigate to payment flow for paid plans
       navigate(`/membership/checkout/${planId}`);
     }
   };
@@ -44,10 +42,10 @@ const MembershipPage: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="font-guardian text-4xl md:text-5xl text-foreground mb-4">
-              Choose Your Peace of Mind
+              Choose Your Shield
             </h1>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              From occasional drivers to road warriors - there's a Roadside plan designed for your lifestyle
+              From occasional drivers to road warriors — there's a Shield plan for your lifestyle
             </p>
           </div>
 
@@ -62,7 +60,7 @@ const MembershipPage: React.FC = () => {
                     : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
-                Membership Plans
+                Shield Plans
               </button>
               <button
                 onClick={() => setCurrentView('on-demand')}
@@ -82,7 +80,7 @@ const MembershipPage: React.FC = () => {
                     : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
-                Family & Fleet
+                Family Fleet
               </button>
             </div>
           </div>

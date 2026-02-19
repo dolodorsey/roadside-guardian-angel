@@ -34,10 +34,10 @@ const CompletionStep: React.FC<CompletionStepProps> = ({ verificationData }) => 
         </div>
         
         <h2 className="font-guardian text-4xl text-foreground mb-4">
-          Welcome to Roadside!
+          Welcome to S.O.S!
         </h2>
         <p className="text-neon-green text-lg font-tech mb-2">
-          🎉 Verified Provider Seal Earned
+          🎉 Verified Hero Seal Earned
         </p>
         <p className="text-muted-foreground">
           You're now part of our elite network of trusted service professionals
@@ -59,7 +59,7 @@ const CompletionStep: React.FC<CompletionStepProps> = ({ verificationData }) => 
             <p className="text-muted-foreground">{verificationData.vehicleType || 'Professional Service Vehicle'}</p>
             <div className="flex items-center gap-2 mt-1">
               <Shield className="w-4 h-4 text-neon-green" />
-              <span className="text-neon-green text-sm font-tech">Verified Provider</span>
+              <span className="text-neon-green text-sm font-tech">Verified Hero</span>
             </div>
           </div>
         </div>
@@ -119,11 +119,11 @@ const CompletionStep: React.FC<CompletionStepProps> = ({ verificationData }) => 
         <ul className="text-left space-y-2 text-muted-foreground text-sm">
           <li className="flex items-start gap-2">
             <span className="text-neon-green">•</span>
-            Set your service radius and go online to start receiving jobs
+            Set your zone and go online to start receiving missions
           </li>
           <li className="flex items-start gap-2">
             <span className="text-neon-green">•</span>
-            Maintain a 4.8+ star rating to access premium job opportunities
+            Maintain a 4.8+ star rating to access premium mission opportunities
           </li>
           <li className="flex items-start gap-2">
             <span className="text-neon-green">•</span>
@@ -131,7 +131,7 @@ const CompletionStep: React.FC<CompletionStepProps> = ({ verificationData }) => 
           </li>
           <li className="flex items-start gap-2">
             <span className="text-neon-green">•</span>
-            Complete jobs quickly to earn time-based bonuses
+            Complete missions quickly to earn time-based bonuses
           </li>
         </ul>
       </div>
@@ -144,11 +144,11 @@ const CompletionStep: React.FC<CompletionStepProps> = ({ verificationData }) => 
         className="px-12"
         showBeacon={true}
       >
-        Start Accepting Jobs
+        Start Accepting Missions
       </EmergencyButton>
 
       <p className="text-muted-foreground text-sm mt-4">
-        Ready to help drivers in need and earn great money doing it
+        Ready to help Citizens in need and earn great money doing it
       </p>
     </div>
   );

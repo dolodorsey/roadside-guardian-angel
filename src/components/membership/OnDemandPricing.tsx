@@ -83,7 +83,7 @@ const OnDemandPricing: React.FC = () => {
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
           No surprises, no hidden fees. Pay only for what you need, when you need it. 
-          Members save significantly on every service call.
+          Shield members save on every mission.
         </p>
       </div>
 
@@ -146,11 +146,11 @@ const OnDemandPricing: React.FC = () => {
 
             {/* Member Discounts */}
             <div className="space-y-3">
-              <h4 className="font-tech text-foreground text-sm">Member Pricing:</h4>
+              <h4 className="font-tech text-foreground text-sm">Shield Pricing:</h4>
               
               <div className="p-3 rounded-lg bg-electric-blue/5 border border-electric-blue/20">
                 <div className="flex items-center justify-between">
-                  <span className="text-electric-blue text-sm font-tech">Basic Member</span>
+                  <span className="text-electric-blue text-sm font-tech">Shield Member</span>
                   <span className="font-tech text-foreground">{service.memberDiscount.basic}</span>
                 </div>
                 <div className="text-xs text-muted-foreground mt-1">Save 20%</div>
@@ -158,7 +158,7 @@ const OnDemandPricing: React.FC = () => {
               
               <div className="p-3 rounded-lg bg-neon-green/5 border border-neon-green/20">
                 <div className="flex items-center justify-between">
-                  <span className="text-neon-green text-sm font-tech">Premium Member</span>
+                  <span className="text-neon-green text-sm font-tech">Shield Pro Member</span>
                   <span className="font-tech text-foreground">{service.memberDiscount.premium}</span>
                 </div>
                 <div className="text-xs text-muted-foreground mt-1">Save 40%</div>
@@ -215,29 +215,29 @@ const OnDemandPricing: React.FC = () => {
       {/* Membership CTA */}
       <div className="mt-16 text-center p-8 rounded-2xl tech-surface border border-border/50">
         <h3 className="font-guardian text-2xl text-foreground mb-4">
-          Save More with Membership
+          Save More with a Shield Plan
         </h3>
         <p className="text-muted-foreground mb-6">
-          Join millions of drivers who choose peace of mind over pay-per-use pricing
+          Join millions of Citizens who choose peace of mind over pay-per-use pricing
         </p>
         
         <div className="flex justify-center gap-4">
           <div className="text-center">
             <div className="font-guardian text-3xl text-electric-blue mb-1">$7.99/mo</div>
-            <div className="text-muted-foreground text-sm">Basic Plan</div>
+            <div className="text-muted-foreground text-sm">Shield Plan</div>
             <div className="text-electric-blue text-sm">Save 20%</div>
           </div>
           
           <div className="text-center border-l border-r border-border/30 px-8">
             <div className="font-guardian text-3xl text-neon-green mb-1">$14.99/mo</div>
-            <div className="text-muted-foreground text-sm">Premium Plan</div>
+            <div className="text-muted-foreground text-sm">Shield Pro</div>
             <div className="text-neon-green text-sm">Save 40%</div>
           </div>
           
           <div className="text-center">
             <div className="font-guardian text-3xl text-foreground mb-1">Unlimited</div>
-            <div className="text-muted-foreground text-sm">Service Calls</div>
-            <div className="text-neon-green text-sm">Premium Only</div>
+            <div className="text-muted-foreground text-sm">Missions</div>
+            <div className="text-neon-green text-sm">Shield Pro Only</div>
           </div>
         </div>
       </div>

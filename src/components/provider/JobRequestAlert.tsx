@@ -55,7 +55,7 @@ const JobRequestAlert: React.FC<JobRequestAlertProps> = ({ onAccept, onDecline }
               <RoadsideBeacon size="sm" variant="emergency" />
             </div>
             <div>
-              <h3 className="font-guardian text-xl text-foreground">New Job Request</h3>
+              <h3 className="font-guardian text-xl text-foreground">New Mission Request</h3>
               <p className="text-emergency-red text-sm font-tech">Respond quickly</p>
             </div>
           </div>
@@ -182,7 +182,7 @@ const JobRequestAlert: React.FC<JobRequestAlertProps> = ({ onAccept, onDecline }
             className="flex-1"
             showBeacon={true}
           >
-            Accept Job
+            Accept Mission
           </EmergencyButton>
         </div>
 
