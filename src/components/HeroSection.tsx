@@ -38,20 +38,23 @@ const HeroSection: React.FC = () => {
         <div className="mb-6 flex justify-center">
           <img 
             src="/lovable-uploads/faf67814-8153-400b-a3ea-b4203d7bf2c8.png"
-            alt="Roadside"
+            alt="S.O.S"
             className="h-16 md:h-20 lg:h-24 object-contain animate-guardian-enter"
           />
         </div>
         
         <div className="neon-accent w-32 mx-auto mb-8"></div>
         
+        <p className="font-tech text-sm md:text-base text-metallic-silver mb-2 animate-guardian-enter">
+          Superheros On Standby
+        </p>
+
         <p className="font-tech text-xl md:text-2xl text-metallic-silver mb-4 animate-guardian-enter">
-          Peace of mind on demand
+          Real-world rescue when you need it most
         </p>
         
         <p className="text-muted-foreground text-lg mb-12 max-w-2xl mx-auto leading-relaxed animate-guardian-enter">
-          When the road stops, Roadside starts. Real-time assistance, verified providers, transparent pricing. 
-          Your guardian angel in your pocket.
+          There's Always a Superhero On Standby!
         </p>
         
         {/* CTA */}
@@ -62,14 +65,14 @@ const HeroSection: React.FC = () => {
             showBeacon={true}
             className="mr-4"
           >
-            Request Help Now
+            Get Help Now
           </EmergencyButton>
           
           <EmergencyButton 
             variant="ghost" 
             size="lg"
           >
-            Learn More
+            Become a Hero
           </EmergencyButton>
         </div>
         
@@ -77,15 +80,15 @@ const HeroSection: React.FC = () => {
         <div className="mt-16 flex justify-center items-center gap-8 text-muted-foreground text-sm animate-guardian-enter">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-neon-green rounded-full"></div>
-            <span>Verified Providers</span>
+            <span>Verified Heroes</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-electric-blue rounded-full"></div>
-            <span>Real-time Tracking</span>
+            <span>Average 8min Response</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-emergency-red rounded-full"></div>
-            <span>24/7 Support</span>
+            <span>4.9/5 Customer Rating</span>
           </div>
         </div>
       </div>

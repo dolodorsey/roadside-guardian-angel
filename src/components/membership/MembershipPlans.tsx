@@ -23,7 +23,7 @@ const MembershipPlans: React.FC<MembershipPlansProps> = ({ onPlanSelect, selecte
   const plans = [
     {
       id: 'free',
-      name: 'Free',
+      name: 'Shield',
       price: '$0',
       period: 'forever',
       tagline: 'No subscription, just help when you need it',
@@ -33,18 +33,18 @@ const MembershipPlans: React.FC<MembershipPlansProps> = ({ onPlanSelect, selecte
         'Access to all services',
         'Transparent flat pricing',
         'Standard response times',
-        'Basic customer support',
+        'Basic support',
         'Pay only when you use'
       ],
       limitations: [
-        'No membership discounts',
+        'No Shield discounts',
         'No priority response',
         'Standard wait times'
       ]
     },
     {
       id: 'basic',
-      name: 'Basic',
+      name: 'Shield',
       price: '$7.99',
       period: 'per month',
       tagline: 'Peace of mind for less than the cost of coffee',
@@ -52,18 +52,18 @@ const MembershipPlans: React.FC<MembershipPlansProps> = ({ onPlanSelect, selecte
       color: 'electric-blue',
       popular: false,
       features: [
-        '3 free service calls per year',
+        '3 free missions per year',
         '20% off all additional services',
         'Priority response times',
         'Family add-on available',
-        '24/7 customer support'
+        '24/7 Command Center support'
       ],
       savings: 'Save up to $180/year',
-      familyAddOn: '$2.99 per additional driver'
+      familyAddOn: '$2.99 per additional Citizen'
     },
     {
       id: 'premium',
-      name: 'Premium',
+      name: 'Shield Pro',
       price: '$14.99',
       period: 'per month',
       tagline: 'Ultimate protection for serious drivers',
@@ -71,7 +71,7 @@ const MembershipPlans: React.FC<MembershipPlansProps> = ({ onPlanSelect, selecte
       color: 'neon-green',
       popular: true,
       features: [
-        'Unlimited service calls',
+        'Unlimited missions',
         'Free towing up to 10 miles',
         '40% off extended services',
         '24/7 dedicated concierge hotline',
@@ -79,7 +79,7 @@ const MembershipPlans: React.FC<MembershipPlansProps> = ({ onPlanSelect, selecte
         'Priority response guarantee'
       ],
       savings: 'Save up to $400/year',
-      badge: 'Most Popular'
+      badge: 'MOST POPULAR'
     }
   ];
 
@@ -221,13 +221,13 @@ const MembershipPlans: React.FC<MembershipPlansProps> = ({ onPlanSelect, selecte
         <div className="tech-surface border border-border/50 rounded-2xl overflow-hidden">
           <div className="grid grid-cols-4 gap-4 p-6 border-b border-border/30">
             <div className="font-tech text-foreground">Features</div>
-            <div className="text-center font-tech text-muted-foreground">Free</div>
-            <div className="text-center font-tech text-electric-blue">Basic</div>
-            <div className="text-center font-tech text-neon-green">Premium</div>
+            <div className="text-center font-tech text-muted-foreground">Shield Free</div>
+            <div className="text-center font-tech text-electric-blue">Shield</div>
+            <div className="text-center font-tech text-neon-green">Shield Pro</div>
           </div>
           
           {[
-            { feature: 'Service Calls Included', free: '0', basic: '3/year', premium: 'Unlimited' },
+            { feature: 'Missions Included', free: '0', basic: '3/year', premium: 'Unlimited' },
             { feature: 'Member Discount', free: '0%', basic: '20%', premium: '40%' },
             { feature: 'Response Priority', free: 'Standard', basic: 'Priority', premium: 'Guaranteed' },
             { feature: 'Vehicles Covered', free: '1', basic: '1 (+family)', premium: '3' },
@@ -253,15 +253,15 @@ const MembershipPlans: React.FC<MembershipPlansProps> = ({ onPlanSelect, selecte
             <div className="p-4 rounded-xl tech-surface border border-border/50">
               <h5 className="font-tech text-foreground mb-2">Can I cancel anytime?</h5>
               <p className="text-muted-foreground text-sm">
-                Absolutely. Cancel your membership anytime with no fees or penalties. 
+                Absolutely. Cancel your Shield plan anytime with no fees or penalties. 
                 Your benefits continue until the end of your billing period.
               </p>
             </div>
             
             <div className="p-4 rounded-xl tech-surface border border-border/50">
-              <h5 className="font-tech text-foreground mb-2">What if I need more than 3 services?</h5>
+              <h5 className="font-tech text-foreground mb-2">What if I need more than 3 missions?</h5>
               <p className="text-muted-foreground text-sm">
-                Basic members get 20% off all additional services. Premium members get unlimited calls within fair use policy.
+                Shield members get 20% off all additional missions. Shield Pro members get unlimited missions within fair use policy.
               </p>
             </div>
           </div>
@@ -276,9 +276,9 @@ const MembershipPlans: React.FC<MembershipPlansProps> = ({ onPlanSelect, selecte
               <span className="font-tech text-neon-green">Your Safety Promise</span>
             </div>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Verified, licensed, and insured providers only</li>
+              <li>• Verified, licensed, and insured Heroes only</li>
               <li>• Real-time GPS tracking and updates</li>
-              <li>• 24/7 customer support and safety monitoring</li>
+              <li>• 24/7 Command Center support and safety monitoring</li>
               <li>• 100% satisfaction guarantee or your money back</li>
             </ul>
           </div>

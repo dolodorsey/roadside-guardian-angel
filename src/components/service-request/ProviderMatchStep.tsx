@@ -64,17 +64,17 @@ const ProviderMatchStep: React.FC<ProviderMatchStepProps> = ({
           </div>
 
           <h2 className="font-guardian text-2xl text-foreground mb-4">
-            Finding Your Guardian
+            Finding Your Hero
           </h2>
           <p className="text-muted-foreground mb-6">
-            Matching you with the best verified provider in your area...
+            Matching you with the best verified Hero in your area...
           </p>
 
           {/* Matching Status */}
           <div className="space-y-3">
             <div className="flex items-center gap-3 text-sm">
               <div className="w-2 h-2 bg-neon-green rounded-full animate-pulse"></div>
-              <span className="text-muted-foreground">Scanning nearby providers</span>
+              <span className="text-muted-foreground">Scanning nearby Heroes</span>
             </div>
             <div className="flex items-center gap-3 text-sm">
               <div className="w-2 h-2 bg-electric-blue rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
@@ -102,7 +102,7 @@ const ProviderMatchStep: React.FC<ProviderMatchStepProps> = ({
             {provider.name} is on the way!
           </h2>
           <p className="text-muted-foreground">
-            Your provider has been dispatched and will arrive in {provider.eta} minutes
+            Your Hero has been dispatched and will arrive in {provider.eta} minutes
           </p>
         </div>
       </div>
@@ -114,7 +114,7 @@ const ProviderMatchStep: React.FC<ProviderMatchStepProps> = ({
       {/* Header */}
       <div className="text-center mb-8">
         <h2 className="font-guardian text-3xl text-foreground mb-4">
-          Your Provider
+          Your Hero
         </h2>
         <p className="text-muted-foreground">
           Verified, trusted, and on the way

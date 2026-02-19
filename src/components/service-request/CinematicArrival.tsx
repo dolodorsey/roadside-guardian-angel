@@ -148,7 +148,7 @@ const CinematicArrival: React.FC<CinematicArrivalProps> = ({
             </h2>
             <p className="text-muted-foreground text-lg mb-8 animate-fade-in" style={{ animationDelay: '0.5s' }}>
               {serviceRequest.provider?.name} is approaching your location. 
-              Your guardian angel is just moments away.
+              Your Hero is just moments away.
             </p>
             
             {/* Pulsing beacon */}

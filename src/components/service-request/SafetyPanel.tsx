@@ -76,7 +76,7 @@ const SafetyPanel: React.FC<SafetyPanelProps> = ({ serviceRequest, onClose }) =>
                 <Shield className="w-6 h-6 text-foreground" />
               </div>
               <div className="flex-1 text-left">
-                <div className="text-electric-blue font-guardian text-lg">Roadside Support</div>
+                <div className="text-electric-blue font-guardian text-lg">S.O.S Command Center</div>
                 <div className="text-muted-foreground text-sm">24/7 assistance and safety concerns</div>
               </div>
             </div>
@@ -106,13 +106,13 @@ const SafetyPanel: React.FC<SafetyPanelProps> = ({ serviceRequest, onClose }) =>
         <div className="mb-6 p-4 rounded-xl bg-metallic-silver/5 border border-metallic-silver/20">
           <div className="flex items-center gap-3 mb-3">
             <AlertTriangle className="w-5 h-5 text-metallic-silver" />
-            <span className="text-foreground font-tech">Provider Verification</span>
+            <span className="text-foreground font-tech">Hero Verification</span>
           </div>
           <div className="space-y-2 text-sm text-muted-foreground">
-            <p>• Verify provider matches profile photo</p>
+            <p>• Verify Hero matches profile photo</p>
             <p>• Confirm vehicle details: {serviceRequest.provider?.vehicle}</p>
-            <p>• Provider should show valid ID and credentials</p>
-            <p>• Trust your instincts - contact support if anything feels wrong</p>
+            <p>• Hero should show valid ID and credentials</p>
+            <p>• Trust your instincts - contact Command Center if anything feels wrong</p>
           </div>
         </div>
         
@@ -123,8 +123,8 @@ const SafetyPanel: React.FC<SafetyPanelProps> = ({ serviceRequest, onClose }) =>
             <span className="text-neon-green text-sm font-tech">Your Safety Matters</span>
           </div>
           <p className="text-muted-foreground text-sm">
-            All Roadside providers are background-checked and insured. 
-            If you feel unsafe at any time, contact our support team immediately.
+            All S.O.S Heroes are background-checked and insured. 
+            If you feel unsafe at any time, contact our Command Center immediately.
           </p>
         </div>
       </div>

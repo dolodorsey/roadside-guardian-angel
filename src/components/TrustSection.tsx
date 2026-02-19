@@ -13,8 +13,8 @@ const TrustSection: React.FC = () => {
   const features = [
     {
       icon: <Shield className="w-8 h-8 text-neon-green" />,
-      title: "Verified Providers",
-      description: "All technicians are licensed, insured, and background-checked for your safety"
+      title: "Verified Heroes",
+      description: "All Heroes are licensed, insured, and background-checked for your safety"
     },
     {
       icon: <Clock className="w-8 h-8 text-electric-blue" />,
@@ -48,11 +48,11 @@ const TrustSection: React.FC = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="font-guardian text-4xl md:text-5xl text-foreground mb-6">
-            Why Choose Roadside?
+            Why Choose S.O.S?
           </h2>
           <div className="neon-accent w-24 mx-auto mb-6"></div>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
-            We're not just another roadside service. We're the guardian angel in your pocket, 
+            We're not just another service. We're the Superheros On Standby, 
             transforming emergency assistance into a premium, predictable experience.
           </p>
         </div>

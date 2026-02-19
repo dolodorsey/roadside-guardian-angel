@@ -21,7 +21,7 @@ const TrainingStep: React.FC<TrainingStepProps> = ({ onNext, onBack }) => {
       content: {
         title: 'Customer Service Standards',
         points: [
-          'Always introduce yourself and show your Roadside ID',
+          'Always introduce yourself and show your S.O.S ID',
           'Verify the customer by asking for their name and vehicle details',
           'Explain what you\'re going to do before starting any work',
           'Keep the customer informed throughout the service',
@@ -66,7 +66,7 @@ const TrainingStep: React.FC<TrainingStepProps> = ({ onNext, onBack }) => {
     {
       id: 'communication',
       title: 'Communication Best Practices',
-      description: 'Effective communication through the Roadside platform',
+      description: 'Effective communication through the S.O.S platform',
       icon: <MessageCircle className="w-6 h-6" />,
       duration: '3 min',
       content: {
@@ -129,7 +129,7 @@ const TrainingStep: React.FC<TrainingStepProps> = ({ onNext, onBack }) => {
               <span className="text-neon-green font-tech">Remember</span>
             </div>
             <p className="text-muted-foreground">
-              These standards help maintain the trust and quality that Roadside customers expect. 
+              These standards help maintain the trust and quality that S.O.S Citizens expect. 
               Following these guidelines ensures a positive experience for everyone.
             </p>
           </div>
@@ -156,10 +156,10 @@ const TrainingStep: React.FC<TrainingStepProps> = ({ onNext, onBack }) => {
           <Play className="w-10 h-10 text-electric-blue" />
         </div>
         <h2 className="font-guardian text-3xl text-foreground mb-4">
-          Provider Training
+          Hero Training
         </h2>
         <p className="text-muted-foreground">
-          Complete our interactive training modules to learn Roadside service standards
+          Complete our interactive training modules to learn S.O.S service standards
         </p>
       </div>
 

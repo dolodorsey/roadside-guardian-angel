@@ -21,30 +21,30 @@ const FamilyPlans: React.FC<FamilyPlansProps> = ({ onPlanSelect }) => {
   const familyPlans = [
     {
       id: 'family-basic',
-      name: 'Family Basic',
+      name: 'Family Shield',
       basePrice: 7.99,
       additionalDriver: 2.99,
       icon: <Users className="w-8 h-8" />,
       color: 'electric-blue',
       features: [
-        '3 service calls per driver per year',
+        '3 missions per Citizen per year',
         '20% off all additional services',
         'Shared family dashboard',
-        'Individual driver profiles',
+        'Individual Citizen profiles',
         'Priority response for all members'
       ],
       maxDrivers: 6
     },
     {
       id: 'family-premium',
-      name: 'Family Premium',
+      name: 'Family Shield Pro',
       basePrice: 14.99,
       additionalDriver: 4.99,
       icon: <Crown className="w-8 h-8" />,
       color: 'neon-green',
       popular: true,
       features: [
-        'Unlimited service calls for all drivers',
+        'Unlimited missions for all Citizens',
         '40% off extended services',
         'Covers unlimited vehicles',
         'Dedicated family concierge',
@@ -65,9 +65,9 @@ const FamilyPlans: React.FC<FamilyPlansProps> = ({ onPlanSelect }) => {
       icon: <Car className="w-8 h-8" />,
       color: 'electric-blue',
       features: [
-        'Unlimited service calls per vehicle',
+        'Unlimited missions per vehicle',
         'Centralized fleet dashboard',
-        'Driver management system',
+        'Hero management system',
         'Usage analytics and reporting',
         'Priority response guarantee'
       ]
@@ -84,7 +84,7 @@ const FamilyPlans: React.FC<FamilyPlansProps> = ({ onPlanSelect }) => {
         'Everything in Fleet Starter',
         'Dedicated account manager',
         'Custom billing and invoicing',
-        '24/7 fleet support hotline',
+        '24/7 fleet Command Center',
         'Advanced analytics dashboard',
         'Volume discounts on parts'
       ]
@@ -127,7 +127,7 @@ const FamilyPlans: React.FC<FamilyPlansProps> = ({ onPlanSelect }) => {
             Family Protection Plans
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Keep your whole family safe on the road. Add drivers and vehicles with volume discounts.
+            Keep your whole family safe on the road. Add Citizens and vehicles with volume discounts.
           </p>
         </div>
 
@@ -153,7 +153,7 @@ const FamilyPlans: React.FC<FamilyPlansProps> = ({ onPlanSelect }) => {
                   +
                 </button>
               </div>
-              <span className="text-muted-foreground text-sm">drivers</span>
+              <span className="text-muted-foreground text-sm">Citizens</span>
             </div>
           </div>
         </div>
@@ -199,7 +199,7 @@ const FamilyPlans: React.FC<FamilyPlansProps> = ({ onPlanSelect }) => {
                 </div>
                 
                 <div className="text-sm text-muted-foreground">
-                  ${plan.basePrice}/mo base + ${plan.additionalDriver}/mo per additional driver
+                  ${plan.basePrice}/mo base + ${plan.additionalDriver}/mo per additional Citizen
                 </div>
               </div>
 
@@ -229,10 +229,10 @@ const FamilyPlans: React.FC<FamilyPlansProps> = ({ onPlanSelect }) => {
       <div>
         <div className="text-center mb-8">
           <h2 className="font-guardian text-3xl text-foreground mb-4">
-            Fleet & Business Plans
+            Fleet Business Plans
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Protect your business vehicles and drivers with enterprise-grade roadside assistance.
+            Protect your business vehicles and Heroes with enterprise-grade rescue assistance.
           </p>
         </div>
 

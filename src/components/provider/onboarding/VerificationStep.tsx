@@ -66,7 +66,7 @@ const VerificationStep: React.FC<VerificationStepProps> = ({ onNext, onDataUpdat
           <Shield className="w-10 h-10 text-neon-green" />
         </div>
         <h2 className="font-guardian text-3xl text-foreground mb-4">
-          Provider Verification
+          Hero Verification
         </h2>
         <p className="text-muted-foreground">
           Help us verify your credentials to join our trusted network

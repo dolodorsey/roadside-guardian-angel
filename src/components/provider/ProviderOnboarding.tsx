@@ -59,7 +59,7 @@ const ProviderOnboarding: React.FC = () => {
       <div className="p-6 border-b border-border/30">
         <div className="text-center">
           <h1 className="font-guardian text-2xl text-foreground mb-4">
-            Join the Roadside Network
+            Join the Hero Network
           </h1>
           <div className="flex justify-center gap-2">
             {steps.map((_, index) => (

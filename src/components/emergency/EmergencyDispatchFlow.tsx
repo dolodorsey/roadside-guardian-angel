@@ -15,8 +15,8 @@ const EmergencyDispatchFlow: React.FC<EmergencyDispatchFlowProps> = ({
 
   const steps = [
     { id: 'location', label: 'Capturing Location', icon: MapPin },
-    { id: 'dispatch', label: 'Finding Provider', icon: Clock },
-    { id: 'match', label: 'Provider Matched', icon: CheckCircle },
+    { id: 'dispatch', label: 'Finding Hero', icon: Clock },
+    { id: 'match', label: 'Hero Matched', icon: CheckCircle },
     { id: 'verified', label: 'Verified & Dispatched', icon: Shield }
   ];
 
@@ -51,7 +51,7 @@ const EmergencyDispatchFlow: React.FC<EmergencyDispatchFlowProps> = ({
           {steps[currentStep].label}
         </h2>
         <p className="text-muted-foreground animate-fade-in" style={{animationDelay: '0.2s'}}>
-          Connecting you with the nearest verified provider
+          Connecting you with the nearest verified Hero
         </p>
       </div>
 

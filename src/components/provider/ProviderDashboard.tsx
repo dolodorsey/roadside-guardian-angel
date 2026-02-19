@@ -55,7 +55,7 @@ const ProviderDashboard: React.FC = () => {
               <h1 className="font-guardian text-xl text-foreground">Good morning, John</h1>
               <div className="flex items-center gap-2">
                 <Shield className="w-4 h-4 text-neon-green" />
-                <span className="text-neon-green text-sm font-tech">Verified Provider</span>
+                <span className="text-neon-green text-sm font-tech">Verified Hero</span>
               </div>
             </div>
           </div>
@@ -93,8 +93,8 @@ const ProviderDashboard: React.FC = () => {
                 </h2>
                 <p className="text-muted-foreground">
                   {isOnline 
-                    ? 'Ready to accept jobs in your service area' 
-                    : 'Go online to start receiving job requests'
+                    ? 'Ready to accept missions in your zone' 
+                     : 'Go online to start receiving mission requests'
                   }
                 </p>
               </div>
@@ -266,7 +266,7 @@ const ProviderDashboard: React.FC = () => {
           
           <div className="p-4 rounded-xl tech-surface border border-border/50 text-center">
             <div className="text-2xl font-guardian text-electric-blue mb-1">{stats.completedJobs}</div>
-            <div className="text-muted-foreground text-sm">Jobs Complete</div>
+            <div className="text-muted-foreground text-sm">Missions Complete</div>
           </div>
           
           <div className="p-4 rounded-xl tech-surface border border-border/50 text-center">
@@ -276,7 +276,7 @@ const ProviderDashboard: React.FC = () => {
           
           <div className="p-4 rounded-xl tech-surface border border-border/50 text-center">
             <div className="text-2xl font-guardian text-neon-green mb-1">5</div>
-            <div className="text-muted-foreground text-sm">Jobs Today</div>
+            <div className="text-muted-foreground text-sm">Missions Today</div>
           </div>
         </div>
       </div>

@@ -30,7 +30,7 @@ const TrustIndicators: React.FC = () => {
           </div>
           <h3 className="font-guardian text-lg text-foreground mb-2">Cancel Anytime</h3>
           <p className="text-muted-foreground text-sm">
-            No contracts, no penalties. Cancel your membership anytime.
+            No contracts, no penalties. Cancel your Shield plan anytime.
           </p>
         </div>
 
@@ -54,12 +54,12 @@ const TrustIndicators: React.FC = () => {
           <div className="grid grid-cols-2 gap-6">
             <div className="text-center p-4 rounded-xl bg-neon-green/5 border border-neon-green/20">
               <div className="font-guardian text-3xl text-neon-green mb-1">2.5M+</div>
-              <div className="text-muted-foreground text-sm">Happy Drivers</div>
+              <div className="text-muted-foreground text-sm">Citizens Protected</div>
             </div>
             
             <div className="text-center p-4 rounded-xl bg-electric-blue/5 border border-electric-blue/20">
               <div className="font-guardian text-3xl text-electric-blue mb-1">4.9★</div>
-              <div className="text-muted-foreground text-sm">App Store Rating</div>
+              <div className="text-muted-foreground text-sm">App Rating</div>
             </div>
             
             <div className="text-center p-4 rounded-xl bg-emergency-red/5 border border-emergency-red/20">
@@ -69,14 +69,14 @@ const TrustIndicators: React.FC = () => {
             
             <div className="text-center p-4 rounded-xl bg-metallic-silver/5 border border-metallic-silver/20">
               <div className="font-guardian text-3xl text-foreground mb-1">98%</div>
-              <div className="text-muted-foreground text-sm">Problem Solved</div>
+              <div className="text-muted-foreground text-sm">Missions Completed</div>
             </div>
           </div>
         </div>
 
         {/* Testimonials */}
         <div className="space-y-6">
-          <h3 className="font-guardian text-2xl text-foreground">What Drivers Say</h3>
+          <h3 className="font-guardian text-2xl text-foreground">What Citizens Say</h3>
           
           <div className="space-y-4">
             <div className="p-4 rounded-xl tech-surface border border-border/50">
@@ -86,10 +86,10 @@ const TrustIndicators: React.FC = () => {
                 ))}
               </div>
               <p className="text-muted-foreground text-sm mb-2">
-                "Roadside saved me when I was stranded with a flat tire at 2 AM. 
-                The tech arrived in 6 minutes and had me back on the road quickly."
+                "S.O.S saved me when I was stranded with a flat tire at 2 AM. 
+                The Hero arrived in 6 minutes and had me back on the road quickly."
               </p>
-              <div className="text-foreground text-sm font-tech">Sarah M., Premium Member</div>
+              <div className="text-foreground text-sm font-tech">Sarah M., Shield Member</div>
             </div>
             
             <div className="p-4 rounded-xl tech-surface border border-border/50">
@@ -99,7 +99,7 @@ const TrustIndicators: React.FC = () => {
                 ))}
               </div>
               <p className="text-muted-foreground text-sm mb-2">
-                "As a rideshare driver, Roadside keeps me earning. The family plan 
+                "As a rideshare driver, S.O.S keeps me earning. The family plan 
                 covers my whole fleet at an amazing price."
               </p>
               <div className="text-foreground text-sm font-tech">Mike R., Family Plan</div>
@@ -115,7 +115,7 @@ const TrustIndicators: React.FC = () => {
             Your Safety is Our Promise
           </h3>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Every Roadside service comes with comprehensive protection and verified professional providers.
+            Every S.O.S mission comes with comprehensive protection and verified professional Heroes.
           </p>
         </div>
 
@@ -124,7 +124,7 @@ const TrustIndicators: React.FC = () => {
             <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-neon-green/20 flex items-center justify-center">
               <Shield className="w-6 h-6 text-neon-green" />
             </div>
-            <h4 className="font-tech text-foreground mb-2">Verified Providers</h4>
+            <h4 className="font-tech text-foreground mb-2">Verified Heroes</h4>
             <p className="text-muted-foreground text-sm">
               Licensed, insured, and background-checked professionals only
             </p>
@@ -136,7 +136,7 @@ const TrustIndicators: React.FC = () => {
             </div>
             <h4 className="font-tech text-foreground mb-2">Insurance Coverage</h4>
             <p className="text-muted-foreground text-sm">
-              Full liability coverage for every service call
+              Full liability coverage for every mission
             </p>
           </div>
           
@@ -144,7 +144,7 @@ const TrustIndicators: React.FC = () => {
             <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-emergency-red/20 flex items-center justify-center">
               <Phone className="w-6 h-6 text-emergency-red" />
             </div>
-            <h4 className="font-tech text-foreground mb-2">24/7 Support</h4>
+            <h4 className="font-tech text-foreground mb-2">24/7 Command Center</h4>
             <p className="text-muted-foreground text-sm">
               Real human support available anytime you need help
             </p>
@@ -165,7 +165,7 @@ const TrustIndicators: React.FC = () => {
       {/* Price Comparison */}
       <div className="text-center">
         <h3 className="font-guardian text-2xl text-foreground mb-8">
-          Compare to Traditional Roadside Services
+          Compare to Traditional Services
         </h3>
         
         <div className="max-w-4xl mx-auto">
@@ -184,7 +184,7 @@ const TrustIndicators: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2 text-muted-foreground text-sm">
                   <div className="w-4 h-4 text-emergency-red">×</div>
-                  Unclear provider credentials
+                  Unclear Hero credentials
                 </div>
                 <div className="flex items-center gap-2 text-muted-foreground text-sm">
                   <div className="w-4 h-4 text-emergency-red">×</div>
@@ -193,9 +193,9 @@ const TrustIndicators: React.FC = () => {
               </div>
             </div>
 
-            {/* Roadside Free */}
+            {/* S.O.S Shield Free */}
             <div className="p-6 rounded-xl tech-surface border border-electric-blue/30">
-              <h4 className="font-tech text-electric-blue mb-4">Roadside Free</h4>
+              <h4 className="font-tech text-electric-blue mb-4">S.O.S Shield Free</h4>
               <div className="space-y-3 text-left">
                 <div className="flex items-center gap-2 text-foreground text-sm">
                   <Check className="w-4 h-4 text-neon-green" />
@@ -207,7 +207,7 @@ const TrustIndicators: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2 text-foreground text-sm">
                   <Check className="w-4 h-4 text-neon-green" />
-                  Verified, licensed providers
+                  Verified, licensed Heroes
                 </div>
                 <div className="flex items-center gap-2 text-foreground text-sm">
                   <Check className="w-4 h-4 text-neon-green" />
@@ -216,9 +216,9 @@ const TrustIndicators: React.FC = () => {
               </div>
             </div>
 
-            {/* Roadside Premium */}
+            {/* S.O.S Shield Pro */}
             <div className="p-6 rounded-xl border-2 border-neon-green bg-neon-green/5 shadow-guardian">
-              <h4 className="font-tech text-neon-green mb-4">Roadside Premium</h4>
+              <h4 className="font-tech text-neon-green mb-4">S.O.S Shield Pro</h4>
               <div className="space-y-3 text-left">
                 <div className="flex items-center gap-2 text-foreground text-sm">
                   <Check className="w-4 h-4 text-neon-green" />
@@ -226,7 +226,7 @@ const TrustIndicators: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2 text-foreground text-sm">
                   <Check className="w-4 h-4 text-neon-green" />
-                  Unlimited service calls
+                  Unlimited missions
                 </div>
                 <div className="flex items-center gap-2 text-foreground text-sm">
                   <Check className="w-4 h-4 text-neon-green" />
