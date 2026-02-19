@@ -12,9 +12,10 @@ const C = {
 const flex = (dir='row',align='center',justify='center',gap=0):React.CSSProperties=>({display:'flex',flexDirection:dir as any,alignItems:align,justifyContent:justify,gap});
 const btn = (bg:string,color='#fff',extra?:React.CSSProperties):React.CSSProperties=>({background:bg,color,border:'none',borderRadius:12,padding:'14px 28px',fontSize:16,fontWeight:700,cursor:'pointer',transition:'all .2s',...extra});
 const cardStyle:React.CSSProperties={background:C.card,borderRadius:16,padding:20,border:`1px solid ${C.border}`};
+const inputStyle:React.CSSProperties={width:'100%',padding:'14px 16px',background:C.card2,border:`1px solid ${C.border}`,borderRadius:12,color:C.white,fontSize:14,outline:'none',boxSizing:'border-box'};
 
 /* ─── types ─── */
-type Screen = 'landing'|'citizen'|'hero';
+type Screen = 'landing'|'auth-citizen'|'auth-hero'|'citizen'|'hero';
 type CitizenTab = 'home'|'sos'|'services'|'account';
 type HeroTab = 'dashboard'|'missions'|'earnings'|'account';
 
@@ -55,7 +56,7 @@ const App: React.FC = () => {
 
   const navigate = useCallback((s:Screen)=>{
     setFade(false);
-    setTimeout(()=>{setScreen(s);setFade(true);},200);
+    setTimeout(()=>{setScreen(s);setFade(true);window.scrollTo(0,0);},200);
   },[]);
 
   const wrapper:React.CSSProperties = {
@@ -67,9 +68,100 @@ const App: React.FC = () => {
 
   return (
     <div style={wrapper}>
-      {screen==='landing' && <Landing onGetHelp={()=>navigate('citizen')} onHeroPortal={()=>navigate('hero')}/>}
+      {screen==='landing' && <Landing onGetHelp={()=>navigate('auth-citizen')} onHeroPortal={()=>navigate('auth-hero')}/>}
+      {screen==='auth-citizen' && <AuthScreen role="citizen" onBack={()=>navigate('landing')} onLogin={()=>navigate('citizen')}/>}
+      {screen==='auth-hero' && <AuthScreen role="hero" onBack={()=>navigate('landing')} onLogin={()=>navigate('hero')}/>}
       {screen==='citizen' && <CitizenApp onBack={()=>navigate('landing')}/>}
       {screen==='hero' && <HeroDashboard onBack={()=>navigate('landing')}/>}
+    </div>
+  );
+};
+
+/* ════════════════════════════════════════ */
+/*             AUTH SCREEN                 */
+/* ════════════════════════════════════════ */
+const AuthScreen:React.FC<{role:'citizen'|'hero';onBack:()=>void;onLogin:()=>void}> = ({role,onBack,onLogin}) => {
+  const [mode,setMode]=useState<'signin'|'signup'>('signin');
+  const [email,setEmail]=useState('');
+  const [password,setPassword]=useState('');
+  const [name,setName]=useState('');
+
+  const isCitizen=role==='citizen';
+  const accent=isCitizen?C.red:C.green;
+  const title=isCitizen?'Citizen Account':'Hero Portal';
+  const subtitle=isCitizen?'Get rescue assistance anytime':'Join the Hero Network';
+  const icon=isCitizen?'🚨':'🦸';
+
+  return (
+    <div style={{minHeight:'100dvh',background:C.bg,...flex('column','stretch','flex-start')}}>
+      {/* Header */}
+      <div style={{padding:'16px 20px',...flex('row','center','space-between')}}>
+        <button onClick={onBack} style={{background:'transparent',border:'none',color:C.gray,fontSize:14,cursor:'pointer',fontWeight:600}}>← Back</button>
+        <div style={{fontWeight:800,fontSize:16,color:C.white,letterSpacing:1}}>S.O.S</div>
+        <div style={{width:50}}/>
+      </div>
+
+      <div style={{flex:1,...flex('column','center','center'),padding:'40px 24px'}}>
+        {/* Icon */}
+        <div style={{width:80,height:80,borderRadius:'50%',background:`${accent}20`,...flex('row','center','center'),fontSize:40,marginBottom:20}}>
+          {icon}
+        </div>
+        <h1 style={{fontSize:24,fontWeight:800,color:C.white,margin:'0 0 4px'}}>{title}</h1>
+        <p style={{fontSize:14,color:C.muted,margin:'0 0 32px'}}>{subtitle}</p>
+
+        {/* Tabs */}
+        <div style={{...flex('row','center','center',0),width:'100%',marginBottom:28,background:C.card,borderRadius:12,padding:4,border:`1px solid ${C.border}`}}>
+          <button onClick={()=>setMode('signin')} style={{flex:1,padding:'10px 0',borderRadius:10,border:'none',cursor:'pointer',fontSize:14,fontWeight:700,background:mode==='signin'?accent:'transparent',color:mode==='signin'?C.white:C.muted,transition:'all .2s'}}>Sign In</button>
+          <button onClick={()=>setMode('signup')} style={{flex:1,padding:'10px 0',borderRadius:10,border:'none',cursor:'pointer',fontSize:14,fontWeight:700,background:mode==='signup'?accent:'transparent',color:mode==='signup'?C.white:C.muted,transition:'all .2s'}}>Create Account</button>
+        </div>
+
+        {/* Form */}
+        <div style={{width:'100%',maxWidth:360}}>
+          {mode==='signup'&&(
+            <div style={{marginBottom:16}}>
+              <label style={{fontSize:12,color:C.muted,fontWeight:600,marginBottom:6,display:'block'}}>{isCitizen?'Full Name':'Full Name'}</label>
+              <input value={name} onChange={e=>setName(e.target.value)} placeholder={isCitizen?'Enter your name':'Enter your name'} style={inputStyle}/>
+            </div>
+          )}
+          <div style={{marginBottom:16}}>
+            <label style={{fontSize:12,color:C.muted,fontWeight:600,marginBottom:6,display:'block'}}>Email</label>
+            <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com" style={inputStyle}/>
+          </div>
+          <div style={{marginBottom:24}}>
+            <label style={{fontSize:12,color:C.muted,fontWeight:600,marginBottom:6,display:'block'}}>Password</label>
+            <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" style={inputStyle}/>
+          </div>
+
+          <button onClick={onLogin} style={{...btn(accent),width:'100%',fontSize:16,marginBottom:16}}>
+            {mode==='signin'?'Sign In':'Create Account'}
+          </button>
+
+          {mode==='signin'&&(
+            <button style={{background:'none',border:'none',color:accent,fontSize:13,cursor:'pointer',width:'100%',textAlign:'center',fontWeight:600}}>Forgot Password?</button>
+          )}
+        </div>
+
+        {/* Divider */}
+        <div style={{...flex('row','center','center',12),width:'100%',maxWidth:360,margin:'24px 0'}}>
+          <div style={{flex:1,height:1,background:C.border}}/>
+          <span style={{fontSize:12,color:C.muted}}>or continue with</span>
+          <div style={{flex:1,height:1,background:C.border}}/>
+        </div>
+
+        {/* Social buttons */}
+        <div style={{...flex('row','center','center',12),width:'100%',maxWidth:360}}>
+          {['Google','Apple'].map(provider=>(
+            <button key={provider} onClick={onLogin} style={{flex:1,padding:'12px 0',background:C.card,border:`1px solid ${C.border}`,borderRadius:12,color:C.white,fontSize:14,fontWeight:600,cursor:'pointer'}}>
+              {provider==='Google'?'🔵':'🍎'} {provider}
+            </button>
+          ))}
+        </div>
+
+        {/* Footer text */}
+        <p style={{fontSize:11,color:C.grayDark,marginTop:32,textAlign:'center',maxWidth:300}}>
+          By continuing, you agree to S.O.S Terms of Service and Privacy Policy.
+        </p>
+      </div>
     </div>
   );
 };
@@ -93,7 +185,7 @@ const Landing:React.FC<{onGetHelp:()=>void;onHeroPortal:()=>void}> = ({onGetHelp
           </div>
         </div>
         <div style={flex('row','center','flex-end',8)}>
-          <button style={{background:'transparent',border:`1px solid ${C.border}`,color:C.gray,borderRadius:8,padding:'8px 14px',fontSize:12,cursor:'pointer',fontWeight:600}}>Sign In</button>
+          <button onClick={onGetHelp} style={{background:'transparent',border:`1px solid ${C.border}`,color:C.gray,borderRadius:8,padding:'8px 14px',fontSize:12,cursor:'pointer',fontWeight:600}}>Sign In</button>
           <button onClick={onHeroPortal} style={{background:C.card,border:`1px solid ${C.border}`,color:C.green,borderRadius:8,padding:'8px 14px',fontSize:12,cursor:'pointer',fontWeight:600}}>Hero Portal</button>
         </div>
       </nav>
@@ -105,7 +197,7 @@ const Landing:React.FC<{onGetHelp:()=>void;onHeroPortal:()=>void}> = ({onGetHelp
         <p style={{fontSize:18,color:C.gray,margin:'0 0 4px',fontWeight:500}}>Superheros On Standby</p>
         <p style={{fontSize:14,color:C.muted,margin:'0 0 32px',fontStyle:'italic'}}>There's Always a Superhero On Standby!</p>
         <div style={flex('column','center','center',12)}>
-          <button onClick={onGetHelp} style={{...btn(C.red),width:'100%',maxWidth:280,fontSize:18,padding:'16px 32px',boxShadow:`0 0 30px ${C.red}40`,animation:'pulse 2s infinite'}}>🚨 Get Help Now</button>
+          <button onClick={onGetHelp} style={{...btn(C.red),width:'100%',maxWidth:280,fontSize:18,padding:'16px 32px',boxShadow:`0 0 30px ${C.red}40`}}>🚨 Get Help Now</button>
           <button onClick={onHeroPortal} style={{...btn('transparent',C.white,{border:`2px solid ${C.border}`,width:'100%',maxWidth:280})}}>🦸 Become a Hero</button>
         </div>
         <div style={{...flex('row','center','center',20),marginTop:32,flexWrap:'wrap'}}>
@@ -338,10 +430,9 @@ const CitizenApp:React.FC<{onBack:()=>void}> = ({onBack}) => {
 
           {/* SOS Button */}
           <div style={{...flex('column','center','center'),padding:'24px 20px'}}>
-            <button onClick={()=>setTab('sos')} style={{width:120,height:120,borderRadius:'50%',background:`radial-gradient(circle,${C.red},${C.redDark})`,border:'none',color:C.white,fontSize:24,fontWeight:900,cursor:'pointer',boxShadow:`0 0 40px ${C.red}50`,animation:'pulse 2s infinite',letterSpacing:2}}>
+            <button onClick={()=>setTab('sos')} style={{width:120,height:120,borderRadius:'50%',background:`radial-gradient(circle,${C.red},${C.redDark})`,border:'none',color:C.white,fontSize:24,fontWeight:900,cursor:'pointer',boxShadow:`0 0 40px ${C.red}50`,letterSpacing:2}}>
               SOS<br/><span style={{fontSize:11,fontWeight:600,letterSpacing:0}}>NOW</span>
             </button>
-            <style>{`@keyframes pulse{0%,100%{box-shadow:0 0 40px ${C.red}50}50%{box-shadow:0 0 60px ${C.red}80}}`}</style>
           </div>
 
           {/* Quick services */}
