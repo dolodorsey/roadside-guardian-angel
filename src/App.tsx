@@ -17,7 +17,7 @@ const errText:React.CSSProperties={fontSize:12,color:C.red,marginTop:4};
 
 /* ─── types ─── */
 type Screen = 'landing'|'auth-citizen'|'auth-hero'|'citizen'|'hero';
-type CitizenTab = 'home'|'history'|'wallet'|'profile';
+type CitizenTab = 'home'|'services'|'history'|'wallet'|'profile';
 type HeroTab = 'dashboard'|'jobs'|'earnings'|'profile';
 type RequestStep = 'confirm'|'finding'|'found'|'tracking';
 
@@ -551,6 +551,132 @@ const CitizenApp:React.FC<{userName:string;onBack:()=>void}> = ({userName,onBack
     </div>
   );
 
+  /* ── Services Screen ── */
+  const SERVICE_TAXONOMY = [
+    { id:'emergency-roadside', name:'Emergency Roadside', icon:'🚨', color:'#ef4444', count:8, services:[
+      {name:'Towing',description:'Safe vehicle towing to your destination',price:'$75',eta:'20-40 min'},
+      {name:'Flat Tire Help',description:'Tire change with your spare',price:'$55',eta:'15-30 min'},
+      {name:'Tire Concierge',description:'Premium tire service on-site',price:'$85',eta:'30-60 min'},
+      {name:'Jump Start',description:'Battery jump start service',price:'$45',eta:'15-25 min'},
+      {name:'Battery Replace',description:'New battery installed on-site',price:'$95',eta:'20-35 min'},
+      {name:'Fuel Delivery',description:'Emergency fuel delivered to you',price:'$55',eta:'20-30 min'},
+      {name:'Lockout',description:'Vehicle lockout assistance',price:'$50',eta:'15-25 min'},
+      {name:'Winch Out Recovery',description:'Vehicle extraction and recovery',price:'$95',eta:'30-60 min'},
+    ]},
+    { id:'mobile-maintenance', name:'Mobile Maintenance', icon:'🔧', color:'#14b8a6', count:6, services:[
+      {name:'Oil Change',description:'Full oil and filter change',price:'$65',eta:'30-45 min'},
+      {name:'Fluids Top-ups',description:'All fluid levels checked and topped',price:'$35',eta:'15-20 min'},
+      {name:'OBD Scan Report',description:'Diagnostic scan with report',price:'$40',eta:'20-30 min'},
+      {name:'Bulb Replacement',description:'Headlight or taillight replacement',price:'$30',eta:'15-20 min'},
+      {name:'Belt/Hose Swap',description:'Belt or hose replacement',price:'$85',eta:'45-60 min'},
+      {name:'Brake Pads',description:'Brake pad replacement service',price:'$120',eta:'60-90 min'},
+    ]},
+    { id:'glass-body', name:'Glass & Body', icon:'🪟', color:'#3b82f6', count:4, services:[
+      {name:'Windshield Repair',description:'Chip and crack repair',price:'$65',eta:'30-45 min'},
+      {name:'Windshield Replace',description:'Full windshield replacement',price:'Quote',eta:'60-120 min'},
+      {name:'Paintless Dent Repair',description:'Dent removal without painting',price:'Quote',eta:'60-120 min'},
+      {name:'Scratch Buff',description:'Light scratch buffing and polish',price:'$75',eta:'30-45 min'},
+    ]},
+    { id:'car-wash-detailing', name:'Car Wash & Detailing', icon:'✨', color:'#f97316', count:5, services:[
+      {name:'Express Wash',description:'Quick exterior wash and dry',price:'$35',eta:'20-30 min'},
+      {name:'Interior Detail',description:'Full interior cleaning and detail',price:'$85',eta:'60-90 min'},
+      {name:'Full Detail',description:'Complete interior and exterior detail',price:'$150',eta:'2-3 hrs'},
+      {name:'Ceramic Coating',description:'Professional ceramic coating application',price:'Quote',eta:'4-8 hrs'},
+      {name:'Odor Sanitization',description:'Odor elimination and sanitization',price:'$65',eta:'30-45 min'},
+    ]},
+    { id:'convenience-addons', name:'Convenience Add-Ons', icon:'⭐', color:'#a855f7', count:5, services:[
+      {name:'Errand Assist',description:'Vehicle errand assistance service',price:'$40',eta:'30-60 min'},
+      {name:'Accessory Install',description:'Vehicle accessory installation',price:'$55',eta:'30-45 min'},
+      {name:'Safety Kit Delivery',description:'Emergency safety kit delivered',price:'$35',eta:'20-30 min'},
+      {name:'Wiper Blade Install',description:'Wiper blade replacement',price:'$25',eta:'10-15 min'},
+      {name:'Key/Fob Support',description:'Key fob programming and support',price:'Quote',eta:'30-60 min'},
+    ]},
+    { id:'fleet-services', name:'Fleet Services', icon:'🚛', color:'#38bdf8', count:4, services:[
+      {name:'Fleet Jump/Lockout',description:'Jump start or lockout for fleets',price:'$45',eta:'20-30 min'},
+      {name:'Fleet Fuel',description:'Fuel delivery for fleet vehicles',price:'$55',eta:'20-30 min'},
+      {name:'Fleet Wash',description:'Fleet vehicle washing service',price:'$40',eta:'30-45 min'},
+      {name:'Fleet Inspections',description:'Comprehensive fleet inspections',price:'$60',eta:'30-45 min'},
+    ]},
+    { id:'seasonal-specialty', name:'Seasonal & Specialty', icon:'❄️', color:'#bae6fd', count:4, services:[
+      {name:'Winter Prep',description:'Full winter vehicle preparation',price:'$85',eta:'45-60 min'},
+      {name:'Summer Prep',description:'Summer vehicle preparation check',price:'$75',eta:'45-60 min'},
+      {name:'Seasonal Tire Swap',description:'Seasonal tire changeover service',price:'$80',eta:'45-60 min'},
+      {name:'Storm Cleanup',description:'Post-storm vehicle cleanup',price:'Quote',eta:'60-120 min'},
+    ]},
+    { id:'premium-concierge', name:'Premium Concierge', icon:'👑', color:'#eab308', count:4, services:[
+      {name:'Valet Fuel & Wash',description:'Premium valet fuel and wash combo',price:'$75',eta:'30-45 min'},
+      {name:'Pickup/Return Mechanic',description:'Vehicle pickup and return for repairs',price:'Quote',eta:'Scheduled'},
+      {name:'Tire/Rim Upgrade',description:'Premium tire and rim upgrade service',price:'Quote',eta:'Scheduled'},
+      {name:'VIP Roadside Priority',description:'Priority VIP roadside response',price:'$95',eta:'10-15 min'},
+    ]},
+  ];
+
+  const ServicesScreen = ({onDispatch}:{onDispatch:(name:string)=>void}) => {
+    const [activeCat,setActiveCat] = useState<string|null>(null);
+    const [selectedSvc,setSelectedSvc] = useState<string|null>(null);
+    const cat = activeCat ? SERVICE_TAXONOMY.find(c=>c.id===activeCat) : null;
+
+    if (cat) {
+      return (
+        <div className="anim-tab" style={{padding:20}}>
+          <button onClick={()=>{setActiveCat(null);setSelectedSvc(null);}} style={{background:'none',border:'none',color:C.gray,cursor:'pointer',...flex('row','center','flex-start',6),marginBottom:16,fontSize:14}}>
+            <span style={{fontSize:18}}>‹</span> All Services
+          </button>
+          <div style={{...flex('row','center','flex-start',10),marginBottom:20}}>
+            <div style={{width:44,height:44,borderRadius:12,background:`${cat.color}20`,...flex('row','center','center'),fontSize:24}}>{cat.icon}</div>
+            <div>
+              <div style={{fontSize:18,fontWeight:800,color:C.white}}>{cat.name}</div>
+              <div style={{fontSize:12,color:C.muted}}>{cat.services.length} services</div>
+            </div>
+          </div>
+          <div style={{display:'flex',flexDirection:'column',gap:10}}>
+            {cat.services.map((s,i)=>{
+              const sel = selectedSvc===s.name;
+              return (
+                <button key={s.name} className="anim-rise" onClick={()=>setSelectedSvc(sel?null:s.name)}
+                  style={{...cardStyle,textAlign:'left',cursor:'pointer',border:sel?`2px solid ${cat.color}`:`1px solid ${C.border}`,animationDelay:`${i*0.05}s`,transition:'all .2s'}}>
+                  <div style={flex('row','center','space-between')}>
+                    <div style={{flex:1,minWidth:0}}>
+                      <div style={{fontSize:14,fontWeight:700,color:C.white}}>{s.name}</div>
+                      <div style={{fontSize:12,color:C.muted,marginTop:2}}>{s.description}</div>
+                    </div>
+                    <div style={{textAlign:'right',marginLeft:12,flexShrink:0}}>
+                      <div style={{fontSize:14,fontWeight:800,color:s.price==='Quote'?C.orange:C.green}}>{s.price}</div>
+                      <div style={{fontSize:11,color:C.muted}}>⏱ {s.eta}</div>
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+          {selectedSvc && (
+            <button onClick={()=>onDispatch(selectedSvc)} className="anim-pop"
+              style={{...btn(C.red,C.white,{width:'100%',marginTop:20,padding:'16px 28px',fontSize:15,letterSpacing:1,borderRadius:14})}}>
+              🚨 DISPATCH HERO
+            </button>
+          )}
+        </div>
+      );
+    }
+
+    return (
+      <div className="anim-tab" style={{padding:20}}>
+        <h2 style={{fontSize:20,fontWeight:800,color:C.white,marginBottom:4}}>All Services</h2>
+        <p style={{fontSize:13,color:C.muted,marginBottom:20}}>40 services across 8 categories</p>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+          {SERVICE_TAXONOMY.map((cat,i)=>(
+            <button key={cat.id} className="anim-pop" onClick={()=>setActiveCat(cat.id)}
+              style={{...cardStyle,textAlign:'left',cursor:'pointer',borderLeft:`3px solid ${cat.color}`,animationDelay:`${i*0.06}s`}}>
+              <div style={{fontSize:28,marginBottom:8}}>{cat.icon}</div>
+              <div style={{fontSize:13,fontWeight:700,color:C.white}}>{cat.name}</div>
+              <div style={{fontSize:11,color:C.muted,marginTop:2}}>{cat.count} services</div>
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   /* ── Main Citizen Tabs ── */
   return (
     <div style={{minHeight:'100dvh',background:C.bg,paddingBottom:80}}>
@@ -627,6 +753,10 @@ const CitizenApp:React.FC<{userName:string;onBack:()=>void}> = ({userName,onBack
         </div>
       )}
 
+      {tab==='services'&&(
+        <ServicesScreen onDispatch={(svcName:string)=>startRequest({name:svcName,emoji:'🚀',price:0,eta:''})} />
+      )}
+
       {tab==='history'&&(
         <div className="anim-tab" style={{padding:20}}>
           <h2 style={{fontSize:20,fontWeight:800,color:C.white,marginBottom:16}}>Mission History</h2>
@@ -687,7 +817,7 @@ const CitizenApp:React.FC<{userName:string;onBack:()=>void}> = ({userName,onBack
 
       {/* Bottom Nav */}
       <div style={{position:'fixed',bottom:0,left:'50%',transform:'translateX(-50%)',width:'100%',maxWidth:430,background:C.card,borderTop:`1px solid ${C.border}`,padding:'8px 0 env(safe-area-inset-bottom,8px)',...flex('row','center','space-around'),zIndex:40}}>
-        {([['home','🏠','Home'],['history','📋','History'],['wallet','💳','Wallet'],['profile','👤','Profile']] as [CitizenTab,string,string][]).map(([id,ic,label])=>(
+        {([['home','🏠','Home'],['services','🔧','Services'],['history','📋','History'],['wallet','💳','Wallet'],['profile','👤','Profile']] as [CitizenTab,string,string][]).map(([id,ic,label])=>(
           <button key={id} onClick={()=>setTab(id)} style={{background:'none',border:'none',cursor:'pointer',...flex('column','center','center',2),padding:'6px 12px'}}>
             <span style={{fontSize:20}}>{ic}</span>
             <span style={{fontSize:10,color:tab===id?C.red:C.muted,fontWeight:tab===id?700:500}}>{label}</span>
